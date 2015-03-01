@@ -1,6 +1,6 @@
 {
   "name": "dungeon-turning",
-  "description": "kkk",
+  "description": "A browser game that you explore dungeons by drawing cards",
   "version": "1.0.0",
   "author": "kjirou",
   "bugs": {
@@ -28,7 +28,7 @@
   ],
   "license": "https://github.com/kjirou/dungeon-turning/blob/master/LICENSE",
   "main": "app.js",
-  "private": false,
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/kjirou/dungeon-turning.git"

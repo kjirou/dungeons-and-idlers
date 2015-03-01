@@ -1,6 +1,6 @@
 {
   "name": "dungeon-turning",
-  "description": "A browser game that you explore dungeons by drawing cards",
+  "description": "A browser game that explores dungeons by turning over cards",
   "version": "1.0.0",
   "author": "kjirou",
   "bugs": {

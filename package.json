@@ -1,10 +1,10 @@
 {
-  "name": "dungeon-turning",
+  "name": "dungeons-and-idlers",
   "description": "A browser game that explores dungeons by turning over cards",
   "version": "1.0.0",
   "author": "kjirou",
   "bugs": {
-    "url": "https://github.com/kjirou/dungeon-turning/issues"
+    "url": "https://github.com/kjirou/dungeons-and-idlers/issues"
   },
   "dependencies": {
     "body-parser": "1.12.0",
@@ -22,16 +22,16 @@
     "mocha": "2.1.0",
     "power-assert": "0.10.2"
   },
-  "homepage": "https://github.com/kjirou/dungeon-turning",
+  "homepage": "https://github.com/kjirou/dungeons-and-idlers",
   "keywords": [
     "game"
   ],
-  "license": "https://github.com/kjirou/dungeon-turning/blob/master/LICENSE",
+  "license": "https://github.com/kjirou/dungeons-and-idlers/blob/master/LICENSE",
   "main": "app.js",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/kjirou/dungeon-turning.git"
+    "url": "https://github.com/kjirou/dungeons-and-idlers.git"
   },
   "scripts": {
     "start": "node ./bin/www",

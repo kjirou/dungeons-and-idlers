@@ -28,6 +28,7 @@
     "gulp": "3.8.11",
     "http-server": "0.7.5",
     "mocha": "2.1.0",
+    "node-dev": "2.6.1",
     "power-assert": "0.10.2",
     "vinyl-source-stream": "1.0.0",
     "vinyl-transform": "1.0.0"
@@ -44,6 +45,7 @@
     "url": "https://github.com/kjirou/dungeons-and-idlers.git"
   },
   "scripts": {
+    "dev": "node-dev ./bin/www",
     "start": "node ./bin/www",
     "test": "mocha"
   }

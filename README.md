@@ -1,1 +1,1 @@
-# dungeons-and-idlers
+# Dungeons & Idlers

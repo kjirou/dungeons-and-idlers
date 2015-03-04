@@ -45,8 +45,12 @@
     "url": "https://github.com/kjirou/dungeons-and-idlers.git"
   },
   "scripts": {
+    "b": "npm run build",
+    "build": "gulp build-js-requirements && gulp build-js-app",
     "dev": "node-dev ./bin/www",
     "start": "node ./bin/www",
-    "test": "mocha"
+    "test": "mocha",
+    "w": "npm run watch",
+    "watch": "gulp watch-js"
   }
 }

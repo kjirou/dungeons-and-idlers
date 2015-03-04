@@ -37,7 +37,7 @@
   "keywords": [
     "game"
   ],
-  "license": "https://github.com/kjirou/dungeons-and-idlers/blob/master/LICENSE",
+  "license": "Apache-2.0",
   "main": "app.js",
   "private": true,
   "repository": {

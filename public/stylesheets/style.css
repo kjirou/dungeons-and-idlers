@@ -2,7 +2,11 @@ html {
   background-color: #000;
 }
 
-#game-container {
+body {
+  color: #fff;
+}
+
+#js-game-container {
   position: relative;
   margin: 20px auto 0 auto;
   width: 800px;

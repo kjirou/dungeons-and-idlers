@@ -18,6 +18,7 @@ var PUBLIC_DIST_DIR = pathModule.join(PUBLIC_DIR, 'dist');
 
 var JS_REQUIREMENTS = [
   'backbone',
+  'bluebird',
   'lodash',
   'react',
   'underscore.string'
@@ -39,10 +40,12 @@ var onIgnoreError = function onIgnoreError(err) {
 
 var createJsBundler = function createJsBuilder() {
   return browserify(pathModule.join(CLIENT_DIR, 'index.es6'), {
-      debug: true,
+      //debug: true,
       extensions: ['.es6']
     })
-    .transform(babelify)
+    .transform(babelify.configure({
+      sourceMap: false
+    }))
     .external(JS_REQUIREMENTS)
     .bundle()
   ;
@@ -93,7 +96,7 @@ gulp.task('watch-css', function() {
         console.log(new Date().toString() + ': Compiled client stylus sources');
       })
       .on('error', onIgnoreError)
-      .pipe(gulpRename('style.css'))
+      .pipe(gulpRename('client-style.css'))
       .pipe(gulp.dest(PUBLIC_DIST_DIR))
     ;
   });

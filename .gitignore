@@ -33,4 +33,5 @@ pip-log.txt
 testem.*.*.*.json
 
 
+public/dist/*.css
 public/dist/*.js

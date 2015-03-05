@@ -33,6 +33,7 @@
     "http-server": "0.7.5",
     "mocha": "2.1.0",
     "node-dev": "2.6.1",
+    "node-notifier": "4.1.2",
     "power-assert": "0.10.2",
     "stylus": "0.50.0",
     "vinyl-source-stream": "1.0.0",

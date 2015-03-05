@@ -5,6 +5,7 @@ var browserify = require('browserify');
 var gulp = require('gulp');
 var gulpRename = require('gulp-rename');
 var gulpStylus = require('gulp-stylus');
+var notifier = require('node-notifier');
 var pathModule = require('path');
 var vinylTransform  = require('vinyl-transform');
 var vinylSourceStream  = require('vinyl-source-stream');
@@ -35,6 +36,11 @@ var WATCHED_STYLUS_SOURCES = [
 
 var onIgnoreError = function onIgnoreError(err) {
   console.error(err.stack || err);
+  notifier.notify({
+    message: err.message,
+    title: 'gulp error'
+  });
+  this._isErrorOccured = true;
   this.emit('end');
 };
 
@@ -74,6 +80,11 @@ gulp.task('watch-js', function() {
   gulp.watch(WATCHED_ES6_SOURCES, function() {
     createJsBundler()
       .on('error', onIgnoreError)
+      .on('end', function() {
+        if (!this._isErrorOccured) {
+          console.log(new Date().toString() + ': Compiled .js');
+        }
+      })
       .pipe(vinylSourceStream('bundle.js'))
       .pipe(gulp.dest(PUBLIC_DIST_DIR))
     ;
@@ -93,7 +104,9 @@ gulp.task('watch-css', function() {
     gulp.src(pathModule.join(CLIENT_STYLUS_DIR, 'index.styl'))
       .pipe(gulpStylus())
       .on('data', function() {
-        console.log(new Date().toString() + ': Compiled client stylus sources');
+        if (!this._isErrorOccured) {
+          console.log(new Date().toString() + ': Compiled .css');
+        }
       })
       .on('error', onIgnoreError)
       .pipe(gulpRename('client-style.css'))

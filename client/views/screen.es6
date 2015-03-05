@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ViewMixin from 'client/mixins/view';
+import { createClassName } from 'client/lib/view';
 
 
 export default React.createClass({
@@ -15,7 +16,7 @@ export default React.createClass({
   render: function render() {
     return React.createElement('div',
       {
-        className: 'screen',
+        className: createClassName('screen'),
         style: {
           width: this.props.width,
           height: this.props.height

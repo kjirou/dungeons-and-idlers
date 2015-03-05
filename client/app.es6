@@ -13,7 +13,7 @@ export default class App {
 
   constructor() {
     this.rootElement = React.createElement(ScreenView, {
-//      key: componentNameToKey ScreenView.displayName
+      key: 'screen',
       width: App.getScreenWidth(),
       height: App.getScreenHeight()
     });

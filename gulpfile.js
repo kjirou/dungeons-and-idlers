@@ -103,12 +103,12 @@ gulp.task('watch-css', function() {
   gulp.watch(WATCHED_STYLUS_SOURCES, function() {
     gulp.src(pathModule.join(CLIENT_STYLUS_DIR, 'index.styl'))
       .pipe(gulpStylus())
-      .on('data', function() {
+      .on('error', onIgnoreError)
+      .on('end', function() {
         if (!this._isErrorOccured) {
           console.log(new Date().toString() + ': Compiled .css');
         }
       })
-      .on('error', onIgnoreError)
       .pipe(gulpRename('client-style.css'))
       .pipe(gulp.dest(PUBLIC_DIST_DIR))
     ;

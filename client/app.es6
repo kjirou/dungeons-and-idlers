@@ -3,15 +3,12 @@ import _ from 'lodash';
 import React from 'react';
 
 import ScreenComponent from 'client/components/screen';
+import {SCREEN_WIDTH, SCREEN_HEIGHT} from 'client/constants';
 import CoreDispatcher from 'client/dispatcher/core';
 import ScreenStore from 'client/stores/screen';
 
 
 export default class App {
-
-  static getScreenWidth() { return 800; }
-  static getScreenHeight() { return 480; }
-  static getScreenSize() { return [this.getScreenWidth(), this.getScreenHeight()]; }
 
   /**
    * Store群の情報を削除する
@@ -46,8 +43,8 @@ export default class App {
 
     this._rootElement = React.createElement(ScreenComponent, {
       key: 'screen',
-      width: App.getScreenWidth(),
-      height: App.getScreenHeight()
+      width: SCREEN_WIDTH,
+      height: SCREEN_HEIGHT
     });
   }
 

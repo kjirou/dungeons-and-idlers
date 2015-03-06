@@ -50,7 +50,8 @@
   },
   "scripts": {
     "b": "npm run build",
-    "build": "gulp build-js-requirements && gulp build-js-app",
+    "build": "gulp build-js-requirements && gulp build-js-app && gulp build-css",
+    "d": "npm run dev",
     "dev": "node-dev ./bin/www",
     "start": "node ./bin/www",
     "test": "mocha test/**/*.es6",

@@ -50,9 +50,7 @@ var createJsBundler = function createJsBuilder() {
       //debug: true,
       extensions: ['.es6']
     })
-    .transform(babelify.configure({
-      sourceMap: false
-    }))
+    .transform(babelify)
     .external(JS_REQUIREMENTS)
     .bundle()
   ;
@@ -117,4 +115,5 @@ gulp.task('watch-css', function() {
 });
 
 
+gulp.task('build', ['build-js-requirements', 'build-js-app', 'build-css']);
 gulp.task('watch', ['watch-js', 'watch-css']);

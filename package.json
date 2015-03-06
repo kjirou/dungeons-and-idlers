@@ -51,7 +51,7 @@
   },
   "scripts": {
     "b": "npm run build",
-    "build": "gulp build-js-requirements && gulp build-js-app && gulp build-css",
+    "build": "gulp build",
     "d": "npm run dev",
     "dev": "node-dev ./bin/www",
     "start": "node ./bin/www",

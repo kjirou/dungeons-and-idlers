@@ -27,7 +27,7 @@ export default class App {
    * Store群を初期化する、依存関係明示のために一箇所で行う
    * @return {Object}
    */
-  static initializeStores() {
+  static resetStores() {
     this.clearStores();
 
     let screenStore = ScreenStore.getInstance();
@@ -39,7 +39,7 @@ export default class App {
 
 
   constructor() {
-    this._stores = App.initializeStores();
+    this._stores = App.resetStores();
 
     this._rootElement = React.createElement(ScreenComponent, {
       key: 'screen',
@@ -71,32 +71,3 @@ export default class App {
     return this.loadStorages();
   }
 }
-
-
-
-//{CoreActionCreator} = require 'client/action-creators'
-//{CoreDispatcher} = require 'client/dispatchers'
-//{componentNameToKey} = require 'client/lib/react'
-//{FieldBoardStore, SortieBoardStore} = require 'client/stores/boards'
-//{ScreenStore} = require 'client/stores/screen'
-//
-//  constructor: ->
-//    @_deps = @constructor.createDependencies()
-//
-//  @createStores: ->
-//    screenStore: new ScreenStore
-//    fieldBoardStore: new FieldBoardStore
-//    sortieBoardStore: new SortieBoardStore
-//
-//  # 各ビューが依存するインスタンス群を生成する
-//  # モデルだけ処理が分かれているのは、それぞれが単独で初期化可能だから
-//  @createDependencies: =>
-//    deps = @createStores()
-//
-//    _.extend deps,
-//      coreDispatcher: new CoreDispatcher deps
-//
-//    _.extend deps,
-//      coreActionCreator: new CoreActionCreator deps
-//
-//    deps

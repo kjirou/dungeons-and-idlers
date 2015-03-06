@@ -3,19 +3,48 @@ import _ from 'lodash';
 import React from 'react';
 
 import ScreenComponent from 'client/components/screen';
+import {SCREEN_WIDTH, SCREEN_HEIGHT} from 'client/constants';
+import CoreDispatcher from 'client/dispatcher/core';
+import ScreenStore from 'client/stores/screen';
 
 
 export default class App {
 
-  static getScreenWidth() { return 800; }
-  static getScreenHeight() { return 480; }
-  static getScreenSize() { return [this.getScreenWidth(), this.getScreenHeight()]; }
+  /**
+   * Store群の情報を削除する
+   */
+  static clearStores() {
+    [
+      ScreenStore
+    ].forEach((storeClass) => {
+      storeClass.clearInstance();
+    });
+  }
+
+  /**
+   * Store群を初期化する、依存関係明示のために一箇所で行う
+   * @return {Object}
+   */
+  static initializeStores() {
+    let screenStore = ScreenStore.getInstance();
+
+    return {
+      screenStore
+    };
+  }
+
 
   constructor() {
-    this.rootElement = React.createElement(ScreenComponent, {
+    CoreDispatcher.clearInstance();
+    this._dispatcher = CoreDispatcher.getInstance();
+
+    App.clearStores();
+    this._stores = App.initializeStores();
+
+    this._rootElement = React.createElement(ScreenComponent, {
       key: 'screen',
-      width: App.getScreenWidth(),
-      height: App.getScreenHeight()
+      width: SCREEN_WIDTH,
+      height: SCREEN_HEIGHT
     });
   }
 
@@ -23,7 +52,7 @@ export default class App {
    * @param {HTMLElement} container
    */
   renderTo(container) {
-    React.render(this.rootElement, container);
+    React.render(this._rootElement, container);
   }
 
   /**
@@ -42,32 +71,3 @@ export default class App {
     return this.loadStorages();
   }
 }
-
-
-
-//{CoreActionCreator} = require 'client/action-creators'
-//{CoreDispatcher} = require 'client/dispatchers'
-//{componentNameToKey} = require 'client/lib/react'
-//{FieldBoardStore, SortieBoardStore} = require 'client/stores/boards'
-//{ScreenStore} = require 'client/stores/screen'
-//
-//  constructor: ->
-//    @_deps = @constructor.createDependencies()
-//
-//  @createStores: ->
-//    screenStore: new ScreenStore
-//    fieldBoardStore: new FieldBoardStore
-//    sortieBoardStore: new SortieBoardStore
-//
-//  # 各ビューが依存するインスタンス群を生成する
-//  # モデルだけ処理が分かれているのは、それぞれが単独で初期化可能だから
-//  @createDependencies: =>
-//    deps = @createStores()
-//
-//    _.extend deps,
-//      coreDispatcher: new CoreDispatcher deps
-//
-//    _.extend deps,
-//      coreActionCreator: new CoreActionCreator deps
-//
-//    deps

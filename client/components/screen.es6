@@ -1,11 +1,15 @@
 import React from 'react';
 
-import ComponentMixin from 'client/mixins/component';
-import {createComponentClassName} from 'client/lib/view';
+import HomePageComponent from 'client/components/pages/home'
 import WelcomePageComponent from 'client/components/pages/welcome'
+import {createComponentClassName} from 'client/lib/view';
+import ComponentMixin from 'client/mixins/component';
+import ScreenStore from 'client/stores/screen';
+let screenStore = ScreenStore.getInstance();
 
 
 const PAGE_COMPONENTS = {
+  home: HomePageComponent,
   welcome: WelcomePageComponent
 };
 
@@ -21,14 +25,18 @@ export default React.createClass({
 
   getInitialState: function() {
     return {
-      pageId: 'welcome'
+      pageId: screenStore.pageId
     };
+  },
+
+  componentWillMount: function() {
+    this.pipeStoreAttributeToState(screenStore, 'pageId');
   },
 
   render: function render() {
     let activePageComponent = PAGE_COMPONENTS[this.state.pageId];
     if (!activePageComponent) {
-      throw new Error(`${this.pageId} is invalid page-id`);
+      throw new Error(`${this.state.pageId} is invalid page-id`);
     }
 
     return React.createElement('div',
@@ -42,6 +50,10 @@ export default React.createClass({
       React.createElement(WelcomePageComponent, {
         key: 'welcome-page',
         isActive: activePageComponent === WelcomePageComponent
+      }),
+      React.createElement(HomePageComponent, {
+        key: 'home-page',
+        isActive: activePageComponent === HomePageComponent
       })
     );
   }

@@ -20,6 +20,7 @@ var PUBLIC_DIST_DIR = pathModule.join(PUBLIC_DIR, 'dist');
 var JS_REQUIREMENTS = [
   'backbone',
   'bluebird',
+  'flux',
   'lodash',
   'react',
   'underscore.string'
@@ -49,9 +50,7 @@ var createJsBundler = function createJsBuilder() {
       //debug: true,
       extensions: ['.es6']
     })
-    .transform(babelify.configure({
-      sourceMap: false
-    }))
+    .transform(babelify)
     .external(JS_REQUIREMENTS)
     .bundle()
   ;
@@ -116,4 +115,5 @@ gulp.task('watch-css', function() {
 });
 
 
+gulp.task('build', ['build-js-requirements', 'build-js-app', 'build-css']);
 gulp.task('watch', ['watch-js', 'watch-css']);

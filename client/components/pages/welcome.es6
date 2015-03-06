@@ -2,22 +2,22 @@ import _ from 'lodash';
 import React from 'react';
 var {DOM} = React;
 
-import {createPageClassName} from 'client/lib/view';
-import PageViewMixin from 'client/mixins/page-view';
+import {createPageComponentClassName} from 'client/lib/view';
+import PageComponentMixin from 'client/mixins/page-component';
 
 
 export default React.createClass({
-  displayName: 'WelcomePageView',
-  mixins: [PageViewMixin],
+  displayName: 'WelcomePageComponent',
+  mixins: [PageComponentMixin],
 
   //onMouseDownChangePageButton: ->
-  //  @props.coreActionCreator.changePage 'GamePageView'
+  //  @props.coreActionCreator.changePage 'GamePageComponent'
 
   render: function render() {
     return React.createElement(
       'div',
       {
-        className: createPageClassName('welcome'),
+        className: createPageComponentClassName('welcome'),
       },
       DOM.h2(null, 'Welcome Page')
       //DOM.div {

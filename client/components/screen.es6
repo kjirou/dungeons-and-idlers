@@ -1,18 +1,18 @@
 import React from 'react';
 
-import ViewMixin from 'client/mixins/view';
-import { createClassName } from 'client/lib/view';
-import WelcomePageView from 'client/views/pages/welcome'
+import ComponentMixin from 'client/mixins/component';
+import {createComponentClassName} from 'client/lib/view';
+import WelcomePageComponent from 'client/components/pages/welcome'
 
 
 const PAGE_COMPONENTS = {
-  welcome: WelcomePageView
+  welcome: WelcomePageComponent
 };
 
 
 export default React.createClass({
-  displayName: 'ScreenView',
-  mixins: [ViewMixin],
+  displayName: 'ScreenComponent',
+  mixins: [ComponentMixin],
 
   propTypes: {
     width: React.PropTypes.number.isRequired,
@@ -33,15 +33,15 @@ export default React.createClass({
 
     return React.createElement('div',
       {
-        className: createClassName('screen'),
+        className: createComponentClassName('screen'),
         style: {
           width: this.props.width,
           height: this.props.height
         },
       },
-      React.createElement(WelcomePageView, {
+      React.createElement(WelcomePageComponent, {
         key: 'welcome-page',
-        isActive: activePageComponent === WelcomePageView
+        isActive: activePageComponent === WelcomePageComponent
       })
     );
   }

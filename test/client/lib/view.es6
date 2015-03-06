@@ -1,18 +1,18 @@
 import assert from 'assert'
 
-import { createClassName, createPageClassName } from 'client/lib/view';
+import {createComponentClassName, createPageComponentClassName} from 'client/lib/view';
 
 
 describe('client/lib/view module', () => {
 
-  it('createClassName', () => {
-    assert.strictEqual(createClassName(), 'view');
-    assert.strictEqual(createClassName('foo'), 'view foo-view');
-    assert.strictEqual(createClassName('foo', 'bar'), 'view foo-view bar-foo-view');
+  it('createComponentClassName', () => {
+    assert.strictEqual(createComponentClassName(), 'component');
+    assert.strictEqual(createComponentClassName('foo'), 'component foo-component');
+    assert.strictEqual(createComponentClassName('foo', 'bar'), 'component foo-component bar-foo-component');
   });
 
-  it('createPageClassName', () => {
-    assert.strictEqual(createPageClassName(), 'view page-view');
-    assert.strictEqual(createPageClassName('foo'), 'view page-view foo-page-view');
+  it('createPageComponentClassName', () => {
+    assert.strictEqual(createPageComponentClassName(), 'component page-component');
+    assert.strictEqual(createPageComponentClassName('foo'), 'component page-component foo-page-component');
   });
 });

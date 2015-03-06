@@ -3,11 +3,11 @@ import _ from 'lodash'
 
 /**
  * 枠divに設定するclass名を生成する
- * e.g. ('foo')        -> 'view foo-view'
- *      ('foo', 'bar') -> 'view foo-view bar-foo-view'
+ * e.g. ('foo')        -> 'component foo-component'
+ *      ('foo', 'bar') -> 'component foo-component bar-foo-component'
  */
-export function createClassName(...partialClassNames) {
-  partialClassNames.unshift('view');
+export function createComponentClassName(...partialClassNames) {
+  partialClassNames.unshift('component');
   return partialClassNames
     .map((v, i) => { return partialClassNames.slice(0, i + 1).reverse(); })
     .map(v => { return v.join('-'); })
@@ -15,4 +15,4 @@ export function createClassName(...partialClassNames) {
   ;
 }
 
-export const createPageClassName = _.partial(createClassName, 'page');
+export const createPageComponentClassName = _.partial(createComponentClassName, 'page');

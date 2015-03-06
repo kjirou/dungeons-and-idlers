@@ -2,7 +2,7 @@ import {Promise} from 'bluebird';
 import _ from 'lodash';
 import React from 'react';
 
-import ScreenView from 'client/views/screen';
+import ScreenComponent from 'client/components/screen';
 
 
 export default class App {
@@ -12,7 +12,7 @@ export default class App {
   static getScreenSize() { return [this.getScreenWidth(), this.getScreenHeight()]; }
 
   constructor() {
-    this.rootElement = React.createElement(ScreenView, {
+    this.rootElement = React.createElement(ScreenComponent, {
       key: 'screen',
       width: App.getScreenWidth(),
       height: App.getScreenHeight()

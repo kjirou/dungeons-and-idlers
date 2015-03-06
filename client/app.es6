@@ -3,6 +3,7 @@ import _ from 'lodash';
 import React from 'react';
 
 import ScreenComponent from 'client/components/screen';
+import CoreDispatcher from 'client/dispatcher/core';
 import ScreenStore from 'client/stores/screen';
 
 
@@ -27,9 +28,7 @@ export default class App {
    * Store群を初期化する、依存関係明示のために一箇所で行う
    * @return {Object}
    */
-  static resetStores() {
-    this.clearStores();
-
+  static initializeStores() {
     let screenStore = ScreenStore.getInstance();
 
     return {
@@ -39,7 +38,11 @@ export default class App {
 
 
   constructor() {
-    this._stores = App.resetStores();
+    CoreDispatcher.clearInstance();
+    this._dispatcher = CoreDispatcher.getInstance();
+
+    App.clearStores();
+    this._stores = App.initializeStores();
 
     this._rootElement = React.createElement(ScreenComponent, {
       key: 'screen',

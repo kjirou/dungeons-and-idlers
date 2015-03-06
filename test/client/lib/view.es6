@@ -1,6 +1,6 @@
 import assert from 'assert'
 
-import { createClassName } from 'client/lib/view';
+import { createClassName, createPageClassName } from 'client/lib/view';
 
 
 describe('client/lib/view module', () => {
@@ -9,5 +9,10 @@ describe('client/lib/view module', () => {
     assert.strictEqual(createClassName(), 'view');
     assert.strictEqual(createClassName('foo'), 'view foo-view');
     assert.strictEqual(createClassName('foo', 'bar'), 'view foo-view bar-foo-view');
+  });
+
+  it('createPageClassName', () => {
+    assert.strictEqual(createPageClassName(), 'view page-view');
+    assert.strictEqual(createPageClassName('foo'), 'view page-view foo-page-view');
   });
 });

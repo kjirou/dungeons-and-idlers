@@ -2,6 +2,12 @@ import React from 'react';
 
 import ViewMixin from 'client/mixins/view';
 import { createClassName } from 'client/lib/view';
+import WelcomePageView from 'client/views/pages/welcome'
+
+
+const PAGE_COMPONENTS = {
+  welcome: WelcomePageView
+};
 
 
 export default React.createClass({
@@ -13,7 +19,18 @@ export default React.createClass({
     height: React.PropTypes.number.isRequired
   },
 
+  getInitialState: function() {
+    return {
+      pageId: 'welcome'
+    };
+  },
+
   render: function render() {
+    let activePageComponent = PAGE_COMPONENTS[this.state.pageId];
+    if (!activePageComponent) {
+      throw new Error(`${this.pageId} is invalid page-id`);
+    }
+
     return React.createElement('div',
       {
         className: createClassName('screen'),
@@ -22,32 +39,10 @@ export default React.createClass({
           height: this.props.height
         },
       },
-      'Hello, screen!' // pageElement
+      React.createElement(WelcomePageView, {
+        key: 'welcome-page',
+        isActive: activePageComponent === WelcomePageView
+      })
     );
   }
 });
-
-
-//{componentNameToKey} = require 'client/lib/react'
-//{GamePageView} = require 'client/views/pages/game'
-//{WelcomePageView} = require 'client/views/pages/welcome'
-//
-//  getInitialState: ->
-//    currentPageId: @props.deps.screenStore.currentPageId
-//
-//  componentWillMount: ->
-//    @pipeStoreAttributeToState @props.deps.screenStore, 'currentPageId'
-//
-//  render: ->
-//    # @TODO この処理、DOMも全部を書き換えてるの？
-//    #       それだとたぶん遅すぎるので要調査
-//    pageComponent = switch @state.currentPageId
-//      when 'GamePageView' then GamePageView
-//      when 'WelcomePageView' then WelcomePageView
-//      else throw new Error 'Invalid page-component name'
-//    pageElement = React.createElement pageComponent,
-//      key: componentNameToKey pageComponent.displayName
-//      deps: @props.deps
-//      coreActionCreator: @props.deps.coreActionCreator
-//      width: @props.width
-//      height: @props.height

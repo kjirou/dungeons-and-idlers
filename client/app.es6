@@ -12,30 +12,10 @@ export default class App {
   static getScreenHeight() { return 480; }
   static getScreenSize() { return [this.getScreenWidth(), this.getScreenHeight()]; }
 
-  constructor() {
-    this._stores = this.initializeStores();
-
-    this.rootElement = React.createElement(ScreenComponent, {
-      key: 'screen',
-      width: App.getScreenWidth(),
-      height: App.getScreenHeight()
-    });
-  }
-
   /**
-   * Store群を初期化する
-   * 依存関係明示のために一箇所にまとめる
-   * @return {Object}
+   * Store群の情報を削除する
    */
-  initializeStores() {
-    let screenStore = ScreenStore.getInstance();
-
-    return {
-      screenStore
-    };
-  }
-
-  clearStores() {
+  static clearStores() {
     [
       ScreenStore
     ].forEach((storeClass) => {
@@ -44,10 +24,35 @@ export default class App {
   }
 
   /**
+   * Store群を初期化する、依存関係明示のために一箇所で行う
+   * @return {Object}
+   */
+  static initializeStores() {
+    this.clearStores();
+
+    let screenStore = ScreenStore.getInstance();
+
+    return {
+      screenStore
+    };
+  }
+
+
+  constructor() {
+    this._stores = App.initializeStores();
+
+    this._rootElement = React.createElement(ScreenComponent, {
+      key: 'screen',
+      width: App.getScreenWidth(),
+      height: App.getScreenHeight()
+    });
+  }
+
+  /**
    * @param {HTMLElement} container
    */
   renderTo(container) {
-    React.render(this.rootElement, container);
+    React.render(this._rootElement, container);
   }
 
   /**

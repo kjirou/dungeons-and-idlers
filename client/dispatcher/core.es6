@@ -8,7 +8,7 @@ export default class CoreDispatcher extends Dispatcher {
 
   handleViewAction(action) {
     this.dispatch({
-      source: 'VIEW_ACTION',
+      source: 'view_action',
       action: action
     });
   }

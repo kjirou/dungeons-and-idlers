@@ -2,33 +2,29 @@ import _ from 'lodash';
 import React from 'react';
 var {DOM} = React;
 
+import ScreenActionCreators from 'client/actions/screen-action-creators';
 import {createPageComponentClassName} from 'client/lib/view';
+import ComponentMixin from 'client/mixins/component';
 import PageComponentMixin from 'client/mixins/page-component';
 
 
 export default React.createClass({
   displayName: 'WelcomePageComponent',
-  mixins: [PageComponentMixin],
-
-  //onMouseDownChangePageButton: ->
-  //  @props.coreActionCreator.changePage 'GamePageComponent'
+  mixins: [ComponentMixin, PageComponentMixin],
 
   render: function render() {
-    var self = this;
-
     return React.createElement(
       'div',
       {
         className: createPageComponentClassName('welcome'),
-        onMouseDown: self._onMouseDown
+        style: this.createDefaultStyles(),
+        onMouseDown: this._onMouseDown
       },
       DOM.h2(null, 'Welcome Page')
-      //DOM.div {
-      //  onMouseDown: @onMouseDownChangePageButton
-      //}, '[ Start game ]'
     );
   },
 
   _onMouseDown: function _onMouseDown() {
+    ScreenActionCreators.changePage('home');
   }
 });

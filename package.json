@@ -55,7 +55,7 @@
     "d": "npm run dev",
     "dev": "node-dev ./bin/www",
     "start": "node ./bin/www",
-    "test": "mocha test/**/*.es6",
+    "test": "mocha 'test/**/*.es6'",
     "w": "npm run watch",
     "watch": "gulp watch"
   }

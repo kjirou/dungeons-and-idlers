@@ -2,10 +2,12 @@ import React from 'react';
 
 import ComponentMixin from 'client/mixins/component';
 import {createComponentClassName} from 'client/lib/view';
+import HomePageComponent from 'client/components/pages/home'
 import WelcomePageComponent from 'client/components/pages/welcome'
 
 
 const PAGE_COMPONENTS = {
+  home: HomePageComponent,
   welcome: WelcomePageComponent
 };
 

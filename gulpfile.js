@@ -20,6 +20,7 @@ var PUBLIC_DIST_DIR = pathModule.join(PUBLIC_DIR, 'dist');
 var JS_REQUIREMENTS = [
   'backbone',
   'bluebird',
+  'flux',
   'lodash',
   'react',
   'underscore.string'

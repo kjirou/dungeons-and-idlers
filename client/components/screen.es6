@@ -5,7 +5,6 @@ import WelcomePageComponent from 'client/components/pages/welcome'
 import {createComponentClassName} from 'client/lib/view';
 import ComponentMixin from 'client/mixins/component';
 import ScreenStore from 'client/stores/screen';
-let screenStore = ScreenStore.getInstance();
 
 
 const PAGE_COMPONENTS = {
@@ -24,12 +23,14 @@ export default React.createClass({
   },
 
   getInitialState: function() {
+    let screenStore = ScreenStore.getInstance();
     return {
       pageId: screenStore.pageId
     };
   },
 
   componentWillMount: function() {
+    let screenStore = ScreenStore.getInstance();
     this.pipeStoreAttributeToState(screenStore, 'pageId');
   },
 

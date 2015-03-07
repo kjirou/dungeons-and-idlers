@@ -1,5 +1,4 @@
 import CoreDispatcher from 'client/dispatcher/core';
-let coreDispatcher = CoreDispatcher.getInstance();
 import Store from 'client/stores/store';
 
 
@@ -13,6 +12,7 @@ export default Store.extend({
 
   initialize: function() {
     let self = this;
+    let coreDispatcher = CoreDispatcher.getInstance();
 
     this.attrGetter('pageId');
 

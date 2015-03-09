@@ -1,4 +1,12 @@
-import _ from 'lodash'
+import _ from 'lodash';
+
+import {MODULE_TEMPLATES_ROOT} from 'client/constants';
+
+
+// pre-reading templates for browserify
+if (false) {
+  require('client/templates/pages/welcome');
+}
 
 
 /**
@@ -26,10 +34,14 @@ export const createPageComponentClassName = _.partial(createComponentClassName, 
  * 複雑になったら JS 内での React.DOM ベタ書きにする
  * 特に props を多数渡す必要がある Component を持つ時など
  */
-export function createJSXFileCompiler(modulePath) {
+export function createJsxFileCompiler(modulePath) {
   return require(modulePath);
 }
 
 export function compileJsxFile(modulePath, locals = {}) {
-  return createJSXFileCompiler(modulePath)(locals);
+  return createJsxFileCompiler(modulePath)(locals);
+}
+
+export function compileJsxTemplate(templatePath, locals = {}) {
+  return compileJsxFile(MODULE_TEMPLATES_ROOT + '/' + templatePath, locals);
 }

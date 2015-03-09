@@ -1,5 +1,9 @@
+@font-face {
+  font-family: 'Miranda';
+  src: url(../materials/fonts/total-fontgeek-dtf-ltd_miranda-nbp/miranda-webfont.woff) format('woff');
+}
+
 html {
-  background-color: #000;
 }
 
 body {

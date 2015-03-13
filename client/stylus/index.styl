@@ -1,3 +1,5 @@
+// TODO: ナビバーと内部ページのサイズを共通化
+
 #js-game-container .screen-component
   position: absolute
   background-color: black
@@ -6,6 +8,17 @@
     position: absolute
     width: 100%
     height: 100%
+
+    .navigation_bar-component
+      position: absolute
+      width: 100%
+      height: 40px
+
+    .inner_page
+      position: absolute
+      top: 40px
+      width: 100%
+      height: 440px
 
   .welcome-page-component
     font-family: 'Miranda';

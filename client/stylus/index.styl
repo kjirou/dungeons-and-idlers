@@ -1,4 +1,8 @@
-// TODO: ナビバーと内部ページのサイズを共通化
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 480
+NAVIGATION_BAR_HEIGHT = 40
+INNER_PAGE_HEIGHT = SCREEN_HEIGHT - NAVIGATION_BAR_HEIGHT
+
 
 #js-game-container .screen-component
   position: absolute
@@ -12,13 +16,13 @@
     .navigation_bar-component
       position: absolute
       width: 100%
-      height: 40px
+      height: unit(NAVIGATION_BAR_HEIGHT, 'px')
 
     .inner_page
       position: absolute
-      top: 40px
+      top: unit(NAVIGATION_BAR_HEIGHT, 'px')
       width: 100%
-      height: 440px
+      height: unit(INNER_PAGE_HEIGHT, 'px')
 
   .welcome-page-component
     font-family: 'Miranda';

@@ -1,5 +1,3 @@
-import Backbone from 'backbone'
-import _ from 'lodash'
 import React from 'react'
 
 import App from 'client/app'

@@ -5,6 +5,7 @@ var browserify = require('browserify');
 var gulp = require('gulp');
 var gulpRename = require('gulp-rename');
 var gulpStylus = require('gulp-stylus');
+var nib = require('nib');
 var notifier = require('node-notifier');
 var pathModule = require('path');
 var vinylTransform  = require('vinyl-transform');
@@ -92,7 +93,9 @@ gulp.task('watch-js', function() {
 
 gulp.task('build-css', function() {
   return gulp.src(pathModule.join(CLIENT_DIR, 'stylus/index.styl'))
-    .pipe(gulpStylus())
+    .pipe(gulpStylus({
+      use: nib()
+    }))
     .pipe(gulpRename('style.css'))
     .pipe(gulp.dest(PUBLIC_DIST_DIR))
   ;
@@ -101,7 +104,9 @@ gulp.task('build-css', function() {
 gulp.task('watch-css', function() {
   gulp.watch(WATCHED_STYLUS_SOURCES, function() {
     gulp.src(pathModule.join(CLIENT_STYLUS_DIR, 'index.styl'))
-      .pipe(gulpStylus())
+      .pipe(gulpStylus({
+        use: nib()
+      }))
       .on('error', onIgnoreError)
       .on('end', function() {
         if (!this._isErrorOccured) {

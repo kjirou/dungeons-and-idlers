@@ -29,11 +29,15 @@ export default React.createClass({
 
   render: function render() {
     return (
-      <div
-        className={createComponentClassName('navigation_bar')}
-      >
-        Navigation Bar
-      </div>
+      <nav className={createComponentClassName('navigation_bar')} >
+        <ul>
+          <li><span>[ Home ]</span></li>
+          <li><span>[ Party ]</span></li>
+          <li><span>[ Card ]</span></li>
+          <li><span>[ Config ]</span></li>
+          <li><span>[ Help ]</span></li>
+        </ul>
+      </nav>
     );
   }
 });

@@ -1,3 +1,6 @@
+@require 'nib/clearfix'
+
+
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 480
 NAVIGATION_BAR_HEIGHT = 40
@@ -14,9 +17,25 @@ INNER_PAGE_HEIGHT = SCREEN_HEIGHT - NAVIGATION_BAR_HEIGHT
     height: 100%
 
     .navigation_bar-component
+      font-family: 'Miranda';
       position: absolute
       width: 100%
       height: unit(NAVIGATION_BAR_HEIGHT, 'px')
+      ul
+        clearfix()
+        li
+          display: block
+          float: left
+          width: 160px
+          height: unit(NAVIGATION_BAR_HEIGHT, 'px')
+          line-height: unit(NAVIGATION_BAR_HEIGHT, 'px')
+          text-align: center
+          span
+            display: block
+            width: 100%
+            height: 100%
+            font-size: 24px
+            cursor: pointer
 
     .inner_page
       position: absolute

@@ -5,6 +5,8 @@ import {MODULE_TEMPLATES_ROOT} from 'client/constants';
 
 // pre-reading templates for browserify
 if (false) {
+  require('client/templates/pages/home');
+  require('client/templates/pages/party');
   require('client/templates/pages/welcome');
 }
 

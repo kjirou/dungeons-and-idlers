@@ -9,12 +9,12 @@ import PageComponentMixin from 'client/mixins/page-component';
 
 
 export default React.createClass({
-  displayName: 'HomePageComponent',
+  displayName: 'PartyPageComponent',
   mixins: [ComponentMixin, PageComponentMixin],
 
   render: function render() {
-    return compileJsxTemplate('pages/home', {
-      className: createPageComponentClassName('home'),
+    return compileJsxTemplate('pages/party', {
+      className: createPageComponentClassName('party'),
       style: this.createDefaultStyles(),
       navigationBar: {
         NavigationBarComponent

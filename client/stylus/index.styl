@@ -1,4 +1,5 @@
 @require 'nib/clearfix'
+@require 'nib/vendor'
 
 
 SCREEN_WIDTH = 800
@@ -6,10 +7,27 @@ SCREEN_HEIGHT = 480
 NAVIGATION_BAR_HEIGHT = 40
 INNER_PAGE_HEIGHT = SCREEN_HEIGHT - NAVIGATION_BAR_HEIGHT
 
+$TEXT_COLOR = #fff
+$BACKGROUND_COLOR = #000
+
+// div tag to button
+buttonize(width, height)
+  width: width
+  height: height
+  line-height: height
+  color: $TEXT_COLOR
+  background-color: $BACKGROUND_COLOR
+  border: 3px solid $TEXT_COLOR
+  border-radius: 5px
+  font-size: (height * 2 / 3)
+  text-align: center
+  cursor: pointer
+
 
 #js-game-container .screen-component
   position: absolute
-  background-color: black
+  color: $TEXT_COLOR
+  background-color: $BACKGROUND_COLOR
 
   .page-component
     position: absolute
@@ -57,3 +75,5 @@ INNER_PAGE_HEIGHT = SCREEN_HEIGHT - NAVIGATION_BAR_HEIGHT
 
   .home-page-component
     font-family: 'Miranda';
+    .start_game-button
+      buttonize(200px, 50px)

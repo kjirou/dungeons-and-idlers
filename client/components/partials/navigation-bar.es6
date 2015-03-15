@@ -4,7 +4,6 @@ import ScreenActionCreators from 'client/actions/screen-action-creators';
 import {NAVIGATION_BAR_HEIGHT} from 'client/constants';
 import {createComponentClassName} from 'client/lib/view';
 import ComponentMixin from 'client/mixins/component';
-import ScreenStore from 'client/stores/screen';
 
 
 export default React.createClass({
@@ -31,7 +30,7 @@ export default React.createClass({
         <ul>
         {
           pageIds.map(({id, label}) => {
-            return <li><span onMouseDown={this._createOnMouseDown(id)} >{label}</span></li>;
+            return <li key={id}><span onMouseDown={this._createOnMouseDown(id)} >{label}</span></li>;
           })
         }
         </ul>

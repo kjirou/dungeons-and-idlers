@@ -31,6 +31,7 @@ export default React.createClass({
 
     return (
       <div className={classNames.join(' ')} style={style}>
+        <div className='icon'></div>
       </div>
     );
   }

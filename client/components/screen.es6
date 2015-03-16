@@ -44,6 +44,14 @@ export default React.createClass({
       throw new Error(`${this.state.pageId} is invalid page-id`);
     }
 
+    let pageElements = Object.keys(PAGE_COMPONENTS).map((pageId) => {
+      let pageComponent = PAGE_COMPONENTS[pageId];
+      return React.createElement(pageComponent, {
+        key: pageId + '-page',
+        isActive: activePageComponent === pageComponent
+      });
+    });
+
     return React.createElement('div',
       {
         className: createComponentClassName('screen'),
@@ -52,18 +60,7 @@ export default React.createClass({
           height: this.props.height
         },
       },
-      React.createElement(WelcomePageComponent, {
-        key: 'welcome-page',
-        isActive: activePageComponent === WelcomePageComponent
-      }),
-      React.createElement(HomePageComponent, {
-        key: 'home-page',
-        isActive: activePageComponent === HomePageComponent
-      }),
-      React.createElement(PartyPageComponent, {
-        key: 'party-page',
-        isActive: activePageComponent === PartyPageComponent
-      })
+      ...pageElements
     );
   }
 });

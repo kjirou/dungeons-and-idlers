@@ -1,4 +1,5 @@
 @require 'nib/clearfix'
+@require 'nib/vendor'
 
 
 SCREEN_WIDTH = 800
@@ -6,10 +7,28 @@ SCREEN_HEIGHT = 480
 NAVIGATION_BAR_HEIGHT = 40
 INNER_PAGE_HEIGHT = SCREEN_HEIGHT - NAVIGATION_BAR_HEIGHT
 
+$TEXT_COLOR = #fff
+$BACKGROUND_COLOR = #000
+
+// div tag to button
+buttonize(width, height)
+  width: width
+  height: height
+  line-height: height
+  color: $TEXT_COLOR
+  background-color: $BACKGROUND_COLOR
+  border: 3px solid $TEXT_COLOR
+  border-radius: 5px
+  font-size: (height * 2 / 3)
+  text-align: center
+  cursor: pointer
+
 
 #js-game-container .screen-component
   position: absolute
-  background-color: black
+  color: $TEXT_COLOR
+  font-family: 'Miranda';
+  background-color: $BACKGROUND_COLOR
 
   .page-component
     position: absolute
@@ -17,7 +36,6 @@ INNER_PAGE_HEIGHT = SCREEN_HEIGHT - NAVIGATION_BAR_HEIGHT
     height: 100%
 
     .navigation_bar-component
-      font-family: 'Miranda';
       position: absolute
       width: 100%
       height: unit(NAVIGATION_BAR_HEIGHT, 'px')
@@ -43,14 +61,175 @@ INNER_PAGE_HEIGHT = SCREEN_HEIGHT - NAVIGATION_BAR_HEIGHT
       width: 100%
       height: unit(INNER_PAGE_HEIGHT, 'px')
 
-  .welcome-page-component
-    font-family: 'Miranda';
-    cursor: pointer
-    h2
-      margin-top: 180px
-      font-size: 72px
-      text-align: center
-    .touch-to-start
-      margin-top: 20px
-      font-size: 24px
-      text-align: center
+
+#js-game-container .welcome-page-component
+  cursor: pointer
+  h2
+    margin-top: 180px
+    font-size: 72px
+    text-align: center
+  .touch-to-start
+    margin-top: 20px
+    font-size: 24px
+    text-align: center
+
+
+#js-game-container .home-page-component
+  .start_game-button
+    buttonize(200px, 50px)
+
+
+//#js-game-container .game-page-component
+
+
+// 96 x 128
+#js-game-container .card-component
+  position: absolute
+  width: 92px
+  height: 124px
+  border: 2px solid $TEXT_COLOR
+  border-radius: 4px
+  &.face
+    background-color: $TEXT_COLOR
+  &.back
+    background-color: $BACKGROUND_COLOR
+  .icon
+    position: absolute
+    top: 8px
+    left: 8px
+    width: 32px
+    height: 32px
+    background-image: url(/materials/images/denzi/parts/goblin.png)
+
+//.paperdoll-partial {
+//  width: 100px;
+//  height: 130px;
+//  cursor: pointer;
+//  .border-block();
+//  &.selected {
+//    border-color: @selected-color;
+//  }
+//  .not_exists {
+//    width: 100%;
+//    height: 100%;
+//    line-height: 130px;
+//    font-size: 64px;
+//    text-align: center;
+//  }
+//  .exists {
+//    width: 100%;
+//    height: 100%;
+//    .clearfix();
+//    .leftside {
+//      float: left;
+//      width: 50%;
+//      height: 100%;
+//      .member_frame {
+//        position: relative;
+//        width: 100%;
+//        height: 50px;
+//        .member-partial-view {
+//          top: 1px;
+//          left: 1px;
+//        }
+//      }
+//      .parameter_score_gauges {
+//        position: relative;
+//        top: 2px;
+//        left: 2px;
+//        width: 48px;  // Must sync to paperdoll view
+//        height: 15px;
+//        .gauge-partial-view {
+//          position: absolute;
+//          left: 2px;
+//          background-color: transparent;
+//          &.total_physical_attack_power {
+//            z-index: 1;
+//            .bar { background-color: @physical-attack-power-color; }
+//          }
+//          &.physical_attack_power {
+//            top: 2px;
+//            .bar { background-color: @color; }
+//          }
+//          &.total_magical_attack_power {
+//            top: 8px;
+//            z-index: 1;
+//            .bar { background-color: @magical-attack-power-color; }
+//          }
+//          &.magical_attack_power {
+//            top: 10px;
+//            .bar { background-color: @color; }
+//          }
+//        }
+//      }
+//      .gift_frame {
+//        position: relative;
+//        margin-top: 3px;
+//        width: 100%;
+//        height: 50px;
+//        &.normal-color { color: @color; }
+//        &.good-color { color: @good-parameter-color; }
+//        &.great-color { color: @great-parameter-color; }
+//        .title {
+//          position: absolute;
+//          top: 0;
+//          left: 0;
+//          width: 100%;
+//          height: 24px;
+//          font-size: 21px;
+//          line-height: 21px;
+//          text-align: center;
+//          z-index: 10;
+//        }
+//        .icon {
+//          position: absolute;
+//          top: 9px;
+//          left: 9px;
+//          .icon_size();
+//        }
+//        .count {
+//          position: absolute;
+//          bottom: 0;
+//          right: 0;
+//          width: 24px;
+//          height: 24px;
+//          font-size: 24px;
+//          line-height: 24px;
+//          z-index: 10;
+//          text-align: center;
+//        }
+//      }
+//    }
+//    .rightside {
+//      float: right;
+//      width: 50%;
+//      height: 100%;
+//
+//      table {
+//        width: 100%;
+//        font-family: 'Miranda';  // Can't inherit by IE10
+//      }
+//      tr {
+//        height: 18px;
+//        line-height: 18px;  // For Firefox
+//      }
+//      th {
+//        width: 50%;
+//        text-align: center;
+//        font-size: 18px;
+//        color: @color;
+//      }
+//      td {
+//        width: 50%;
+//        text-align: center;
+//        font-size: 18px;
+//        color: @color;
+//      }
+//      td, th {
+//        &.normal-parameter { color: @color; }
+//        &.good-parameter { color: @good-parameter-color; }
+//        &.great-parameter { color: @great-parameter-color; }
+//      }
+//    }
+//  }
+//}

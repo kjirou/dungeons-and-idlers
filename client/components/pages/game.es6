@@ -16,12 +16,17 @@ export default React.createClass({
     let style = this.createDefaultStyles();
 
     let cards = [
-      { isHidden: false, isFace: false, isClickable: true, top: 16, left: 6 },
-      { isHidden: false, isFace: false, isClickable: true, top: 16, left: 6 + 128 },
-      { isHidden: false, isFace: false, isClickable: true, top: 16, left: 6 + 128 * 2 + 4 },
-      { isHidden: false, isFace: false, isClickable: true, top: 16, left: 6 + 128 * 3 + 4 * 2 },
-      { isHidden: false, isFace: false, isClickable: true, top: 16, left: 6 + 128 * 4 + 4 * 3 },
-      { isHidden: false, isFace: false, isClickable: true, top: 16, left: 6 + 128 * 5 + 4 * 4 }
+      { isHidden: false, isFace: false, isClickable: true, top: 32, left: 32 },
+      { isHidden: false, isFace: false, isClickable: true, top: 32, left: 32 + 128 },
+      { isHidden: false, isFace: false, isClickable: true, top: 32, left: 32 + 128 * 2 },
+      { isHidden: false, isFace: false, isClickable: true, top: 32, left: 32 + 128 * 3 },
+      { isHidden: false, isFace: false, isClickable: true, top: 32, left: 32 + 128 * 4 },
+      { isHidden: false, isFace: false, isClickable: true, top: 32, left: 32 + 128 * 5 },
+
+      { isHidden: false, isFace: false, isClickable: true, top: 8 + 32 + 128 + 32, left: 32 },
+      { isHidden: false, isFace: false, isClickable: true, top: 8 + 32 + 128 + 32, left: 32 + 128 },
+      { isHidden: false, isFace: false, isClickable: true, top: 8 + 32 + 128 + 32, left: 32 + 128 * 2 },
+      { isHidden: false, isFace: false, isClickable: true, top: 8 + 32 + 128 + 32, left: 32 + 128 * 3 }
     ];
 
     return (

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 
 import CardComponent from 'client/components/partials/card';
+import CardHolderComponent from 'client/components/partials/card-holder';
 import {compileJsxTemplate, createPageComponentClassName} from 'client/lib/view';
 import ComponentMixin from 'client/mixins/component';
 import PageComponentMixin from 'client/mixins/page-component';
@@ -12,28 +13,37 @@ export default React.createClass({
   mixins: [ComponentMixin, PageComponentMixin],
 
   render() {
-    let className = createPageComponentClassName('game');
     let style = this.createDefaultStyles();
 
-    let cards = [
-      { isHidden: false, isFace: false, isClickable: true, top: 32, left: 32 },
-      { isHidden: false, isFace: false, isClickable: true, top: 32, left: 32 + 128 },
-      { isHidden: false, isFace: false, isClickable: true, top: 32, left: 32 + 128 * 2 },
-      { isHidden: false, isFace: false, isClickable: true, top: 32, left: 32 + 128 * 3 },
-      { isHidden: false, isFace: false, isClickable: true, top: 32, left: 32 + 128 * 4 },
-      { isHidden: false, isFace: false, isClickable: true, top: 32, left: 32 + 128 * 5 },
+    let cardStores = [
+      { top: 32, left: 32 },
+      { top: 32, left: 32 + 128 },
+      { top: 32, left: 32 + 128 * 2 },
+      { top: 32, left: 32 + 128 * 3 },
+      { top: 32, left: 32 + 128 * 4 },
+      { top: 32, left: 32 + 128 * 5 },
 
-      { isHidden: false, isFace: false, isClickable: true, top: 8 + 32 + 128 + 32, left: 32 },
-      { isHidden: false, isFace: false, isClickable: true, top: 8 + 32 + 128 + 32, left: 32 + 128 },
-      { isHidden: false, isFace: false, isClickable: true, top: 8 + 32 + 128 + 32, left: 32 + 128 * 2 },
-      { isHidden: false, isFace: false, isClickable: true, top: 8 + 32 + 128 + 32, left: 32 + 128 * 3 }
+      { top: 32 + 160 + 8, left: 32 },
+      { top: 32 + 160 + 8, left: 32 + 128 },
+      { top: 32 + 160 + 8, left: 32 + 128 * 2 },
+      { top: 32 + 160 + 8, left: 32 + 128 * 3 }
     ];
 
     return (
-      <div className={className} style={style}>
+      <div className={createPageComponentClassName('game')} style={style}>
       {
-        cards.map((card) => {
-          return React.createElement(CardComponent, card, null);
+        cardStores.map((cardStore, cardIndex) => {
+          let cardHolderPropKeys = ['top', 'left', 'isHidden'];
+          let cardProps = _.omit(cardStore, ...cardHolderPropKeys);
+          let cardHolderProps = _.assign(_.pick(cardStore, ...cardHolderPropKeys), {
+            cardProps: cardProps
+          });
+          if (cardStore.isHidden) cardHolderProps.isHidden = cardStore.isHidden;
+
+          return <CardHolderComponent
+            key={'card_holder-' + cardIndex}
+            {...cardHolderProps}
+          />;
         })
       }
       </div>

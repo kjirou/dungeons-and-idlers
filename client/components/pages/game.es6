@@ -23,10 +23,10 @@ export default React.createClass({
       { top: 32, left: 32 + 128 * 4 },
       { top: 32, left: 32 + 128 * 5 },
 
-      { top: 32 + 160 + 8, left: 32 },
-      { top: 32 + 160 + 8, left: 32 + 128 },
-      { top: 32 + 160 + 8, left: 32 + 128 * 2 },
-      { top: 32 + 160 + 8, left: 32 + 128 * 3 }
+      { top: 32 + 160 + 16, left: 32 },
+      { top: 32 + 160 + 16, left: 32 + 128 },
+      { top: 32 + 160 + 16, left: 32 + 128 * 2 },
+      { top: 32 + 160 + 16, left: 32 + 128 * 3 }
     ];
 
     return (

@@ -9,28 +9,32 @@ export default React.createClass({
   mixins: [ComponentMixin],
 
   propTypes: {
-    isHidden: React.PropTypes.bool.isRequired,
-    isFace: React.PropTypes.bool.isRequired,
-    isClickable: React.PropTypes.bool.isRequired,
-    top: React.PropTypes.number.isRequired,
-    left: React.PropTypes.number.isRequired
+    top: React.PropTypes.number,
+    left: React.PropTypes.number,
+    isFace: React.PropTypes.bool,
+    isClickable: React.PropTypes.bool
+  },
+
+  getDefaultProps() {
+    return {
+      top: 0,
+      left: 0,
+      isFace: false,
+      isClickable: false
+    };
   },
 
   render() {
-    let classNames = [
-      createComponentClassName('card'),
-      this.props.isFace ? 'face' : 'back'
-    ];
-
     let style = {
-      display: this.props.isHidden ? 'none' : 'block',
-      cursor: this.props.isClickable ? 'pointer' : 'default',
       top: this.props.top,
-      left: this.props.left
+      left: this.props.left,
+      cursor: this.props.isClickable ? 'pointer' : 'default'
     };
 
+    // @TODO isFace で表裏を変更する
+
     return (
-      <div className={classNames.join(' ')} style={style}>
+      <div className={createComponentClassName('card')} style={style}>
         <div className='icon'></div>
       </div>
     );

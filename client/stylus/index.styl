@@ -23,6 +23,9 @@ buttonize(width, height)
   text-align: center
   cursor: pointer
 
+text-bordering(size, color=#000)
+  text-shadow: -(size) (-(size)) color, size (-(size)) color, -(size) size color, size size color
+
 
 #js-game-container .screen-component
   position: absolute
@@ -96,10 +99,7 @@ buttonize(width, height)
   height: 124px
   border: 2px solid $TEXT_COLOR
   border-radius: 4px
-  &.face
-    background-color: $TEXT_COLOR
-  &.back
-    background-color: $BACKGROUND_COLOR
+  background-color: $BACKGROUND_COLOR
   .icon
     position: absolute
     top: 8px
@@ -107,6 +107,46 @@ buttonize(width, height)
     width: 32px
     height: 32px
     background-image: url(/materials/images/denzi/parts/goblin.png)
+
+
+#js-game-container .buff_list-component
+  position: absolute
+  top: 128px  // = card-component:height
+  left: 0
+  width: 96px
+  height: 32px
+
+
+#js-game-container .buff-component
+  position: absolute
+  top: 0
+  width: 32px
+  height: 32px
+  .duration
+    position: absolute
+    bottom: 0
+    right: 0
+    width: 12px
+    height: 20px
+    font-size: 20px
+    text-align: center
+    text-bordering(2px, black)
+
+
+#js-game-container
+  .attack_down-bg_img
+    background-image: url(/materials/images/denzi/parts/buffs/attack_down.png)
+  .bless-bg_img
+    background-image: url(/materials/images/denzi/parts/buffs/bless.png)
+  .ki-bg_img
+    background-image: url(/materials/images/denzi/parts/buffs/ki.png)
+  .shield-bg_img
+    background-image: url(/materials/images/denzi/parts/buffs/shield.png)
+  .status_down-bg_img
+    background-image: url(/materials/images/denzi/parts/buffs/status_down.png)
+  .status_up-bg_img
+    background-image: url(/materials/images/denzi/parts/buffs/status_up.png)
+
 
 //.paperdoll-partial {
 //  width: 100px;

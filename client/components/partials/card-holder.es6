@@ -1,5 +1,6 @@
 import React from 'react';
 
+import BuffListComponent from 'client/components/partials/buff-list';
 import CardComponent from 'client/components/partials/card';
 import {createComponentClassName} from 'client/lib/view';
 import ComponentMixin from 'client/mixins/component';
@@ -29,9 +30,16 @@ export default React.createClass({
       display: this.props.isHidden ? 'none' : 'block'
     };
 
+    let buffDataList = [
+      { buffType: 'status_up', duration: 3 },
+      { buffType: 'attack_down', duration: 3 },
+      { buffType: 'shield', duration: 3 }
+    ];
+
     return (
       <div className={createComponentClassName('card_holder')} style={style}>
         <CardComponent {...this.props.cardProps} />
+        <BuffListComponent buffDataList={buffDataList} />
       </div>
     );
   }

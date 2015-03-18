@@ -23,6 +23,9 @@ buttonize(width, height)
   text-align: center
   cursor: pointer
 
+text-bordering(size, color=#000)
+  text-shadow: -(size) (-(size)) color, size (-(size)) color, -(size) size color, size size color
+
 
 #js-game-container .screen-component
   position: absolute
@@ -119,6 +122,15 @@ buttonize(width, height)
   top: 0
   width: 32px
   height: 32px
+  .duration
+    position: absolute
+    bottom: 0
+    right: 0
+    width: 12px
+    height: 20px
+    font-size: 20px
+    text-align: center
+    text-bordering(2px, black)
 
 
 #js-game-container

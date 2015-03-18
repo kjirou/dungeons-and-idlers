@@ -26,7 +26,9 @@ export default React.createClass({
     };
 
     return (
-      <div className={className} style={style}></div>
+      <div className={className} style={style}>
+        <div className='duration'>{this.props.duration}</div>
+      </div>
     );
   }
 });

@@ -26,6 +26,9 @@ buttonize(width, height)
 text-bordering(size, color=#000)
   text-shadow: -(size) (-(size)) color, size (-(size)) color, -(size) size color, size size color
 
+japanese-font-family()
+  font-family: Hiragino Kaku Gothic ProN, Meiryo, MS PGothic, sans-serif
+
 
 #js-game-container .screen-component
   position: absolute
@@ -110,7 +113,94 @@ text-bordering(size, color=#000)
       left: 4px
       width: 32px
       height: 32px
-      background-image: url(/materials/images/denzi/parts/goblin.png)
+    .hp_container
+      position: absolute
+      top: 0
+      left: 40px
+      width: 52px  // 92 - 40(icon + padding)
+      height: 24px
+      text-align: center
+      .hp
+        line-height: 24px
+        font-size: 24px
+      .separator
+        padding: 0 4px
+        line-height: 16px
+        font-size: 16px
+      .max_hp
+        line-height: 16px
+        font-size: 16px
+    .damage_container
+      position: absolute
+      top: 24px
+      left: 40px
+      width: 52px
+      height: 16px
+      text-align: center
+      .unit
+        line-height: 16px
+        font-size: 16px
+      .value
+        padding-left: 4px
+        line-height: 16px
+        font-size: 22px
+    .passive_skills_container
+      position: absolute
+      top: 40px
+      left: 0
+      width: 100%
+      height: 16px
+      text-align: left
+      span
+        japanese-font-family()
+        padding-left: 4px
+        line-height: 16px
+        font-size: 10px
+    .actions
+      position: absolute
+      top: 58px
+      width: 100%
+      height: 66px
+      .cell
+        position: absolute
+        width: 46px
+        height: 22px
+        line-height: 22px
+        text-align: center
+        &.cell-1
+          top: 0
+          left: 0
+        &.cell-2
+          top: 22px
+          left: 0
+        &.cell-3
+          top: 44px
+          left: 0
+        &.cell-4
+          top: 0
+          left: 46px
+        &.cell-5
+          top: 22px
+          left: 46px
+        &.cell-6
+          top: 44px
+          left: 46px
+        &.current
+          color: #f00
+        .order
+          position: absolute
+          top: 0
+          left: 0
+          width: 14px
+          height: 100%
+          font-size: 18px
+        .label
+          position: absolute
+          top: 0
+          left: 14px
+          width: 32px
+          height: 100%
+          font-size: 16px
   .back
     position: absolute
     width: 100%

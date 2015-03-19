@@ -35,6 +35,7 @@ japanese-font-family()
   color: $TEXT_COLOR
   font-family: 'Miranda';
   background-color: $BACKGROUND_COLOR
+  overflow: hidden
 
   .page-component
     position: absolute
@@ -85,7 +86,22 @@ japanese-font-family()
     buttonize(200px, 50px)
 
 
-//#js-game-container .game-page-component
+#js-game-container .game-page-component
+  .dungeon_card_counter
+    position: absolute
+    top: 4px
+    right: 32px
+    width: 96px
+    height: 32px
+    line-height: 32px
+    text-align: center
+    .count
+      font-size: 26px
+    .separator
+      padding: 0 4px
+      font-size: 16px
+    .max_count
+      font-size: 20px
 
 
 // 96 x 160
@@ -231,6 +247,18 @@ japanese-font-family()
     text-bordering(2px, black)
 
 
+#js-game-container .inventory-component
+  position: absolute
+  width: 544px  // (32 + 2) * 16
+  height: 32px
+  .pocket
+    position: absolute
+    width: 32px
+    height: 32px
+    border-right: 2px solid $TEXT_COLOR
+    border-bottom: 2px solid $TEXT_COLOR
+
+
 // 後でdata uri化して別の生CSSにする
 // background-image だけ設定する
 #js-game-container
@@ -252,137 +280,14 @@ japanese-font-family()
     background-image: url(/materials/images/denzi/parts/goblin.png)
   .minotaur-monster-bg_img
     background-image: url(/materials/images/denzi/parts/minotaur.png)
-
-
-//.paperdoll-partial {
-//  width: 100px;
-//  height: 130px;
-//  cursor: pointer;
-//  .border-block();
-//  &.selected {
-//    border-color: @selected-color;
-//  }
-//  .not_exists {
-//    width: 100%;
-//    height: 100%;
-//    line-height: 130px;
-//    font-size: 64px;
-//    text-align: center;
-//  }
-//  .exists {
-//    width: 100%;
-//    height: 100%;
-//    .clearfix();
-//    .leftside {
-//      float: left;
-//      width: 50%;
-//      height: 100%;
-//      .member_frame {
-//        position: relative;
-//        width: 100%;
-//        height: 50px;
-//        .member-partial-view {
-//          top: 1px;
-//          left: 1px;
-//        }
-//      }
-//      .parameter_score_gauges {
-//        position: relative;
-//        top: 2px;
-//        left: 2px;
-//        width: 48px;  // Must sync to paperdoll view
-//        height: 15px;
-//        .gauge-partial-view {
-//          position: absolute;
-//          left: 2px;
-//          background-color: transparent;
-//          &.total_physical_attack_power {
-//            z-index: 1;
-//            .bar { background-color: @physical-attack-power-color; }
-//          }
-//          &.physical_attack_power {
-//            top: 2px;
-//            .bar { background-color: @color; }
-//          }
-//          &.total_magical_attack_power {
-//            top: 8px;
-//            z-index: 1;
-//            .bar { background-color: @magical-attack-power-color; }
-//          }
-//          &.magical_attack_power {
-//            top: 10px;
-//            .bar { background-color: @color; }
-//          }
-//        }
-//      }
-//      .gift_frame {
-//        position: relative;
-//        margin-top: 3px;
-//        width: 100%;
-//        height: 50px;
-//        &.normal-color { color: @color; }
-//        &.good-color { color: @good-parameter-color; }
-//        &.great-color { color: @great-parameter-color; }
-//        .title {
-//          position: absolute;
-//          top: 0;
-//          left: 0;
-//          width: 100%;
-//          height: 24px;
-//          font-size: 21px;
-//          line-height: 21px;
-//          text-align: center;
-//          z-index: 10;
-//        }
-//        .icon {
-//          position: absolute;
-//          top: 9px;
-//          left: 9px;
-//          .icon_size();
-//        }
-//        .count {
-//          position: absolute;
-//          bottom: 0;
-//          right: 0;
-//          width: 24px;
-//          height: 24px;
-//          font-size: 24px;
-//          line-height: 24px;
-//          z-index: 10;
-//          text-align: center;
-//        }
-//      }
-//    }
-//    .rightside {
-//      float: right;
-//      width: 50%;
-//      height: 100%;
-//
-//      table {
-//        width: 100%;
-//        font-family: 'Miranda';  // Can't inherit by IE10
-//      }
-//      tr {
-//        height: 18px;
-//        line-height: 18px;  // For Firefox
-//      }
-//      th {
-//        width: 50%;
-//        text-align: center;
-//        font-size: 18px;
-//        color: @color;
-//      }
-//      td {
-//        width: 50%;
-//        text-align: center;
-//        font-size: 18px;
-//        color: @color;
-//      }
-//      td, th {
-//        &.normal-parameter { color: @color; }
-//        &.good-parameter { color: @good-parameter-color; }
-//        &.great-parameter { color: @great-parameter-color; }
-//      }
-//    }
-//  }
-//}
+  // objects
+  .box-object-bg_img
+    background-image: url(/materials/images/denzi/parts/objects/box.png)
+  .chest-object-bg_img
+    background-image: url(/materials/images/denzi/parts/objects/chest.png)
+  .jewel-object-bg_img
+    background-image: url(/materials/images/denzi/parts/objects/jewel.png)
+  .gold-object-bg_img
+    background-image: url(/materials/images/denzi/parts/objects/gold.png)
+  .key-object-bg_img
+    background-image: url(/materials/images/denzi/parts/objects/key.png)

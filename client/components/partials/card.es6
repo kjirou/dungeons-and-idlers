@@ -31,11 +31,50 @@ export default React.createClass({
       cursor: this.props.isClickable ? 'pointer' : 'default'
     };
 
-    // @TODO isFace で表裏を変更する
+    let actionDataList = [
+      { order: 1, label: 'ATK' },
+      { order: 2, label: 'ATK', isCurrent: true },
+      { order: 3, label: '--' },
+      { order: 4, label: 'SP' },
+      { order: 5, label: '--', isHidden: true },
+      { order: 6, label: '--', isHidden: true }
+    ];
 
     return (
       <div className={createComponentClassName('card')} style={style}>
-        <div className='icon'></div>
+        <div className='face' style={{ display: this.props.isFace ? 'block' : 'none' }}>
+          <div className='icon minotaur-monster-bg_img'></div>
+          <div className='hp_container'>
+            <span className='hp'>78</span>
+            <span className='separator'>/</span>
+            <span className='max_hp'>99</span>
+          </div>
+          <div className='damage_container'>
+            <span className='unit'>ATK</span>
+            <span className='value'>99</span>
+          </div>
+          <div className='passive_skills_container'>
+            <span>先制</span>
+            <span>追跡</span>
+          </div>
+          <div className='actions'>
+          {
+            actionDataList.map(({ order, label, isCurrent, isHidden }) => {
+              let key = 'cell-' + order;
+              let classNames = ['cell', key];
+              if (isCurrent) classNames.push('current');
+              let style = {
+                display: isHidden ? 'none' : 'block'
+              };
+              return <div key={key} className={classNames.join(' ')} style={style}>
+                <div key='order' className='order'>{order}</div>
+                <div key='label' className='label'>{label}</div>
+              </div>;
+            })
+          }
+          </div>
+        </div>
+        <div className='back' style={{ display: this.props.isFace ? 'none' : 'block' }}></div>
       </div>
     );
   }

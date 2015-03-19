@@ -23,10 +23,10 @@ export default React.createClass({
       { top: 32, left: 32 + 128 * 4 },
       { top: 32, left: 32 + 128 * 5 },
 
-      { top: 32 + 160 + 16, left: 32, isFace: true },
-      { top: 32 + 160 + 16, left: 32 + 128, isFace: true },
-      { top: 32 + 160 + 16, left: 32 + 128 * 2, isFace: true },
-      { top: 32 + 160 + 16, left: 32 + 128 * 3, isFace: true }
+      { top: 32 + 160 + 16, left: 32, isFace: true, isClickable: true },
+      { top: 32 + 160 + 16, left: 32 + 128, isFace: true, isClickable: true },
+      { top: 32 + 160 + 16, left: 32 + 128 * 2, isFace: true, isClickable: true },
+      { top: 32 + 160 + 16, left: 32 + 128 * 3, isFace: true, isClickable: true }
     ];
 
     return (

@@ -33,6 +33,11 @@ export default React.createClass({
     return (
       <div className={createPageComponentClassName('game')} style={style}>
         <InventoryComponent />
+        <div className='dungeon_card_counter'>
+          <span className='count'>44</span>
+          <span className='separator'>/</span>
+          <span className='max_count'>50</span>
+        </div>
         {
           cardStores.map((cardStore, cardIndex) => {
             let cardHolderPropKeys = ['top', 'left', 'isHidden'];

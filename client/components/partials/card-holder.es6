@@ -35,11 +35,12 @@ export default React.createClass({
       { buffType: 'attack_down', duration: 3 },
       { buffType: 'shield', duration: 3 }
     ];
+    let buffListIsHidden = !this.props.cardProps.isFace;
 
     return (
       <div className={createComponentClassName('card_holder')} style={style}>
         <CardComponent {...this.props.cardProps} />
-        <BuffListComponent buffDataList={buffDataList} />
+        <BuffListComponent buffDataList={buffDataList} isHidden={buffListIsHidden} />
       </div>
     );
   }

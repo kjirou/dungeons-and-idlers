@@ -16,17 +16,17 @@ export default React.createClass({
     let style = this.createDefaultStyles();
 
     let cardStores = [
-      { top: 32, left: 32 },
-      { top: 32, left: 32 + 128 },
+      { top: 32, left: 32, isFace: true },
+      { top: 32, left: 32 + 128, isFace: true },
       { top: 32, left: 32 + 128 * 2 },
       { top: 32, left: 32 + 128 * 3 },
       { top: 32, left: 32 + 128 * 4 },
       { top: 32, left: 32 + 128 * 5 },
 
-      { top: 32 + 160 + 16, left: 32 },
-      { top: 32 + 160 + 16, left: 32 + 128 },
-      { top: 32 + 160 + 16, left: 32 + 128 * 2 },
-      { top: 32 + 160 + 16, left: 32 + 128 * 3 }
+      { top: 32 + 160 + 16, left: 32, isFace: true },
+      { top: 32 + 160 + 16, left: 32 + 128, isFace: true },
+      { top: 32 + 160 + 16, left: 32 + 128 * 2, isFace: true },
+      { top: 32 + 160 + 16, left: 32 + 128 * 3, isFace: true }
     ];
 
     return (

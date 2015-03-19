@@ -31,11 +31,12 @@ export default React.createClass({
       cursor: this.props.isClickable ? 'pointer' : 'default'
     };
 
-    // @TODO isFace で表裏を変更する
-
     return (
       <div className={createComponentClassName('card')} style={style}>
-        <div className='icon'></div>
+        <div className='face' style={{ display: this.props.isFace ? 'block' : 'none' }}>
+          <div className='icon minotaur-monster-bg_img'></div>
+        </div>
+        <div className='back' style={{ display: this.props.isFace ? 'none' : 'block' }}></div>
       </div>
     );
   }

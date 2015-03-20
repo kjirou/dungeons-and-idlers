@@ -89,8 +89,8 @@ japanese-font-family()
 #js-game-container .game-page-component
   .dungeon_card_counter
     position: absolute
-    top: 4px
-    right: 32px
+    top: 0
+    right: 112px
     width: 96px
     height: 32px
     line-height: 32px
@@ -255,8 +255,14 @@ japanese-font-family()
 
 #js-game-container .inventory-component
   position: absolute
-  width: 544px  // (32 + 2) * 16
-  height: 32px
+  top: 32px
+  right: 20px
+  width: 66px  // 32 * 2 + 2 * 1
+  height: 202px  // 32 * 6 + 2 * 5
+  border-top: 2px solid $TEXT_COLOR
+  border-right: 2px solid $TEXT_COLOR
+  border-bottom: 2px solid $TEXT_COLOR
+  border-left: 2px solid $TEXT_COLOR
   .pocket
     position: absolute
     width: 32px
@@ -290,3 +296,7 @@ japanese-font-family()
   for $id in 'box' 'chest' 'downstairs' 'jewel' 'gold' 'key'
     .{$id}-object-bg_img
       background-image: url('/materials/images/denzi/parts/objects/' + $id + '.png')
+  // symbols
+  for $id in 'invalid'
+    .{$id}-symbol-bg_img
+      background-image: url('/materials/images/denzi/parts/symbols/' + $id + '.png')

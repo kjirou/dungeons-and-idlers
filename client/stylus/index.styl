@@ -271,9 +271,46 @@ japanese-font-family()
     border-bottom: 2px solid $TEXT_COLOR
 
 
+#js-game-container .hand_cards-component
+  position: absolute
+  width: 96px
+  height: 66px
+  .open_button
+    position: absolute
+    top: 32px
+    left: 64px
+    width: 28px
+    height: 28px
+    line-height: 28px
+    font-size: 15px
+    border: 2px solid #fff
+    border-radius(2px)
+    text-align: center
+    cursor: pointer
+
+
+#js-game-container .card_icon-component
+  position: absolute
+  width: 32px
+  height: 32px
+  cursor: pointer
+
+
 // 後でdata uri化して別の生CSSにする
 // background-image だけ設定する
 #js-game-container
+
+  // やっぱフラットに並べるか
+  for $id in (
+    'heart' \
+    'key' \
+    'morale' \
+    'shield' \
+    'sword'
+  )
+    .{$id}-icon-image
+      background-image: url('/materials/images/denzi/parts/' + $id + '.png')
+
   // buffs
   .attack_down-bg_img
     background-image: url(/materials/images/denzi/parts/buffs/attack_down.png)

@@ -221,6 +221,12 @@ japanese-font-family()
     position: absolute
     width: 100%
     height: 100%
+    .icon
+      position: absolute
+      top: 46px
+      left: 30px
+      width: 32px
+      height: 32px
 
 
 #js-game-container .buff_list-component
@@ -281,13 +287,6 @@ japanese-font-family()
   .minotaur-monster-bg_img
     background-image: url(/materials/images/denzi/parts/minotaur.png)
   // objects
-  .box-object-bg_img
-    background-image: url(/materials/images/denzi/parts/objects/box.png)
-  .chest-object-bg_img
-    background-image: url(/materials/images/denzi/parts/objects/chest.png)
-  .jewel-object-bg_img
-    background-image: url(/materials/images/denzi/parts/objects/jewel.png)
-  .gold-object-bg_img
-    background-image: url(/materials/images/denzi/parts/objects/gold.png)
-  .key-object-bg_img
-    background-image: url(/materials/images/denzi/parts/objects/key.png)
+  for $id in 'box' 'chest' 'downstairs' 'jewel' 'gold' 'key'
+    .{$id}-object-bg_img
+      background-image: url('/materials/images/denzi/parts/objects/' + $id + '.png')

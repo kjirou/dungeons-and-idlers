@@ -74,7 +74,9 @@ export default React.createClass({
           }
           </div>
         </div>
-        <div className='back' style={{ display: this.props.isFace ? 'none' : 'block' }}></div>
+        <div className='back' style={{ display: this.props.isFace ? 'none' : 'block' }}>
+          <div className='icon downstairs-object-bg_img'></div>
+        </div>
       </div>
     );
   }

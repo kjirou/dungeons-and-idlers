@@ -32,6 +32,7 @@ export default React.createClass({
         {
           handCards.map((handCard, handCardIndex) => {
             let props = {
+              key: 'card_icon-' + handCardIndex,
               top: ~~(handCardIndex / 3) * 32,
               left: handCardIndex % 3 * 32,
               iconClassName: handCard.iconClassName,

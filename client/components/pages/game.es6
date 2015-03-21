@@ -70,10 +70,11 @@ export default React.createClass({
           characters.map((character, characterIndex) => {
             let key = 'hand_cards-' + characterIndex;
             let props = {
+              key,
               top: character.handCards.top,
               left: character.handCards.left
             };
-            return <HandCardsComponent key={key} {...props} />
+            return <HandCardsComponent {...props} />
           })
         }
 

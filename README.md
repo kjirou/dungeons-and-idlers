@@ -6,6 +6,7 @@
 ## Development
 ### Dependency
 - [direnv](https://github.com/zimbatm/direnv)
+
 ### Deployment
 ```bash
 git clone git@github.com:kjirou/dungeons-and-idlers.git

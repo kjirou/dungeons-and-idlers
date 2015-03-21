@@ -11,15 +11,15 @@ $TEXT_COLOR = #fff
 $BACKGROUND_COLOR = #000
 
 // div tag to button
-buttonize(width, height)
-  width: width
-  height: height
-  line-height: height
+buttonize($width, $height, $borderSize=3px, $borderRadius=5px)
+  width: $width
+  height: $height
+  line-height: $height
   color: $TEXT_COLOR
   background-color: $BACKGROUND_COLOR
-  border: 3px solid $TEXT_COLOR
-  border-radius: 5px
-  font-size: (height * 2 / 3)
+  border: $borderSize solid $TEXT_COLOR
+  border-radius: $borderRadius
+  font-size: ($height * 2 / 3)
   text-align: center
   cursor: pointer
 
@@ -86,22 +86,49 @@ japanese-font-family()
     buttonize(200px, 50px)
 
 
+#js-game-container .inventory-component
+  position: absolute
+  width: 66px  // 32 * 2 + 2 * 1
+  height: 202px  // 32 * 6 + 2 * 5
+  border-top: 2px solid $TEXT_COLOR
+  border-right: 2px solid $TEXT_COLOR
+  border-bottom: 2px solid $TEXT_COLOR
+  border-left: 2px solid $TEXT_COLOR
+  .pocket
+    position: absolute
+    width: 32px
+    height: 32px
+    border-right: 2px solid $TEXT_COLOR
+    border-bottom: 2px solid $TEXT_COLOR
+
+
 #js-game-container .game-page-component
+  $rightSideTop = 24px
+  $rightSideRight = 24px
+
   .dungeon_card_counter
     position: absolute
-    top: 0
-    right: 120px
-    width: 96px
-    height: 24px
-    line-height: 24px
+    top: $rightSideTop
+    right: $rightSideRight
+    width: 70px
+    height: 34px
+    line-height: 34px
     text-align: center
     .count
-      font-size: 24px
+      font-size: 28px
     .separator
       padding: 0 4px
-      font-size: 16px
+      font-size: 18px
     .max_count
-      font-size: 20px
+      font-size: 22px
+  .inventory-component
+    top: $rightSideTop + 34px
+    right: $rightSideRight
+  .system_button
+    position: absolute
+    bottom: $rightSideTop
+    right: $rightSideRight
+    buttonize(66px, 32px, $borderSize:2px, $borderRadius:4px)
 
 
 // 96 x 160
@@ -251,24 +278,6 @@ japanese-font-family()
     font-size: 20px
     text-align: center
     text-bordering(2px, black)
-
-
-#js-game-container .inventory-component
-  position: absolute
-  top: 24px
-  right: 24px
-  width: 66px  // 32 * 2 + 2 * 1
-  height: 202px  // 32 * 6 + 2 * 5
-  border-top: 2px solid $TEXT_COLOR
-  border-right: 2px solid $TEXT_COLOR
-  border-bottom: 2px solid $TEXT_COLOR
-  border-left: 2px solid $TEXT_COLOR
-  .pocket
-    position: absolute
-    width: 32px
-    height: 32px
-    border-right: 2px solid $TEXT_COLOR
-    border-bottom: 2px solid $TEXT_COLOR
 
 
 #js-game-container .hand_cards-component

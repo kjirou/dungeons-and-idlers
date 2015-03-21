@@ -15,7 +15,10 @@ export default React.createClass({
   mixins: [ComponentMixin, PageComponentMixin],
 
   render() {
-    let style = this.createDefaultStyles();
+    let attrs = {
+      className: createPageComponentClassName('game'),
+      style: this.createDefaultStyles()
+    };
 
     let cardStores = [
       { top: 24, left: 24, isFace: true },
@@ -40,32 +43,35 @@ export default React.createClass({
     ];
 
     return (
-      <div className={createPageComponentClassName('game')} style={style}>
+      <div {...attrs}>
 
-        <InventoryComponent />
-
+        {/* Right Side */}
         <div className='dungeon_card_counter'>
           <span className='count'>44</span>
           <span className='separator'>/</span>
           <span className='max_count'>50</span>
         </div>
+        <InventoryComponent />
+        <div className='system_button'>System</div>
 
+
+        {/* Board Cards */}
         {
           cardStores.map((cardStore, cardIndex) => {
             let cardHolderPropKeys = ['top', 'left', 'isHidden'];
             let cardProps = _.omit(cardStore, ...cardHolderPropKeys);
             let cardHolderProps = _.assign(_.pick(cardStore, ...cardHolderPropKeys), {
+              key: 'card_holder-' + cardIndex,
               cardProps: cardProps
             });
             if (cardStore.isHidden) cardHolderProps.isHidden = cardStore.isHidden;
 
-            return <CardHolderComponent
-              key={'card_holder-' + cardIndex}
-              {...cardHolderProps}
-            />;
+            return <CardHolderComponent {...cardHolderProps}/>;
           })
         }
 
+
+        {/* Hand Cards */}
         {
           characters.map((character, characterIndex) => {
             let key = 'hand_cards-' + characterIndex;

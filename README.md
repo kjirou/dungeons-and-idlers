@@ -12,4 +12,5 @@
 git clone git@github.com:kjirou/dungeons-and-idlers.git
 npm install
 npm run dev
+open http://localhost:3000
 ```

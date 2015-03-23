@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+import {} from 'client/lib/calculation';
+import {within} from 'client/lib/core';
 import CoreDispatcher from 'client/dispatcher/core';
 import Store from 'client/stores/store';
 
@@ -26,7 +28,8 @@ export default Store.extend({
     let self = this;
     this._coreDispatcher = CoreDispatcher.getInstance();
 
-    //this.attrGetter('pageId');
+    this.attrGetter('hp');
+    this.propGetter('maxHp', '_getMaxHp');
 
     //this.dispatchToken = coreDispatcher.register(function({action}) {
     //  switch (action.type) {
@@ -35,6 +38,20 @@ export default Store.extend({
     //      break;
     //  }
     //});
+  },
+
+  /**
+   * キャラクターとモンスターで基底値の源泉が異なるので、
+   * そこをオーバーライドして吸収する
+   * キャラは職業ベース、モンスターはそのままモンスターの種別
+   */
+  _getBaseMaxHp() {
+    return MIN_MAX_HP;
+  },
+
+  _getMaxHp() {
+    let b = this._getBaseMaxHp();
+    return within(b, MIN_MAX_HP, MAX_MAX_HP);
   }
 }, {
   MIN_MAX_HP,
@@ -43,63 +60,18 @@ export default Store.extend({
 });
 
 
-//calculation = require 'client/lib/calculation'
-//core = require 'client/lib/core'
-//{Store} = require 'client/stores/store'
-//
-//
-//
-//  @MIN_ABILITY: 1
-//  @HP_PER_LEVEL: 5
-//  @MIN_MAX_HP: 5
-//  @MAX_MAX_HP: 99999999
-//
 //
 //  initialize: ->
-//    @propGetter 'agility', '_getAgility'
-//    @attrGetter 'hp'
 //    @propGetter 'hpRate', '_getHpRate'
-//    @propGetter 'intelligence', '_getIntelligence'
 //    @attrGetter 'level'
-//    @propGetter 'maxHp', '_getMaxHp'
 //    @attrGetter 'name'
 //    @attrGetter 'rawAgility', 'agility'
 //    @attrGetter 'rawIntelligence', 'intelligence'
 //    @attrGetter 'rawStrength', 'strength'
-//    @propGetter 'strength', '_getStrength'
 //    @propGetter 'wound', '_getWound'
 //    @propGetter 'woundRate', '_getWoundRate'
 //
-//  _computeBaseMaxHp: =>
-//    @constructor.MIN_MAX_HP + @constructor.HP_PER_LEVEL * @level
 //
-//  _getStrength: =>
-//    t = @rawStrength
-//    Math.max t, 1
-//
-//  _getAgility: =>
-//    t = @rawAgility
-//    Math.max t, 1
-//
-//  _getIntelligence: =>
-//    t = @rawIntelligence
-//    Math.max t, 1
-//
-//  _increaseAbility: (abilityType, delta) =>
-//    nextValue = @[abilityType] + delta
-//    nextValue = Math.max nextValue, @constructor.MIN_ABILITY
-//    @set abilityType, nextValue, validate: true
-//  increaseStrength: (delta) => @_increaseAbility 'strength', delta
-//  increaseAgility: (delta) => @_increaseAbility 'agility', delta
-//  increaseIntelligence: (delta) => @_increaseAbility 'intelligence', delta
-//
-//  _getMaxHp: =>
-//    b = @_computeBaseMaxHp()
-//    r = calculation.sumRates [
-//      0.75 + @strength * 0.05
-//    ]
-//    t = Math.ceil b * r
-//    core.within t, @constructor.MIN_MAX_HP, @constructor.MAX_MAX_HP
 //
 //  _getWound: => @maxHp - @hp
 //  _getHpRate: => core.within @hp / @maxHp, 0.0, 1.0

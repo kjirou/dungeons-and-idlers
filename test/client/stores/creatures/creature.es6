@@ -39,14 +39,47 @@ describe('client/stores/creatures/creature module', function() {
     });
   });
 
-  //context('hp', function() {
-  //
-  //  it('accessors', function() {
-  //    let c = new CreatureStore();
-  //    assert(isInteger(c.maxHp));
-  //    assert(c.maxHp > 0);
-  //  });
-  //});
+  context('hp accessors', function() {
+
+    it('hp', function() {
+      let c = new CreatureStore({ hp: 3 });
+      assert.strictEqual(c.hp, 3);
+    });
+
+    it('wound', function() {
+      let c = new CreatureStore({ hp: 3 });
+      sinon.stub(c, '_getMaxHp', () => { return 10; });
+      assert.strictEqual(c.wound, 7);
+      c.set('hp', 11);
+      assert.strictEqual(c.wound, 0);
+    });
+
+    it('hpRate', function() {
+      let c = new CreatureStore({ hp: 3 });
+      sinon.stub(c, '_getMaxHp', () => { return 10; });
+      assert.strictEqual(c.hpRate, 0.3);
+      c.set('hp', 11);
+      assert.strictEqual(c.hpRate, 1);
+    });
+
+    it('woundRate', function() {
+      let c = new CreatureStore({ hp: 3 });
+      sinon.stub(c, '_getMaxHp', () => { return 10; });
+      assert.strictEqual(c.woundRate, 0.7);
+      c.set('hp', 11);
+      assert.strictEqual(c.woundRate, 0);
+    });
+
+    it('isFullHp', function() {
+      let c = new CreatureStore({ hp: 3 });
+      sinon.stub(c, '_getMaxHp', () => { return 10; });
+      assert.strictEqual(c.isFullHp(), false);
+      c.set('hp', 10);
+      assert.strictEqual(c.isFullHp(), true);
+      c.set('hp', 11);
+      assert.strictEqual(c.isFullHp(), true);
+    });
+  });
 });
 
 

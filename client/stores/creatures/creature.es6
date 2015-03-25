@@ -29,7 +29,13 @@ export default Store.extend({
     this._coreDispatcher = CoreDispatcher.getInstance();
 
     this.attrGetter('hp');
+    this.attrGetter('level');
+
     this.propGetter('maxHp', '_getMaxHp');
+    this.propGetter('name', '_getName');
+    this.propGetter('hpRate', '_getHpRate');
+    this.propGetter('wound', '_getWound');
+    this.propGetter('woundRate', '_getWoundRate');
 
     //this.dispatchToken = coreDispatcher.register(function({action}) {
     //  switch (action.type) {
@@ -38,6 +44,11 @@ export default Store.extend({
     //      break;
     //  }
     //});
+  },
+
+  // @TODO: たぶん、固有名詞＞(種族|職業)＞初期名 みたいな設定が必要になる
+  _getName() {
+    return this.get('name');
   },
 
   /**
@@ -52,6 +63,25 @@ export default Store.extend({
   _getMaxHp() {
     let b = this._getBaseMaxHp();
     return within(b, MIN_MAX_HP, MAX_MAX_HP);
+  },
+
+  _getWound() {
+    return Math.max(this.maxHp - this.hp, 0);
+  },
+
+  _getHpRate() {
+    return within(this.hp / this.maxHp, 0, 1);
+  },
+
+  _getWoundRate() {
+    return 1.0 - this.hpRate;
+  },
+
+  isFullHp() {
+    // TODO:
+    // バフ効果切れで現HPが最大値を超えることがあったので
+    // それが担保されるまではこの判定
+    return this.hpRate >= 1.0;
   }
 }, {
   MIN_MAX_HP,
@@ -60,24 +90,6 @@ export default Store.extend({
 });
 
 
-//
-//  initialize: ->
-//    @propGetter 'hpRate', '_getHpRate'
-//    @attrGetter 'level'
-//    @attrGetter 'name'
-//    @attrGetter 'rawAgility', 'agility'
-//    @attrGetter 'rawIntelligence', 'intelligence'
-//    @attrGetter 'rawStrength', 'strength'
-//    @propGetter 'wound', '_getWound'
-//    @propGetter 'woundRate', '_getWoundRate'
-//
-//
-//
-//  _getWound: => @maxHp - @hp
-//  _getHpRate: => core.within @hp / @maxHp, 0.0, 1.0
-//  _getWoundRate: => 1.0 - @hpRate
-//  isFullHp: => @hpRate >= 1.0  # バフ効果時間切れのmax-hp低下でオーバーしたことがあったので完全一致は後で
-//
 //  _updateHp: (nextHp) =>
 //    nextHp = core.within nextHp, 0, @maxHp
 //    @set 'hp', nextHp, validate: true

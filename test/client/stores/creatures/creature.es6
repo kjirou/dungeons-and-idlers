@@ -39,7 +39,7 @@ describe('client/stores/creatures/creature module', function() {
     });
   });
 
-  context('hp accessors', function() {
+  context('hp getters', function() {
 
     it('hp', function() {
       let c = new CreatureStore({ hp: 3 });
@@ -80,101 +80,61 @@ describe('client/stores/creatures/creature module', function() {
       assert.strictEqual(c.isFullHp(), true);
     });
   });
+
+  context('hp setters', function() {
+
+    it('beHealed', function() {
+      let c = new CreatureStore({ hp: 3 });
+      sinon.stub(c, '_getMaxHp', () => { return 10; });
+      c.beHealed(4);
+      assert.strictEqual(c.hp, 7);
+      c.beHealed(99);
+      assert.strictEqual(c.hp, 10);
+      c.beHealed(-1);
+      assert.strictEqual(c.hp, 10);
+    });
+
+    it('beHealedByRate', function() {
+      let c = new CreatureStore({ hp: 3 });
+      sinon.stub(c, '_getMaxHp', () => { return 10; });
+      c.beHealedByRate(0.4);
+      assert.strictEqual(c.hp, 7);
+      c.beHealedByRate(0.0001);
+      assert.strictEqual(c.hp, 8);
+    });
+
+    it('beHealedFully', function() {
+      let c = new CreatureStore({ hp: 3 });
+      sinon.stub(c, '_getMaxHp', () => { return 10; });
+      c.beHealedFully();
+      assert.strictEqual(c.hp, 10);
+    });
+
+    it('beDamaged', function() {
+      let c = new CreatureStore({ hp: 7 });
+      sinon.stub(c, '_getMaxHp', () => { return 10; });
+      c.beDamaged(4);
+      assert.strictEqual(c.hp, 3);
+      c.beDamaged(99, { shouldSurvive: true });
+      assert.strictEqual(c.hp, 1);
+      c.beDamaged(99);
+      assert.strictEqual(c.hp, 0);
+      c.beDamaged(-1);
+      assert.strictEqual(c.hp, 0);
+    });
+
+    it('beDamagedByRate', function() {
+      let c = new CreatureStore({ hp: 7 });
+      sinon.stub(c, '_getMaxHp', () => { return 10; });
+      c.beDamagedByRate(0.4);
+      assert.strictEqual(c.hp, 3);
+    });
+
+    it('beDamagedFully', function() {
+      let c = new CreatureStore({ hp: 7 });
+      sinon.stub(c, '_getMaxHp', () => { return 10; });
+      c.beDamagedFully();
+      assert.strictEqual(c.hp, 0);
+    });
+  });
 });
-
-
-//    it 'hp accessors', ->
-//      u = new UnitStore
-//      sinon.stub u, '_getMaxHp', -> 100
-//
-//      u._updateHp 100
-//      assert.strictEqual u.hp, 100
-//      assert.strictEqual u.hpRate, 1.0
-//      assert.strictEqual u.wound, 0
-//      assert.strictEqual u.woundRate, 0.0
-//      assert u.isFullHp()
-//
-//      u._updateHp 75
-//      assert.strictEqual u.hp, 75
-//      assert.strictEqual u.hpRate, 0.75
-//      assert.strictEqual u.wound, 25
-//      assert.strictEqual u.woundRate, 0.25
-//      assert not u.isFullHp()
-//
-//    it 'healed, healedByRate, healedFully', ->
-//      u = new UnitStore
-//      sinon.stub u, '_getMaxHp', -> 100
-//
-//      u._updateHp 1
-//      assert.strictEqual u.hp, 1
-//      delta = u.healed 2
-//      assert.strictEqual u.hp, 3
-//      assert.strictEqual delta, 2
-//
-//      delta = u.healedByRate 0.1
-//      assert.strictEqual u.hp, 13
-//      assert.strictEqual delta, 10
-//
-//      delta = u.healedFully()
-//      assert.strictEqual u.hp, 100
-//      assert.strictEqual delta, 100
-//
-//      u.healed 1
-//      assert.strictEqual u.hp, 100
-//
-//    it 'damaged, damagedByRate, damagedFully', ->
-//      u = new UnitStore
-//      sinon.stub u, '_getMaxHp', -> 100
-//
-//      u.healedFully()
-//      assert.strictEqual u.hp, 100
-//      delta = u.damaged 2
-//      assert.strictEqual u.hp, 98
-//      assert.strictEqual delta, 2
-//
-//      delta = u.damagedByRate 0.1
-//      assert.strictEqual u.hp, 88
-//      assert.strictEqual delta, 10
-//
-//      delta = u.damagedFully()
-//      assert.strictEqual u.hp, 0
-//      assert.strictEqual delta, 100
-//
-//      u.healed 2
-//      delta = u.damaged 1000, shouldSurvive: true
-//      assert.strictEqual u.hp, 1
-//      assert.strictEqual delta, 1000
-//
-//      u.healed 2
-//      delta = u.damagedByRate 0.5, shouldSurvive: true
-//      assert.strictEqual u.hp, 1
-//      assert.strictEqual delta, 50
-//
-//    it 'isDead, isAlive, isActable', ->
-//      u = new UnitStore
-//      sinon.stub u, '_getMaxHp', -> 100
-//
-//      u.healedFully()
-//      assert u.isAlive()
-//      assert u.isActable()
-//      u.damagedFully()
-//      assert u.isDead()
-//      assert not u.isActable()
-//
-//    it 'adaptStates', ->
-//      u = new UnitStore
-//      sinon.stub u, '_getMaxHp', -> 100
-//      u.set 'hp', 200
-//      assert.strictEqual u.hp, 200
-//      u.adaptStates()
-//      assert.strictEqual u.hp, 100
-//
-//    it 'executeFixedlyStates', ->
-//      u = new UnitStore
-//      stub = sinon.stub u, '_getMaxHp', -> 100
-//      u._updateHp 75
-//      assert.strictEqual u.hp, 75
-//      u.executeFixedlyStates ->
-//        stub.restore()
-//        sinon.stub u, '_getMaxHp', -> 200
-//      assert.strictEqual u.hp, 150

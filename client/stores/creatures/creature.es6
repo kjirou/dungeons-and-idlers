@@ -82,6 +82,53 @@ export default Store.extend({
     // バフ効果切れで現HPが最大値を超えることがあったので
     // それが担保されるまではこの判定
     return this.hpRate >= 1.0;
+  },
+
+  _updateHp(nextHp) {
+    let nextHp = within(nextHp, 0, this.maxHp);
+    this.set('hp', nextHp, { validate: true });
+  },
+
+  _updateHpByRate(nextHpRate) {
+    let nextHp = Math.ceil(this.maxHp * nextHpRate);
+    this._updateHp(nextHp);
+  },
+
+  beHealed(points) {
+    points = Math.max(points, 0);
+    let nextHp = this.hp + points;
+    this._updateHp(nextHp);
+    return points;
+  },
+
+  beHealedByRate(rate) {
+    let points = Math.ceil(this.maxHp * rate);
+    return this.beHealed(points);
+  },
+
+  beHealedFully() {
+    return this.beHealedByRate(1);
+  },
+
+  beDamaged(points, options = {}) {
+    options = _.assign({
+      // true の場合、HP が 1 未満にならない
+      shouldSurvive: false
+    }, options);
+    let points = Math.max(points, 0);
+    let nextHp = this.hp - points;
+    if (options.shouldSurvive && nextHp < 1) nextHp = 1;
+    this._updateHp(nextHp);
+    return points;
+  },
+
+  beDamagedByRate(rate) {
+    let points = Math.ceil(this.maxHp * rate);
+    return this.beDamaged(points);
+  },
+
+  beDamagedFully() {
+    return this.beDamagedByRate(1);
   }
 }, {
   MIN_MAX_HP,
@@ -90,35 +137,6 @@ export default Store.extend({
 });
 
 
-//  _updateHp: (nextHp) =>
-//    nextHp = core.within nextHp, 0, @maxHp
-//    @set 'hp', nextHp, validate: true
-//  _updateHpByRate: (nextHpRate) =>
-//    nextHp = Math.ceil @maxHp * nextHpRate
-//    @_updateHp nextHp
-//
-//  healed: (delta) =>
-//    nextHp = @hp + delta
-//    @_updateHp nextHp
-//    delta
-//  healedByRate: (rate) =>
-//    delta = Math.ceil @maxHp * rate
-//    @healed delta
-//  healedFully: => @healedByRate 1.0
-//
-//  damaged: (delta, options={}) =>
-//    options = _.extend {
-//      # trueなら必ずHPが1残る
-//      shouldSurvive: false
-//    }, options
-//    nextHp = @hp - delta
-//    nextHp = 1 if nextHp <= 0 and options.shouldSurvive
-//    @_updateHp nextHp
-//    delta
-//  damagedByRate: (rate, options={}) =>
-//    delta = Math.ceil @maxHp * rate
-//    @damaged delta, options
-//  damagedFully: => @damagedByRate 1.0
 //
 //  isDead: => @hp is 0
 //  isAlive: => not @isDead()

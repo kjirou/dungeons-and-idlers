@@ -129,33 +129,41 @@ export default Store.extend({
 
   beDamagedFully() {
     return this.beDamagedByRate(1);
+  },
+
+  isDead() {
+    return this.hp === 0;
+  },
+
+  isAlive() {
+    return !this.isDead();
+  },
+
+  isActable() {
+    return this.isAlive();
+  },
+
+  /**
+   * 現在HPが最大HPを超えている状態などの、状態の不整合を修正する
+   * HPが範囲外に設定されることはないが、例えばバフが切れて最大HPが下がることはある
+   */
+  adaptStates() {
+    this.beHealed(0);
+  },
+
+  /**
+   * 処理前後で一部の状態を継続する
+   * HPの割合を維持したまま最大値を変更したり
+   */
+  executeFixedlyStates(callback) {
+    let beforeHpRate = this.hpRate;
+    let result = callback.call(this);
+    this._updateHpByRate(beforeHpRate);
+    this.adaptStates();
+    return result;
   }
 }, {
   MIN_MAX_HP,
   MAX_MAX_HP,
   MIN_ATTACK_POWER
 });
-
-
-//
-//  isDead: => @hp is 0
-//  isAlive: => not @isDead()
-//  isActable: => @isAlive()
-//
-//  # 状態の不整合を修正する、現在HPが最大HPを超えている状態など
-//  # HPが範囲外に設定されることはないが、例えばバフが切れて最大HPが下がることはある
-//  adaptStates: =>
-//    @healed 0
-//
-//  # 任意の処理前後で一部のステータスを継続する
-//  executeFixedlyStates: (callback) =>
-//    beforeHpRate = @hpRate
-//    result = callback.call @
-//    @_updateHpByRate beforeHpRate
-//    result
-//
-//
-//exports.FriendUnitStore = class FriendUnitStore extends UnitStore
-//
-//
-//exports.EnemyUnitStore = class EnemyUnitStore extends UnitStore

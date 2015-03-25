@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import {} from 'client/lib/calculation';
 import {within} from 'client/lib/core';
 import CoreDispatcher from 'client/dispatcher/core';
 import Store from 'client/stores/store';
@@ -14,7 +13,7 @@ export default Store.extend({
 
   _defaults() {
     return {
-      name: 'Unknown',
+      name: '',
       level: 1,
       hp: MIN_MAX_HP
     };
@@ -34,6 +33,8 @@ export default Store.extend({
     this.propGetter('maxHp', '_getMaxHp');
     this.propGetter('name', '_getName');
     this.propGetter('hpRate', '_getHpRate');
+    this.propGetter('magicalAttackPower', '_getMagicalAttackPower');
+    this.propGetter('physicalAttackPower', '_getPhysicalAttackPower');
     this.propGetter('wound', '_getWound');
     this.propGetter('woundRate', '_getWoundRate');
 
@@ -161,6 +162,14 @@ export default Store.extend({
     this._updateHpByRate(beforeHpRate);
     this.adaptStates();
     return result;
+  },
+
+  _getPhysicalAttackPower() {
+    return 0;
+  },
+
+  _getMagicalAttackPower() {
+    return 0;
   }
 }, {
   MIN_MAX_HP,

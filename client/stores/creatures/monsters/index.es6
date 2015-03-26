@@ -1,3 +1,4 @@
+import {dictionarize} from 'client/lib/core';
 import MonsterStore from 'client/stores/creatures/monsters/monster';
 
 
@@ -25,13 +26,7 @@ export var MinotaurStore = MonsterStore.extend({}, {
 });
 
 
-export var monsters = ((monsterClasses) => {
-  let mapped = {};
-  monsterClasses.forEach((monsterClass) => {
-    mapped[monsterClass.typeId] = monsterClass;
-  });
-  return mapped;
-})([
+export var monsters = dictionarize([
   GoblinStore,
   MinotaurStore
-]);
+], 'typeId');

@@ -2,7 +2,7 @@ import React from 'react';
 
 import CardIconComponent from 'client/components/partials/card-icon';
 import {createComponentClassName} from 'client/lib/view';
-import ComponentMixin from 'client/mixins/component';
+import ComponentMixin from 'client/lib/mixins/component';
 
 
 export default React.createClass({

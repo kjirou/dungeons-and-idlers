@@ -6,8 +6,8 @@ import CardHolderComponent from 'client/components/partials/card-holder';
 import HandCardsComponent from 'client/components/partials/hand-cards';
 import InventoryComponent from 'client/components/partials/inventory';
 import {compileJsxTemplate, createPageComponentClassName} from 'client/lib/view';
-import ComponentMixin from 'client/mixins/component';
-import PageComponentMixin from 'client/mixins/page-component';
+import ComponentMixin from 'client/lib/mixins/component';
+import PageComponentMixin from 'client/lib/mixins/page-component';
 
 
 export default React.createClass({

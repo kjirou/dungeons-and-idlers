@@ -5,7 +5,7 @@ import HomePageComponent from 'client/components/pages/home';
 import PartyPageComponent from 'client/components/pages/party';
 import WelcomePageComponent from 'client/components/pages/welcome';
 import {createComponentClassName} from 'client/lib/view';
-import ComponentMixin from 'client/mixins/component';
+import ComponentMixin from 'client/lib/mixins/component';
 import ScreenStore from 'client/stores/screen';
 
 

@@ -1,7 +1,7 @@
 import {Dispatcher} from 'flux';
 import _ from 'lodash';
 
-import SingletonMixin from 'client/mixins/singleton';
+import SingletonMixin from 'client/lib/mixins/singleton';
 
 
 export default class CoreDispatcher extends Dispatcher {

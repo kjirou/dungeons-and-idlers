@@ -1,7 +1,7 @@
 import MonsterStore from 'client/stores/creatures/monsters/monster';
 
 
-export GoblinStore = MonsterStore.extend({}, {
+export var GoblinStore = MonsterStore.extend({}, {
   typeId: 'goblin',
   maxHp: 3,
   physicalAttackPower: 1,
@@ -11,7 +11,7 @@ export GoblinStore = MonsterStore.extend({}, {
   ]
 });
 
-export MinotaurStore = MonsterStore.extend({}, {
+export var MinotaurStore = MonsterStore.extend({}, {
   typeId: 'minotaur',
   maxHp: 5,
   physicalAttackPower: 2,
@@ -25,16 +25,13 @@ export MinotaurStore = MonsterStore.extend({}, {
 });
 
 
-let monsters = ((monsterClasses) => {
-  let mappedMonsters = {};
+export var monsters = ((monsterClasses) => {
+  let mapped = {};
   monsterClasses.forEach((monsterClass) => {
-    mappedMonsters[monsterClass.typeId] = monsterClass;
+    mapped[monsterClass.typeId] = monsterClass;
   });
-  return mappedMonsters;
+  return mapped;
 })([
   GoblinStore,
   MinotaurStore
 ]);
-
-
-export const monsters = monsters;

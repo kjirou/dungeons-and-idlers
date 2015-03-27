@@ -12,7 +12,7 @@ const MIN_ATTACK_POWER = 0;
 
 export default Store.extend(_.assign({}, NamingMixin, {
 
-  _defaults() {
+  defaults() {
     return {
       name: '',
       level: 1,
@@ -20,12 +20,7 @@ export default Store.extend(_.assign({}, NamingMixin, {
     };
   },
 
-  defaults() {
-    return this._defaults();
-  },
-
   initialize() {
-    let self = this;
     this._coreDispatcher = CoreDispatcher.getInstance();
 
     this.attrGetter('hp');
@@ -38,14 +33,6 @@ export default Store.extend(_.assign({}, NamingMixin, {
     this.propGetter('physicalAttackPower', '_getPhysicalAttackPower');
     this.propGetter('wound', '_getWound');
     this.propGetter('woundRate', '_getWoundRate');
-
-    //this.dispatchToken = coreDispatcher.register(function({action}) {
-    //  switch (action.type) {
-    //    case 'change_page':
-    //      self.set('pageId', action.pageId);
-    //      break;
-    //  }
-    //});
   },
 
   getName() {

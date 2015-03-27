@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import {within} from 'client/lib/core';
+import NamingMixin from 'client/lib/mixins/naming';
 import CoreDispatcher from 'client/dispatcher/core';
 import Store from 'client/stores/store';
 
@@ -9,7 +10,7 @@ const MIN_MAX_HP = 1;
 const MAX_MAX_HP = 9999;
 const MIN_ATTACK_POWER = 0;
 
-export default Store.extend({
+export default Store.extend(_.assign({}, NamingMixin, {
 
   _defaults() {
     return {
@@ -31,7 +32,7 @@ export default Store.extend({
     this.attrGetter('level');
 
     this.propGetter('maxHp', '_getMaxHp');
-    this.propGetter('name', '_getName');
+    this.propGetter('name', 'getName');
     this.propGetter('hpRate', '_getHpRate');
     this.propGetter('magicalAttackPower', '_getMagicalAttackPower');
     this.propGetter('physicalAttackPower', '_getPhysicalAttackPower');
@@ -47,9 +48,8 @@ export default Store.extend({
     //});
   },
 
-  // @TODO: たぶん、固有名詞＞(種族|職業)＞初期名 みたいな設定が必要になる
-  _getName() {
-    return this.get('name');
+  getName() {
+    return this.get('name') || NamingMixin.getName.call(this);
   },
 
   /**
@@ -171,7 +171,7 @@ export default Store.extend({
   _getMagicalAttackPower() {
     return 0;
   }
-}, {
+}), {
   MIN_MAX_HP,
   MAX_MAX_HP,
   MIN_ATTACK_POWER

@@ -7,8 +7,9 @@ import CreatureStore from 'client/stores/creatures/creature';
 
 export default CreatureStore.extend({
 
-  _getName() {
-    return this.get('name') || _s.titleize(_s.humanize(this.constructor.typeId));
+  getName() {
+    return CreatureStore.prototype.getName.apply(this) ||
+      _s.titleize(_s.humanize(this.constructor.typeId));
   },
 
   _getBaseMaxHp() {

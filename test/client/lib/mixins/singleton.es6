@@ -1,10 +1,10 @@
 import assert from 'assert'
 import _ from 'lodash'
 
-import SingletonMixin from 'client/mixins/singleton'
+import SingletonMixin from 'client/lib/mixins/singleton'
 
 
-describe('client/mixins/singleton module', () => {
+describe('client/lib/mixins/singleton module', () => {
 
   it('module definition', () => {
     assert.strictEqual(typeof SingletonMixin, 'object');

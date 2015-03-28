@@ -3,8 +3,8 @@ import React from 'react';
 
 import ScreenActionCreators from 'client/actions/screen-action-creators';
 import {compileJsxTemplate, createPageComponentClassName} from 'client/lib/view';
-import ComponentMixin from 'client/mixins/component';
-import PageComponentMixin from 'client/mixins/page-component';
+import ComponentMixin from 'client/lib/mixins/component';
+import PageComponentMixin from 'client/lib/mixins/page-component';
 
 
 export default React.createClass({

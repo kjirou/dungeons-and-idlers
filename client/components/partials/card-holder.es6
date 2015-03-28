@@ -3,7 +3,7 @@ import React from 'react';
 import BuffListComponent from 'client/components/partials/buff-list';
 import CardComponent from 'client/components/partials/card';
 import {createComponentClassName} from 'client/lib/view';
-import ComponentMixin from 'client/mixins/component';
+import ComponentMixin from 'client/lib/mixins/component';
 
 
 export default React.createClass({

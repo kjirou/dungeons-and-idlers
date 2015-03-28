@@ -1,7 +1,7 @@
 import Backbone from 'backbone';
 import _ from 'lodash';
 
-import SingletonMixin from 'client/mixins/singleton';
+import SingletonMixin from 'client/lib/mixins/singleton';
 
 
 export default Backbone.Model.extend({

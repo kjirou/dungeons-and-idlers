@@ -3,7 +3,7 @@ import React from 'react';
 import ScreenActionCreators from 'client/actions/screen-action-creators';
 import {NAVIGATION_BAR_HEIGHT} from 'client/constants';
 import {createComponentClassName} from 'client/lib/view';
-import ComponentMixin from 'client/mixins/component';
+import ComponentMixin from 'client/lib/mixins/component';
 
 
 export default React.createClass({

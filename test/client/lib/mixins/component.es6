@@ -1,11 +1,11 @@
 import assert from 'assert';
 import React from 'react';
 
-import ComponentMixin from 'client/mixins/component';
+import ComponentMixin from 'client/lib/mixins/component';
 import Store from 'client/stores/store';
 
 
-describe('client/mixin/component module', function() {
+describe('client/lib/mixins/component module', function() {
 
   it('pipeStoreAttributeToState', function() {
     let store = new (Store.extend({

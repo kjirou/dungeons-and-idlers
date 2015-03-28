@@ -2,7 +2,7 @@ import React from 'react';
 
 import BuffComponent from 'client/components/partials/buff';
 import {createComponentClassName} from 'client/lib/view';
-import ComponentMixin from 'client/mixins/component';
+import ComponentMixin from 'client/lib/mixins/component';
 
 
 export default React.createClass({

@@ -82,11 +82,24 @@ japanese-font-family()
 
 
 #js-game-container .home-page-component
+  .inner_page
+    clearfix()
+    .side
+      margin-top: 8px
+      width: 352px  // 400 - 32 - 16(中間)
+      &.left-side
+        float: left
+        margin-left: 32px
+      &.right-side
+        float: right
+        margin-right: 32px
+      h2
+        line-height: 48px
+        font-size: 32px
+        text-align: center
   .village_states
-    position: absolute
-    top: 16px
-    left: 5%
-    width: 43%
+    margin-top: 8px
+    width: 100%
     font-size: 28px
     text-align: left
     tr
@@ -100,11 +113,12 @@ japanese-font-family()
           font-size: 14px
       td.others
         .upgrade_button
-          margin-left: 10px
-          buttonize(80px, 28px)
-      &.adventurers
+          margin: 0 auto
+          buttonize(64px, 28px)
+      &.adventurers,
+      &.dungeons
         .separator
-          padding: 0 2px
+          padding: 0 3px
           font-size: 20px
         .max
           font-size: 20px

@@ -13,7 +13,7 @@ export default function homePageTemplate({
       <div className='inner_page'>
         <div className='left-side side'>
           <h2>Village</h2>
-          <table className='village_states'>
+          <table className='village'>
             <tr className='fame'>
               <th>Fame</th>
               <td className='value'>999</td>
@@ -54,6 +54,27 @@ export default function homePageTemplate({
         </div>
         <div className='right-side side'>
           <h2>Visitors</h2>
+          <ul className='visitors'>
+          {
+            [
+              ['Fighter'],
+              ['Mage'],
+              ['Priest'],
+              ['Ranger'],
+              ['Thief']
+            ].map(([ label ], idx) => {
+              return (
+                <li>
+                  <div className='icon invalid-symbol-bg_img'></div>
+                  <div className='detail'>
+                    <div className='row-1 row'>{label}</div>
+                    <div className='row-2 row'><span className='current'>99:59:59</span><span className='separator'>/</span><span className='max'>80:00:00</span></div>
+                  </div>
+                </li>
+              );
+            })
+          }
+          </ul>
         </div>
       </div>
     {/*

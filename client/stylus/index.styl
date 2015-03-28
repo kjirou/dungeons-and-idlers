@@ -97,7 +97,7 @@ japanese-font-family()
         line-height: 48px
         font-size: 32px
         text-align: center
-  .village_states
+  table.village
     margin-top: 8px
     width: 100%
     font-size: 28px
@@ -122,8 +122,44 @@ japanese-font-family()
           font-size: 20px
         .max
           font-size: 20px
-  .start_game-button
-    buttonize(200px, 50px)
+  ul.visitors
+    margin-top: 8px
+    width: 100%
+    text-align: left
+    clearfix()
+    li
+      float: left
+      display: block
+      width: 176px
+      height: 48px
+      clearfix()
+      >.icon
+        float: left
+        width: 32px
+        height: 32px
+        padding: 4px
+        background-repeat: no-repeat
+        background-position: 4px
+      >.detail
+        float: right
+        width: 136px
+        height: 100%
+        .row
+          &.row-1
+            height: 18px
+            line-height: 18px
+            font-size: 18px
+          &.row-2
+            height: 22px
+            line-height: 22px
+            letter-spacing: 1px
+            .current
+              font-size: 20px
+            .separator
+              padding: 0 2px
+              font-size: 16px
+            .max
+              font-size: 20px
 
 
 #js-game-container .inventory-component

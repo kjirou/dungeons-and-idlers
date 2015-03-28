@@ -126,7 +126,7 @@ japanese-font-family()
     margin-top: 8px
     width: 100%
     li
-      margin-top: 2px
+      margin-top: 4px
       display: block
       height: 64px
       clearfix()
@@ -134,12 +134,11 @@ japanese-font-family()
         float: left
         width: 128px
         height: 100%
-        background-color: #fff
         cursor: pointer
       .detail
         float: right
-        margin-left: 4px
-        width: 220px
+        margin-left: 6px
+        width: 218px
         height: 100%
         text-align: left
         .title
@@ -448,6 +447,10 @@ japanese-font-family()
   for $id in 'box' 'chest' 'downstairs' 'jewel' 'gold' 'key'
     .{$id}-object-bg_img
       background-image: url('/materials/images/denzi/parts/objects/' + $id + '.png')
+  // paints
+  for $id in 'bar' 'dungeon' 'gate' 'library' 'shop'
+    .{$id}-paint-bg_img
+      background-image: url('/materials/images/denzi/parts/paints/' + $id + '.png')
   // symbols
   for $id in 'invalid'
     .{$id}-symbol-bg_img

@@ -58,7 +58,7 @@ export default function homePageTemplate({
         <div className='right-side side'>
           <ul className='links'>
             <li>
-              <div className='image'></div>
+              <div className='image dungeon-paint-bg_img' onMouseDown={onMouseDownStartGame}></div>
               <div className='detail'>
                 <div className='title'>Dungeon</div>
                 <div className='description'>
@@ -68,7 +68,7 @@ export default function homePageTemplate({
               </div>
             </li>
             <li>
-              <div className='image'></div>
+              <div className='image gate-paint-bg_img'></div>
               <div className='detail'>
                 <div className='title'>Visitor</div>
                 <div className='description'>
@@ -78,7 +78,7 @@ export default function homePageTemplate({
               </div>
             </li>
             <li>
-              <div className='image'></div>
+              <div className='image bar-paint-bg_img'></div>
               <div className='detail'>
                 <div className='title'>Party</div>
                 <div className='description'>
@@ -88,7 +88,7 @@ export default function homePageTemplate({
               </div>
             </li>
             <li>
-              <div className='image'></div>
+              <div className='image library-paint-bg_img'></div>
               <div className='detail'>
                 <div className='title'>Card</div>
                 <div className='description'>
@@ -97,7 +97,7 @@ export default function homePageTemplate({
               </div>
             </li>
             <li>
-              <div className='image'></div>
+              <div className='image shop-paint-bg_img'></div>
               <div className='detail'>
                 <div className='title'>Shop</div>
                 <div className='description'>
@@ -135,11 +135,6 @@ export default function homePageTemplate({
         </div>
 
       </div>
-    {/*
-      <div className='inner_page'>
-        <div className='start_game-button' onMouseDown={onMouseDownStartGame}>Start Game</div>
-      </div>
-    */}
     </div>
   );
 }

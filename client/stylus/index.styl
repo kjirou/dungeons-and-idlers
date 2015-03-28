@@ -51,7 +51,7 @@ japanese-font-family()
         li
           display: block
           float: left
-          width: 160px
+          width: 100px
           height: unit(NAVIGATION_BAR_HEIGHT, 'px')
           line-height: unit(NAVIGATION_BAR_HEIGHT, 'px')
           text-align: center
@@ -59,7 +59,7 @@ japanese-font-family()
             display: block
             width: 100%
             height: 100%
-            font-size: 24px
+            font-size: 20px
             cursor: pointer
 
     .inner_page
@@ -97,7 +97,7 @@ japanese-font-family()
         line-height: 48px
         font-size: 32px
         text-align: center
-  table.village
+  table.village_information
     margin-top: 8px
     width: 100%
     font-size: 28px
@@ -122,6 +122,36 @@ japanese-font-family()
           font-size: 20px
         .max
           font-size: 20px
+  ul.links
+    margin-top: 8px
+    width: 100%
+    li
+      margin-top: 2px
+      display: block
+      height: 64px
+      clearfix()
+      .image
+        float: left
+        width: 128px
+        height: 100%
+        background-color: #fff
+        cursor: pointer
+      .detail
+        float: right
+        margin-left: 4px
+        width: 220px
+        height: 100%
+        text-align: left
+        .title
+          height: 28px
+          line-height: 28px
+          font-size: 22px
+        .description
+          height: 36px
+          line-height: 12px
+          japanese-font-family()
+          font-size: 10px
+
   ul.visitors
     margin-top: 8px
     width: 100%

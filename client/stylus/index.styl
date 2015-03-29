@@ -51,7 +51,7 @@ japanese-font-family()
         li
           display: block
           float: left
-          width: 160px
+          width: 100px
           height: unit(NAVIGATION_BAR_HEIGHT, 'px')
           line-height: unit(NAVIGATION_BAR_HEIGHT, 'px')
           text-align: center
@@ -59,7 +59,7 @@ japanese-font-family()
             display: block
             width: 100%
             height: 100%
-            font-size: 24px
+            font-size: 20px
             cursor: pointer
 
     .inner_page
@@ -82,8 +82,113 @@ japanese-font-family()
 
 
 #js-game-container .home-page-component
-  .start_game-button
-    buttonize(200px, 50px)
+  .inner_page
+    clearfix()
+    .side
+      margin-top: 8px
+      width: 352px  // 400 - 32 - 16(中間)
+      &.left-side
+        float: left
+        margin-left: 32px
+      &.right-side
+        float: right
+        margin-right: 32px
+      h2
+        line-height: 48px
+        font-size: 32px
+        text-align: center
+  table.village_information
+    margin-top: 8px
+    width: 100%
+    font-size: 28px
+    text-align: left
+    tr
+      height: 48px
+      line-height: 48px
+      th
+        font-size: 28px
+      td.unit
+        font-size: 18px
+        &.ja
+          font-size: 14px
+      td.others
+        .upgrade_button
+          margin: 0 auto
+          buttonize(64px, 28px)
+      &.adventurers,
+      &.dungeons
+        .separator
+          padding: 0 3px
+          font-size: 20px
+        .max
+          font-size: 20px
+  ul.links
+    margin-top: 8px
+    width: 100%
+    li
+      margin-top: 4px
+      display: block
+      height: 64px
+      clearfix()
+      .image
+        float: left
+        width: 128px
+        height: 100%
+        cursor: pointer
+      .detail
+        float: right
+        margin-left: 6px
+        width: 218px
+        height: 100%
+        text-align: left
+        .title
+          height: 28px
+          line-height: 28px
+          font-size: 22px
+        .description
+          height: 36px
+          line-height: 12px
+          japanese-font-family()
+          font-size: 10px
+
+  ul.visitors
+    margin-top: 8px
+    width: 100%
+    text-align: left
+    clearfix()
+    li
+      float: left
+      display: block
+      width: 176px
+      height: 48px
+      clearfix()
+      >.icon
+        float: left
+        width: 32px
+        height: 32px
+        padding: 4px
+        background-repeat: no-repeat
+        background-position: 4px
+      >.detail
+        float: right
+        width: 136px
+        height: 100%
+        .row
+          &.row-1
+            height: 18px
+            line-height: 18px
+            font-size: 18px
+          &.row-2
+            height: 22px
+            line-height: 22px
+            letter-spacing: 1px
+            .current
+              font-size: 20px
+            .separator
+              padding: 0 2px
+              font-size: 16px
+            .max
+              font-size: 20px
 
 
 #js-game-container .inventory-component
@@ -342,6 +447,10 @@ japanese-font-family()
   for $id in 'box' 'chest' 'downstairs' 'jewel' 'gold' 'key'
     .{$id}-object-bg_img
       background-image: url('/materials/images/denzi/parts/objects/' + $id + '.png')
+  // paints
+  for $id in 'bar' 'dungeon' 'gate' 'library' 'shop'
+    .{$id}-paint-bg_img
+      background-image: url('/materials/images/denzi/parts/paints/' + $id + '.png')
   // symbols
   for $id in 'invalid'
     .{$id}-symbol-bg_img

@@ -69,6 +69,22 @@ japanese-font-family()
       height: unit(INNER_PAGE_HEIGHT, 'px')
 
 
+#js-game-container .inventory-component
+  position: absolute
+  width: 66px  // 32 * 2 + 2 * 1
+  height: 202px  // 32 * 6 + 2 * 5
+  border-top: 2px solid $TEXT_COLOR
+  border-right: 2px solid $TEXT_COLOR
+  border-bottom: 2px solid $TEXT_COLOR
+  border-left: 2px solid $TEXT_COLOR
+  .pocket
+    position: absolute
+    width: 32px
+    height: 32px
+    border-right: 2px solid $TEXT_COLOR
+    border-bottom: 2px solid $TEXT_COLOR
+
+
 #js-game-container .welcome-page-component
   cursor: pointer
   h2
@@ -151,60 +167,48 @@ japanese-font-family()
           japanese-font-family()
           font-size: 10px
 
-  ul.visitors
-    margin-top: 8px
-    width: 100%
-    text-align: left
-    clearfix()
-    li
-      float: left
-      display: block
-      width: 176px
-      height: 48px
-      clearfix()
-      >.icon
-        float: left
-        width: 32px
-        height: 32px
-        padding: 4px
-        background-repeat: no-repeat
-        background-position: 4px
-      >.detail
-        float: right
-        width: 136px
-        height: 100%
-        .row
-          &.row-1
-            height: 18px
-            line-height: 18px
-            font-size: 18px
-          &.row-2
-            height: 22px
-            line-height: 22px
-            letter-spacing: 1px
-            .current
-              font-size: 20px
-            .separator
-              padding: 0 2px
-              font-size: 16px
-            .max
-              font-size: 20px
 
+#js-game-container .visitor-page-component
+  color: blue
 
-#js-game-container .inventory-component
-  position: absolute
-  width: 66px  // 32 * 2 + 2 * 1
-  height: 202px  // 32 * 6 + 2 * 5
-  border-top: 2px solid $TEXT_COLOR
-  border-right: 2px solid $TEXT_COLOR
-  border-bottom: 2px solid $TEXT_COLOR
-  border-left: 2px solid $TEXT_COLOR
-  .pocket
-    position: absolute
-    width: 32px
-    height: 32px
-    border-right: 2px solid $TEXT_COLOR
-    border-bottom: 2px solid $TEXT_COLOR
+//  ul.visitors
+//    margin-top: 8px
+//    width: 100%
+//    text-align: left
+//    clearfix()
+//    li
+//      float: left
+//      display: block
+//      width: 176px
+//      height: 48px
+//      clearfix()
+//      >.icon
+//        float: left
+//        width: 32px
+//        height: 32px
+//        padding: 4px
+//        background-repeat: no-repeat
+//        background-position: 4px
+//      >.detail
+//        float: right
+//        width: 136px
+//        height: 100%
+//        .row
+//          &.row-1
+//            height: 18px
+//            line-height: 18px
+//            font-size: 18px
+//          &.row-2
+//            height: 22px
+//            line-height: 22px
+//            letter-spacing: 1px
+//            .current
+//              font-size: 20px
+//            .separator
+//              padding: 0 2px
+//              font-size: 16px
+//            .max
+//              font-size: 20px
 
 
 #js-game-container .game-page-component

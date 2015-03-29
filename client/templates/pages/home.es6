@@ -61,8 +61,8 @@ export default function homePageTemplate({
               <div className='detail'>
                 <div className='title'>Visitor</div>
                 <div className='description'>
-                  来訪する冒険者の受け入れを行います<br/>
-                  新規開拓や来訪者数向上などの施策もできます
+                  来訪する冒険者を受け入れます<br/>
+                  冒険者は時間経過で来訪します
                 </div>
               </div>
             </li>
@@ -71,7 +71,7 @@ export default function homePageTemplate({
               <div className='detail'>
                 <div className='title'>Party</div>
                 <div className='description'>
-                  冒険者同士を引き合わせパーティ編成をします<br/>
+                  冒険者を引き合わせパーティ編成します<br/>
                   カードの装備もここで行います
                 </div>
               </div>
@@ -90,7 +90,7 @@ export default function homePageTemplate({
               <div className='detail'>
                 <div className='title'>Shop</div>
                 <div className='description'>
-                  カードを購入できるお店です<br/>
+                  カードが購入できます<br/>
                   商品は時間経過で更新されます
                 </div>
               </div>

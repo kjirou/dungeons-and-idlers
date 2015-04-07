@@ -10,7 +10,7 @@ export default function partyPageTemplate({
     <div className={className} style={style}>
       <navigationBar.NavigationBarComponent />
       <div className='inner_page'>
-        <h2>PARTY PAGE</h2>
+        <h2>Character Page</h2>
       </div>
     </div>
   );

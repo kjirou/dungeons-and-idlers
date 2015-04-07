@@ -23,6 +23,8 @@ export default class App {
 
   /**
    * 実行環境を示すキーを返す
+   *
+   * node から実行時には NODE_ENV は必ず存在するものとする
    */
   static getEnv() {
     return this._env || (this.isNode() ? process.env.NODE_ENV : 'client');

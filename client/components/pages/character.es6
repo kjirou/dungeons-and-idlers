@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 var {DOM} = React;
 
+import CardComponent from 'client/components/partials/card';
 import NavigationBarComponent from 'client/components/partials/navigation-bar';
 import {compileJsxTemplate, createPageComponentClassName} from 'client/lib/view';
 import ComponentMixin from 'client/lib/mixins/component';

@@ -6,7 +6,6 @@ import ScreenComponent from 'client/components/screen';
 import {SCREEN_WIDTH, SCREEN_HEIGHT} from 'client/constants';
 import CoreDispatcher from 'client/dispatcher/core';
 import ScreenStore from 'client/stores/screen';
-import VisitStore from 'client/stores/visit';
 
 
 export default class App {
@@ -16,8 +15,7 @@ export default class App {
    */
   static clearStores() {
     [
-      ScreenStore,
-      VisitStore
+      ScreenStore
     ].forEach((storeClass) => {
       storeClass.clearInstance();
     });
@@ -29,11 +27,9 @@ export default class App {
    */
   static initializeStores() {
     let screenStore = ScreenStore.getInstance();
-    let visitStore = VisitStore.getInstance();
 
     return {
-      screenStore,
-      visitStore
+      screenStore
     };
   }
 
@@ -64,9 +60,10 @@ export default class App {
    * @return {Promise}
    */
   loadStorages() {
-    return Promise.all([
-      this._stores.visitStore.restore()
-    ]);
+    return Promise.resolve();
+    //return Promise.all([
+    //  this._stores.visitStore.restore()
+    //]);
   }
 
   /**

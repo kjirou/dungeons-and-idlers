@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import {dictionarize, within} from 'client/lib/core';
+import {dictionarize, listize, within} from 'client/lib/core';
 
 
 describe('client/lib/core module', function() {
@@ -22,6 +22,19 @@ describe('client/lib/core module', function() {
         foo: { type: 'foo', value: 1 },
         bar: { type: 'bar', value: 2 }
       }
+    );
+  });
+
+  it('listize', function() {
+    assert.deepEqual(
+      listize({
+        foo: { value: 1 },
+        bar: { value: 2 }
+      }, 'type'),
+      [
+        { type: 'foo', value: 1 },
+        { type: 'bar', value: 2 }
+      ]
     );
   });
 });

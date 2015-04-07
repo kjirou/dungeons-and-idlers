@@ -61,6 +61,9 @@ export default class App {
    */
   loadStorages() {
     return Promise.resolve();
+    //return Promise.all([
+    //  this._stores.visitStore.restore()
+    //]);
   }
 
   /**

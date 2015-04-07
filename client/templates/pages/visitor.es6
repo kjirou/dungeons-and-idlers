@@ -9,9 +9,10 @@ export default function homePageTemplate({
 }) {
   return (
     <div className={className} style={style}>
-      <navigationBar.NavigationBarComponent />
-      <div className='inner_page'>
 
+      <navigationBar.NavigationBarComponent />
+
+      <div className='inner_page'>
         <div className='left-side side'>
           <h2>Village Information</h2>
           <table className='village_information'>
@@ -57,45 +58,6 @@ export default function homePageTemplate({
         <div className='right-side side'>
           <ul className='links'>
             <li>
-              <div className='image gate-paint-bg_img'></div>
-              <div className='detail'>
-                <div className='title'>Visitor</div>
-                <div className='description'>
-                  来訪する冒険者を受け入れます<br/>
-                  冒険者は時間経過で来訪します
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className='image bar-paint-bg_img'></div>
-              <div className='detail'>
-                <div className='title'>Party</div>
-                <div className='description'>
-                  冒険者を引き合わせパーティ編成します<br/>
-                  カードの装備もここで行います
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className='image library-paint-bg_img'></div>
-              <div className='detail'>
-                <div className='title'>Card</div>
-                <div className='description'>
-                  所持しているカードの一覧です
-                </div>
-              </div>
-            </li>
-            <li>
-              <div className='image shop-paint-bg_img'></div>
-              <div className='detail'>
-                <div className='title'>Shop</div>
-                <div className='description'>
-                  カードが購入できます<br/>
-                  商品は時間経過で更新されます
-                </div>
-              </div>
-            </li>
-            <li>
               <div className='image dungeon-paint-bg_img' onMouseDown={onMouseDownStartGame}></div>
               <div className='detail'>
                 <div className='title'>Dungeon</div>
@@ -105,7 +67,71 @@ export default function homePageTemplate({
                 </div>
               </div>
             </li>
+            <li>
+              <div className='image gate-paint-bg_img'></div>
+              <div className='detail'>
+                <div className='title'>Visitor</div>
+                <div className='description'>
+                  来訪する冒険者の受け入れを行います<br/>
+                  新規開拓や来訪者数向上などの施策もできます
+                </div>
+              </div>
+            </li>
+            <li>
+              <div className='image bar-paint-bg_img'></div>
+              <div className='detail'>
+                <div className='title'>Party</div>
+                <div className='description'>
+                  冒険者同士を引き合わせパーティ編成をします<br/>
+                  カードの装備もここで行います
+                </div>
+              </div>
+            </li>
+            <li>
+              <div className='image library-paint-bg_img'></div>
+              <div className='detail'>
+                <div className='title'>Card</div>
+                <div className='description'>
+                  所持中の各種カード一覧です
+                </div>
+              </div>
+            </li>
+            <li>
+              <div className='image shop-paint-bg_img'></div>
+              <div className='detail'>
+                <div className='title'>Shop</div>
+                <div className='description'>
+                  カードを購入できるお店です<br/>
+                  商品は時間経過で更新されます
+                </div>
+              </div>
+            </li>
           </ul>
+
+{/*
+          <h2>Visitors</h2>
+          <ul className='visitors'>
+          {
+            [
+              ['Fighter'],
+              ['Mage'],
+              ['Priest'],
+              ['Ranger'],
+              ['Thief']
+            ].map(([ label ], idx) => {
+              return (
+                <li>
+                  <div className='icon invalid-symbol-bg_img'></div>
+                  <div className='detail'>
+                    <div className='row-1 row'>{label}</div>
+                    <div className='row-2 row'><span className='current'>99:59:59</span><span className='separator'>/</span><span className='max'>80:00:00</span></div>
+                  </div>
+                </li>
+              );
+            })
+          }
+          </ul>
+*/}
         </div>
 
       </div>

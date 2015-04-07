@@ -19,11 +19,11 @@ export default React.createClass({
   render: function render() {
     let pageIds = [
       { id: 'home', label: 'Home' },
-      { id: 'dungeon', label: 'Dungeon' },
       { id: 'visitor', label: 'Visitor' },
       { id: 'party', label: 'Party' },
       { id: 'card', label: 'Card' },
       { id: 'shop', label: 'Shop' },
+      { id: 'dungeon', label: 'Dungeon' },
       { id: 'config', label: 'Config' },
       { id: 'help', label: 'Help' }
     ];

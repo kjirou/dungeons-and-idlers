@@ -7,6 +7,18 @@ import {jobs} from 'client/lib/jobs';
 import Store from 'client/stores/store';
 
 
+// レベル管理をモジュール化する？
+//const VISIT_LEVELS = (() => {
+//  return [
+//    [null, 0],
+//  ].map(([intervalHours, necessaryMoney], idx) => {
+//    return {
+//      level: idx
+//    };
+//  });
+//})();
+
+
 export default Store.extend({
 
   defaults() {
@@ -22,8 +34,7 @@ export default Store.extend({
   _createDefaultVisitorData() {
     return {
       level: 0,
-      isVisited: false,
-      startedAt: null
+      lastVisitedAt: null
     };
   },
 
@@ -50,55 +61,55 @@ export default Store.extend({
     });
   },
 
-  // コネクションレベルと来訪間隔
-  //
-  // 見た目いい感じの最大LVを最初に決めて、間隔は適当にする
-  //
-  // 等倍でやると後半の方が1目盛の価値が上がるし
-  // それにお金を掛けるとなんかわかりにくいし
-  //
-  // 誰をどこまで上げればのメリハリもつけにくいので、
-  // とりあえず 5 まで上げる感じに調整する
-  //
-  // Lv0 = 未契約
-  //   1 = 24h (+ 即座に一人)
-  //   2 = 21h
-  //   3 = 18h
-  //   4 = 15h
-  //   5 = 12h
-  //   6 = 10h
-  //   7 = 9h
-  //   8 = 8h
-  //   9 = 7h
-  //  10 = 6h
+  /**
+   * 来訪レベルから来訪間隔をミリ秒で取得する
+   *
+   * 要件
+   * - 最大レベルは 10,12,15 とか、ある程度キリのいい値
+   * - 目標を作り易いように、5 までは上昇しやすく上がり幅も大きくする
+   *
+   * @return {number|null}
+   */
+  _getIntervalByVisitLevel(level) {
+    let hourTime = 60 * 60 * 1000;
+    return {
+      1: 24 * hourTime,
+      2: 21 * hourTime,
+      3: 18 * hourTime,
+      4: 15 * hourTime,
+      5: 12 * hourTime,
+      6: 10 * hourTime,
+      7: 9 * hourTime,
+      8: 8 * hourTime,
+      9: 7 * hourTime,
+      10: 6 * hourTime
+    }[level] || null;
+  },
 
-  // マスターがずれた場合に整合させる処理
+  _isMaxVisitLevel(level) {
+  },
+
   restore() {
     var now = (new Date()).getTime();
 
     var dummyStorageData = {
       fighter: {
         level: 5,
-        isVisited: true,
-        startedAt: now - 86400000 / 2
+        lastVisitedAt: now - 86400000 / 2
       },
       theif: {
         level: 1,
-        isVisited: false,
-        startedAt: now - 86400000
+        lastVisitedAt: now - 86400000
       },
       mage: {
         level: 3,
-        isVisited: false,
-        startedAt: now - 86400000 / 4,
-        isFoo: true  // 存在しない項目
+        lastVisitedAt: now - 86400000 / 4,
+        foo: 1  // 存在しない項目
       },
       priest: {
         level: 0,
-        isVisited: false,
-        startedAt: null
+        lastVisitedAt: null
       },
-
       // 存在しない職業
       unexistsman: {
       }
@@ -116,4 +127,6 @@ export default Store.extend({
 
     return Promise.resolve();
   }
+}, {
+  VISIT_LEVELS
 });

@@ -1,24 +1,20 @@
 import _ from 'lodash';
 import React from 'react';
+var {DOM} = React;
 
-import ScreenActionCreators from 'client/actions/screen-action-creators';
 import NavigationBarComponent from 'client/components/partials/navigation-bar';
-import ComponentMixin from 'client/lib/mixins/component';
 import {compileJsxTemplate, createPageComponentClassName} from 'client/lib/view';
+import ComponentMixin from 'client/lib/mixins/component';
 import PageComponentMixin from 'client/lib/mixins/page-component';
 
 
 export default React.createClass({
-  displayName: 'VisitorPageComponent',
+  displayName: 'CharacterPageComponent',
   mixins: [ComponentMixin, PageComponentMixin],
 
-  //_onMouseDownStartGame() {
-  //  ScreenActionCreators.changePage('game');
-  //},
-
-  render() {
-    return compileJsxTemplate('pages/visitor', {
-      className: createPageComponentClassName('visitor'),
+  render: function render() {
+    return compileJsxTemplate('pages/character', {
+      className: createPageComponentClassName('character'),
       style: this.createDefaultStyles(),
       navigationBar: {
         NavigationBarComponent

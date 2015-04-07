@@ -57,22 +57,11 @@ export default function homePageTemplate({
         <div className='right-side side'>
           <ul className='links'>
             <li>
-              <div className='image gate-paint-bg_img'></div>
-              <div className='detail'>
-                <div className='title'>Visitor</div>
-                <div className='description'>
-                  来訪する冒険者を受け入れます<br/>
-                  冒険者は時間経過で来訪します
-                </div>
-              </div>
-            </li>
-            <li>
               <div className='image bar-paint-bg_img'></div>
               <div className='detail'>
-                <div className='title'>Party</div>
+                <div className='title'>Character</div>
                 <div className='description'>
-                  冒険者を引き合わせパーティ編成します<br/>
-                  カードの装備もここで行います
+                  冒険者のカード設定をします<br/>
                 </div>
               </div>
             </li>
@@ -86,22 +75,11 @@ export default function homePageTemplate({
               </div>
             </li>
             <li>
-              <div className='image shop-paint-bg_img'></div>
-              <div className='detail'>
-                <div className='title'>Shop</div>
-                <div className='description'>
-                  カードが購入できます<br/>
-                  商品は時間経過で更新されます
-                </div>
-              </div>
-            </li>
-            <li>
               <div className='image dungeon-paint-bg_img' onMouseDown={onMouseDownStartGame}></div>
               <div className='detail'>
                 <div className='title'>Dungeon</div>
                 <div className='description'>
-                  ダンジョンへ向かいます<br/>
-                  事前にパーティ編成が必要です
+                  ダンジョンへ向かいます
                 </div>
               </div>
             </li>

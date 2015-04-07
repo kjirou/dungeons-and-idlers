@@ -1,9 +1,8 @@
 import React from 'react';
 
+import CharacterPageComponent from 'client/components/pages/character';
 import GamePageComponent from 'client/components/pages/game';
 import HomePageComponent from 'client/components/pages/home';
-import PartyPageComponent from 'client/components/pages/party';
-import VisitorPageComponent from 'client/components/pages/visitor';
 import WelcomePageComponent from 'client/components/pages/welcome';
 import {createComponentClassName} from 'client/lib/view';
 import ComponentMixin from 'client/lib/mixins/component';
@@ -11,10 +10,9 @@ import ScreenStore from 'client/stores/screen';
 
 
 const PAGE_COMPONENTS = {
+  character: CharacterPageComponent,
   game: GamePageComponent,
   home: HomePageComponent,
-  party: PartyPageComponent,
-  visitor: VisitorPageComponent,
   welcome: WelcomePageComponent
 };
 

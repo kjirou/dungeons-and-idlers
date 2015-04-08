@@ -1,4 +1,5 @@
 import assert from 'assert';
+import sinon from 'sinon';
 
 import conf from 'client/conf';
 import Storage from 'client/lib/storage';
@@ -7,7 +8,12 @@ import Storage from 'client/lib/storage';
 describe('client/lib/storage module', function() {
 
   beforeEach(function() {
+    this.mocks = [];
     Storage._getLocalStorage().clear();
+  });
+
+  afterEach(function() {
+    this.mocks.forEach((mock) => { mock.restore(); });
   });
 
   it('constructor', function() {
@@ -16,11 +22,10 @@ describe('client/lib/storage module', function() {
   });
 
   it('_getNamespace', function() {
-    let s = new Storage();
     if (conf.isNode) {
-      assert.strictEqual(s._getNamespace(), 'test:');
+      assert.strictEqual(Storage._getNamespace(), 'test:');
     } else {
-      assert.strictEqual(s._getNamespace(), 'client:');
+      assert.strictEqual(Storage._getNamespace(), 'client:');
     }
   });
 
@@ -57,14 +62,13 @@ describe('client/lib/storage module', function() {
       .then(() => { return s.save('foo', 1); })
       .then(() => { return s.save('bar', 2); })
       .then(() => {
-        s._getNamespace = function() {
-          return 'hoge:';
-        };
+        let stub = sinon.stub(Storage, '_getNamespace', () => { return 'hoge'; });
+        this.mocks.push(stub);
       })
       .then(() => { return s.save('x', true); })
       .then(() => {
         assert.strictEqual(ls.length, 3);
-        return s.clear();
+        return Storage.clear();
       })
       .then(() => { assert.strictEqual(ls.length, 2); })
     ;

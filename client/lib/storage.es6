@@ -22,18 +22,18 @@ export default class Storage {
    * とりあえずは、ブラウザで手動デバッグ中にTestemを実行しても
    * データが影響を受けないようにするため
    */
-  _getNamespace() {
+  static _getNamespace() {
     return conf.env + ':';
   }
 
   save(fieldPath, data) {
-    let realFieldPath = this._getNamespace() + fieldPath;
+    let realFieldPath = Storage._getNamespace() + fieldPath;
     localStorage.setItem(realFieldPath, JSON.stringify(data));
     return Promise.resolve();
   }
 
   fetch(fieldPath) {
-    let realFieldPath = this._getNamespace() + fieldPath;
+    let realFieldPath = Storage._getNamespace() + fieldPath;
     let data = localStorage.getItem(realFieldPath);
     if (data === undefined || data === null) {
       data = null;
@@ -44,12 +44,12 @@ export default class Storage {
   }
 
   remove(fieldPath) {
-    let realFieldPath = this._getNamespace() + fieldPath;
+    let realFieldPath = Storage._getNamespace() + fieldPath;
     localStorage.removeItem(realFieldPath);
     return Promise.resolve();
   }
 
-  clear() {
+  static clear() {
     let matcher = new RegExp('^' + escapeRegExp(this._getNamespace()));
     for (let i = 0; i < localStorage.length; i++) {
       let k = localStorage.key(i);

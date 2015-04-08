@@ -1,17 +1,21 @@
 import assert from 'assert';
 import _ from 'lodash';
 
-import {jobs} from 'client/lib/jobs';
+import {jobList, jobs, playableJobList} from 'client/lib/jobs';
 
 
 describe('client/lib/jobs module', function() {
 
-  context('jobs', function() {
+  it('jobList, playableJobList', function() {
+    assert(Array.isArray(jobList));
+    assert(jobList.length > 0);
+    assert(playableJobList.length > 0);
+    assert(jobList.length > playableJobList.length);
+  });
 
-    it('should be', function() {
-      assert.strictEqual(typeof jobs, 'object');
-      assert(_.size(jobs) > 0);
-      assert('undefined' in jobs === false);
-    });
+  it('jobs', function() {
+    assert.strictEqual(typeof jobs, 'object');
+    assert(_.size(jobs) > 0);
+    assert('undefined' in jobs === false);
   });
 });

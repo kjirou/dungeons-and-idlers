@@ -1,7 +1,9 @@
 import Backbone from 'backbone';
+import {Promise} from 'bluebird';
 import _ from 'lodash';
 
 import SingletonMixin from 'client/lib/mixins/singleton';
+import Storage from 'client/lib/storage';
 
 
 export default Backbone.Model.extend({
@@ -23,19 +25,51 @@ export default Backbone.Model.extend({
   },
 
   /**
-   * 唯一のオブジェクトの場合にデータをストレージへ保存する
+   * インスタンスの状態を返す
+   */
+  toStates() {
+    return this.attributes;
+  },
+
+  storageName: null,
+
+  /**
+   * attributesをストレージへ保存する
    * @return {Promise}
    */
-  store() {
-    throw new Error('Not implemented');
+  save() {
+    let storage = new Storage();
+    return storage.save(this.storageName, this.attributes);
   },
 
   /**
-   * 唯一のオブジェクトの場合にデータをストレージから復旧する
+   * ストレージの情報をattributesへ反映する
+   * @return {Promise}
+   */
+  fetch() {
+    let storage = new Storage();
+    return storage.fetch(this.storageName).then((data) => {
+      data = data || {};
+      Object.keys(data).forEach((k) => {
+        this.set(k, data[k], { validate: true });
+      });
+    });
+  },
+
+  /**
+   * インスタンスの状態をストレージへ保存する
+   * @return {Promise}
+   */
+  store() {
+    return this.save();
+  },
+
+  /**
+   * インスタンスの状態をストレージから復旧する
    * @return {Promise}
    */
   restore() {
-    throw new Error('Not implemented');
+    return this.fetch();
   }
 }, _.assign(
   {},

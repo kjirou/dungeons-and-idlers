@@ -1,6 +1,8 @@
-import assert from 'assert'
+import assert from 'assert';
 
-import Store from 'client/stores/store'
+import Deferred from 'client/lib/deferred';
+import Storage from 'client/lib/storage';
+import Store from 'client/stores/store';
 
 
 describe('client/stores/store module', () => {
@@ -84,6 +86,43 @@ describe('client/stores/store module', () => {
       FooStore.clearInstance();
       assert.strictEqual(FooStore._instance, null);
       assert.strictEqual(BarStore._instance, bar);
+    });
+  });
+
+  context('storage', () => {
+
+    beforeEach(function() {
+      return Storage.clear();
+    });
+
+    it('save and fetch', () => {
+      let FooStore = Store.extend({
+        storageName: 'foo'
+      });
+
+      let foo = new FooStore();
+      foo.set('x', 1);
+      foo.set('y', { a: 1, b: 2 });
+
+      return foo.save()
+        // 別インスタンスを作っても先ほど保存したデータが反映されてないことを確認
+        .then(() => {
+          let foo2 = new FooStore();
+          let d = new Deferred();
+          setTimeout(function() {
+            d.resolve(foo2);
+          }, 500);
+          return d.promise;
+        })
+        .then((foo2) => {
+          assert.strictEqual(foo2.get('x'), undefined);
+          assert.strictEqual(foo2.get('y'), undefined);
+          return foo2.fetch().then(() => {
+            assert.strictEqual(foo2.get('x'), 1);
+            assert.deepEqual(foo2.get('y'), { a: 1, b: 2 });
+          });
+        })
+      ;
     });
   });
 });

@@ -1,3 +1,4 @@
+import assert from 'assert';
 import React from 'react';
 
 import App from 'client/app';

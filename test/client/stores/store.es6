@@ -92,7 +92,7 @@ describe('client/stores/store module', () => {
   context('storage', () => {
 
     beforeEach(function() {
-      return (new Storage()).clear();
+      return Storage.clear();
     });
 
     it('save and fetch', () => {

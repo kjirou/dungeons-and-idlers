@@ -24,6 +24,13 @@ export default Backbone.Model.extend({
     });
   },
 
+  /**
+   * インスタンスの状態を返す
+   */
+  toStates() {
+    return this.attributes;
+  },
+
   storageName: null,
 
   /**
@@ -50,11 +57,19 @@ export default Backbone.Model.extend({
   },
 
   /**
+   * インスタンスの状態をストレージへ保存する
+   * @return {Promise}
+   */
+  store() {
+    return this.save();
+  },
+
+  /**
    * インスタンスの状態をストレージから復旧する
    * @return {Promise}
    */
   restore() {
-    throw new Error('Not implemented');
+    return this.fetch();
   }
 }, _.assign(
   {},

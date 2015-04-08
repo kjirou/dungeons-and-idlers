@@ -9,6 +9,7 @@ export default _.assign({}, NamingMixin, {
   getName() {
     return this._name || _s.titleize(_s.humanize(this.typeId));
   },
+  isPlayable: true,
   maxHp: 1,
   physicalAttackPower: 0,
   magicalAttackPower: 0

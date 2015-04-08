@@ -5,6 +5,7 @@ import React from 'react';
 import ScreenComponent from 'client/components/screen';
 import {SCREEN_WIDTH, SCREEN_HEIGHT} from 'client/constants';
 import CoreDispatcher from 'client/dispatcher/core';
+import CharactersStore from 'client/stores/characters';
 import ScreenStore from 'client/stores/screen';
 
 
@@ -27,8 +28,10 @@ export default class App {
    */
   static initializeStores() {
     let screenStore = ScreenStore.getInstance();
+    let charactersStore = CharactersStore.getInstance();
 
     return {
+      charactersStore,
       screenStore
     };
   }
@@ -60,10 +63,9 @@ export default class App {
    * @return {Promise}
    */
   loadStorages() {
-    return Promise.resolve();
-    //return Promise.all([
-    //  this._stores.visitStore.restore()
-    //]);
+    return Promise.all([
+      this._stores.charactersStore.restore()
+    ]);
   }
 
   /**

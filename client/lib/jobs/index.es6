@@ -11,7 +11,8 @@ export var AlchemistJob = _.assign({}, Job, {
 });
 
 export var DummyJob = _.assign({}, Job, {
-  typeId: 'dummy'
+  typeId: 'dummy',
+  isPlayable: false
 });
 
 export var FighterJob = _.assign({}, Job, {
@@ -57,7 +58,7 @@ export var ThiefJob = _.assign({}, Job, {
 });
 
 
-export var jobs = dictionarize([
+export var jobList = [
   AlchemistJob,
   DummyJob,
   FighterJob,
@@ -67,4 +68,6 @@ export var jobs = dictionarize([
   PriestJob,
   RangerJob,
   ThiefJob
-], 'typeId');
+];
+export var playableJobList = jobList.filter((job) => { return job.isPlayable; });
+export var jobs = dictionarize(jobList, 'typeId');

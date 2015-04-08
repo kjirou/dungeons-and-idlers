@@ -22,6 +22,5 @@ export default Store.extend({
     this._characters.forEach((chara) => {
       chara.beHealedFully();
     });
-    console.log(this._characters);
   }
 });

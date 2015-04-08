@@ -1,10 +1,14 @@
 import assert from 'assert';
 
-import App from 'client/app';
+import conf from 'client/conf';
 import Storage from 'client/lib/storage';
 
 
 describe('client/lib/storage module', function() {
+
+  beforeEach(function() {
+    Storage._getLocalStorage().clear();
+  });
 
   it('constructor', function() {
     let s = new Storage();
@@ -13,7 +17,7 @@ describe('client/lib/storage module', function() {
 
   it('_getNamespace', function() {
     let s = new Storage();
-    if (App.isNode()) {
+    if (conf.isNode) {
       assert.strictEqual(s._getNamespace(), 'test:');
     } else {
       assert.strictEqual(s._getNamespace(), 'client:');
@@ -22,31 +26,47 @@ describe('client/lib/storage module', function() {
 
   it('basic usage', function() {
     let s = new Storage();
-    s.save('foo', { x: 1, y: 2});
-    assert.deepEqual(s.fetch('foo'), { x: 1, y: 2 });
-
-    s.save('bar', 1);
-    assert.strictEqual(s.fetch('bar'), 1);
-
-    assert.deepEqual(s.fetch('undefined_key'), null);
-
-    s.remove('foo');
-    assert.deepEqual(s.fetch('foo'), null);
+    return Promise.resolve()
+      // object
+      .then(() => { return s.save('foo', { x: 1, y: 2}) })
+      .then(() => { return s.fetch('foo'); })
+      .then((data) => { assert.deepEqual(data, { x: 1, y: 2 }); })
+      // array
+      .then(() => { return s.save('bar', ['a', 'b']); })
+      .then(() => { return s.fetch('bar'); })
+      .then((data) => { assert.deepEqual(data, ['a', 'b']); })
+      // scala value
+      .then(() => { return s.save('baz', 1); })
+      .then(() => { return s.fetch('baz'); })
+      .then((data) => { assert.strictEqual(data, 1); })
+      // undefined key
+      .then(() => { return s.fetch('undefined_key'); })
+      .then((data) => { assert.strictEqual(data, null); })
+      // removing
+      .then(() => { return s.remove('foo'); })
+      .then(() => { return s.fetch('foo'); })
+      .then((data) => { assert.strictEqual(data, null); })
+    ;
   });
 
   it('clear', function() {
     let s = new Storage();
-    s.save('foo', 1);
-    s.save('bar', 2);
-    s._getNamespace = function() {
-      return 'hoge:';
-    };
-    s.save('x', true);
+    let ls = Storage._getLocalStorage();
 
-    let ls = s._getLocalStorage();
-    assert.strictEqual(ls.length, 3);
-
-    s.clear();
-    assert.strictEqual(ls.length, 2);
+    return Promise.resolve()
+      .then(() => { return s.save('foo', 1); })
+      .then(() => { return s.save('bar', 2); })
+      .then(() => {
+        s._getNamespace = function() {
+          return 'hoge:';
+        };
+      })
+      .then(() => { return s.save('x', true); })
+      .then(() => {
+        assert.strictEqual(ls.length, 3);
+        return s.clear();
+      })
+      .then(() => { assert.strictEqual(ls.length, 2); })
+    ;
   });
 });

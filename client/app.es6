@@ -10,26 +10,6 @@ import ScreenStore from 'client/stores/screen';
 
 export default class App {
 
-  static isNode() {
-    return typeof exports === 'object' && typeof module === 'object';
-  }
-
-  /**
-   * 実行環境を示すキーを明示的に指定する
-   */
-  static setEnv(env) {
-    this._env = env;
-  }
-
-  /**
-   * 実行環境を示すキーを返す
-   *
-   * node から実行時には NODE_ENV は必ず存在するものとする
-   */
-  static getEnv() {
-    return this._env || (this.isNode() ? process.env.NODE_ENV : 'client');
-  }
-
   /**
    * Store群の情報を削除する
    */

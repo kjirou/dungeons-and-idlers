@@ -1,19 +1,18 @@
+import {Promise} from 'bluebird';
 import escapeRegExp from 'escape-regexp';
 import MockLocalStorage from 'mock-localstorage';
 
-import App from 'client/app';
+import conf from 'client/conf';
 
 var localStorage;  // ifブロック内で宣言するとクラス内で参照不可
-let isMockLocalStorage = false;
 if (typeof localStorage === 'undefined') {
   localStorage = new MockLocalStorage();
-  isMockLocalStorage = true;
 }
 
 
 export default class Storage {
 
-  _getLocalStorage() {
+  static _getLocalStorage() {
     return localStorage;
   }
 
@@ -24,12 +23,13 @@ export default class Storage {
    * データが影響を受けないようにするため
    */
   _getNamespace() {
-    return App.getEnv() + ':';
+    return conf.env + ':';
   }
 
   save(fieldPath, data) {
     let realFieldPath = this._getNamespace() + fieldPath;
     localStorage.setItem(realFieldPath, JSON.stringify(data));
+    return Promise.resolve();
   }
 
   fetch(fieldPath) {
@@ -40,24 +40,23 @@ export default class Storage {
     } else {
       data = JSON.parse(data);
     }
-    return data;
+    return Promise.resolve(data);
   }
 
   remove(fieldPath) {
     let realFieldPath = this._getNamespace() + fieldPath;
     localStorage.removeItem(realFieldPath);
+    return Promise.resolve();
   }
 
   clear() {
     let matcher = new RegExp('^' + escapeRegExp(this._getNamespace()));
     for (let i = 0; i < localStorage.length; i++) {
       let k = localStorage.key(i);
-      if (isMockLocalStorage) {
-        k = unescape(k);  // mock-localstorage 内で何故か escape されているので
-      }
       if (matcher.test(k)) {
         localStorage.removeItem(k);
       }
     }
+    return Promise.resolve();
   }
 };

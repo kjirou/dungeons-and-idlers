@@ -59,10 +59,10 @@ export default class App {
   }
 
   /**
-   * 外部データを取得して展開する
+   * 外部データを取得して状態を復元する
    * @return {Promise}
    */
-  loadStorages() {
+  restoreStorages() {
     return Promise.all([
       this._stores.charactersStore.restore()
     ]);
@@ -73,6 +73,6 @@ export default class App {
    * @return {Promise}
    */
   start() {
-    return this.loadStorages();
+    return this.restoreStorages();
   }
 }

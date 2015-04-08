@@ -7,6 +7,7 @@ import Job from 'client/lib/jobs/job';
 export var AlchemistJob = _.assign({}, Job, {
   typeId: 'alchemist',
   maxHp: 3,
+  maxHandCard: 4,
   physicalAttackPower: 1
 });
 
@@ -18,6 +19,7 @@ export var DummyJob = _.assign({}, Job, {
 export var FighterJob = _.assign({}, Job, {
   typeId: 'fighter',
   maxHp: 6,
+  maxHandCard: 2,
   physicalAttackPower: 3
 });
 

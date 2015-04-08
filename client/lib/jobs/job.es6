@@ -11,6 +11,7 @@ export default _.assign({}, NamingMixin, {
   },
   isPlayable: true,
   maxHp: 1,
+  maxHandCard: 3,
   physicalAttackPower: 0,
   magicalAttackPower: 0
 });

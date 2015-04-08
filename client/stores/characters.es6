@@ -14,7 +14,7 @@ export default Store.extend({
   defaults() {
     let characters = playableJobList.map((job) => {
       return {
-        jobTypeId: job.jobTypeId
+        jobTypeId: job.typeId
       };
     });
 
@@ -42,8 +42,8 @@ export default Store.extend({
   restore() {
     this.fetch()
       .then(() => {
-        this._characters = this.get('characters').map((characterData) => {
-          return new CharacterStore(characterData);
+        this._characters = this.get('characters').map((characterAttrs) => {
+          return new CharacterStore(characterAttrs);
         });
       })
     ;

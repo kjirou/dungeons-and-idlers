@@ -53,26 +53,45 @@ export default React.createClass({
             <span className='unit'>ATK</span>
             <span className='value'>99</span>
           </div>
-          <div className='passive_skills_container'>
-            <span>先制</span>
-            <span>追跡</span>
-          </div>
-          <div className='actions'>
+          <div className='actions_and_feats'>
+            <table className='actions'>
+              <tr>
+                <th>1</th><td>打撃</td>
+              </tr>
+              <tr>
+                <th>2</th><td>打撃</td>
+              </tr>
+              <tr>
+                <th>3</th><td>強打</td>
+              </tr>
+            </table>
+            <table className='feats'>
+              <tr>
+                <td>後手</td>
+              </tr>
+              <tr>
+                <td>--</td>
+              </tr>
+              <tr>
+                <td>--</td>
+              </tr>
+            </table>
           {
-            actionDataList.map(({ order, label, isCurrent, isHidden }) => {
-              let key = 'cell-' + order;
-              let classNames = ['cell', key];
-              if (isCurrent) classNames.push('current');
-              let style = {
-                display: isHidden ? 'none' : 'block'
-              };
-              return <div key={key} className={classNames.join(' ')} style={style}>
-                <div key='order' className='order'>{order}</div>
-                <div key='label' className='label'>{label}</div>
-              </div>;
-            })
+            //actionDataList.map(({ order, label, isCurrent, isHidden }) => {
+            //  let key = 'cell-' + order;
+            //  let classNames = ['cell', key];
+            //  if (isCurrent) classNames.push('current');
+            //  let style = {
+            //    display: isHidden ? 'none' : 'block'
+            //  };
+            //  return <div key={key} className={classNames.join(' ')} style={style}>
+            //    <div key='order' className='order'>{order}</div>
+            //    <div key='label' className='label'>{label}</div>
+            //  </div>;
+            //})
           }
           </div>
+          <div className='sub_action'>狂暴化</div>
         </div>
         <div className='back' style={{ display: this.props.isFace ? 'none' : 'block' }}>
           <div className='icon downstairs-object-bg_img'></div>

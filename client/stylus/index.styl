@@ -220,55 +220,53 @@ japanese-font-family()
   height: 160px
 
 
-// 96 x 128
-#js-game-container .card-component
+// 92 x 124
+#js-game-container .card_body-component
   position: absolute
   width: 92px
   height: 124px
-  border: 2px solid $TEXT_COLOR
-  border-radius: 4px
-  background-color: $BACKGROUND_COLOR
-  .face
-    position: absolute
-    width: 100%
-    height: 100%
-    .icon
+  &.creature-card_body-component
+    .icon_and_states
       position: absolute
-      top: 4px
-      left: 4px
-      width: 32px
-      height: 32px
-    .hp_container
-      position: absolute
-      top: 0
-      left: 40px
-      width: 52px  // 92 - 40(icon + padding)
-      height: 24px
-      text-align: center
-      .hp
-        line-height: 24px
-        font-size: 24px
-      .separator
-        padding: 0 4px
-        line-height: 16px
-        font-size: 16px
-      .max_hp
-        line-height: 16px
-        font-size: 16px
-    .damage_container
-      position: absolute
-      top: 24px
-      left: 40px
-      width: 52px
-      height: 16px
-      text-align: center
-      .unit
-        line-height: 16px
-        font-size: 16px
-      .value
-        padding-left: 4px
-        line-height: 16px
-        font-size: 22px
+      width: 100%
+      height: 40px
+      .icon
+        position: absolute
+        top: 4px
+        left: 4px
+        width: 32px
+        height: 32px
+      .hp_container
+        position: absolute
+        top: 0
+        left: 40px
+        width: 52px  // 92 - 40(icon + padding)
+        height: 24px
+        text-align: center
+        .hp
+          line-height: 24px
+          font-size: 24px
+        .separator
+          padding: 0 4px
+          line-height: 16px
+          font-size: 16px
+        .max_hp
+          line-height: 16px
+          font-size: 16px
+      .damage_container
+        position: absolute
+        top: 24px
+        left: 40px
+        width: 52px
+        height: 16px
+        text-align: center
+        .unit
+          line-height: 16px
+          font-size: 16px
+        .value
+          padding-left: 4px
+          line-height: 16px
+          font-size: 22px
     .actions_and_feats
       $rowHeight = 20px
       position: absolute
@@ -309,6 +307,20 @@ japanese-font-family()
       japanese-font-family()
       font-size: 10px
       text-align: center
+
+
+// 96 x 128
+#js-game-container .card-component
+  position: absolute
+  width: 92px
+  height: 124px
+  border: 2px solid $TEXT_COLOR
+  border-radius: 4px
+  background-color: $BACKGROUND_COLOR
+  .face
+    position: absolute
+    width: 100%
+    height: 100%
   .back
     position: absolute
     width: 100%

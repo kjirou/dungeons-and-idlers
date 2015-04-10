@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 
 import {createComponentClassName} from 'client/lib/view';
@@ -96,7 +97,8 @@ export default React.createClass({
     left: React.PropTypes.number,
     isFace: React.PropTypes.bool,
     isClickable: React.PropTypes.bool,
-    cardBodyType: React.PropTypes.string
+    cardBodyType: React.PropTypes.string,
+    cardBodyProps: React.PropTypes.object
   },
 
   getDefaultProps() {
@@ -105,7 +107,12 @@ export default React.createClass({
       left: 0,
       isFace: false,
       isClickable: false,
-      cardBodyType: 'simple'
+      cardBodyType: 'simple',
+      cardBodyProps: {
+        title: 'Key',
+        iconClassName: 'blank',
+        description: '3 つ揃えると、出口の扉を開くことができます。'
+      }
     };
   },
 
@@ -116,32 +123,11 @@ export default React.createClass({
       cursor: this.props.isClickable ? 'pointer' : 'default'
     };
 
-    let cardBodyElement;
-    switch (this.props.cardBodyType) {
-      case 'simple':
-        cardBodyElement = React.createElement(SimpleCardBodyComponent, {
-          title: 'Key',
-          iconClassName: 'blank',
-          description: '3 つ揃えると、出口の扉を開くことができます。'
-        });
-        break;
-      case 'creature':
-        cardBodyElement = React.createElement(CreatureCardBodyComponent, {
-          hp: 77,
-          maxHp: 99,
-          physicalAttackPower: 99,
-          attacks: [
-            { name: '打撃' },
-            { name: '打撃' },
-            { name: '強打' }
-          ],
-          feats: [
-            { name: '後手' }
-          ],
-          subActionName: '凶暴化'
-        });
-        break;
-    }
+    let cardBodyComponent = {
+      simple: SimpleCardBodyComponent,
+      creature: CreatureCardBodyComponent
+    }[this.props.cardBodyType];
+    let cardBodyElement = React.createElement(cardBodyComponent, this.props.cardBodyProps);
 
     return (
       <div className={createComponentClassName('card')} style={style}>

@@ -63,5 +63,12 @@ describe('client/stores/creatures/character module', function() {
         assert(beforeValue < c[propName]);
       });
     });
+
+    it('getAttacks', function() {
+      // TODO: Attackクラス実装後にテスト補充
+      let c;
+      c = new CharacterStore();
+      assert.strictEqual(c.getAttacks().length, 3)
+    });
   });
 });

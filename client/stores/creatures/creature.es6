@@ -157,6 +157,22 @@ export default Store.extend(_.assign({}, NamingMixin, {
 
   _getMagicalAttackPower() {
     return 0;
+  },
+
+  /**
+   * 攻撃リストを返す
+   * @return {Array} 要素数は常に3
+   */
+  getAttacks() {
+    throw new Error('Not implemented');
+  },
+
+  /**
+   * 特性リストを返す
+   * @return {Array} 要素数は0以上
+   */
+  getFeats() {
+    throw new Error('Not implemented');
   }
 }), {
   MIN_MAX_HP,

@@ -19,7 +19,6 @@ export var DummyJob = _.assign({}, Job, {
 export var FighterJob = _.assign({}, Job, {
   typeId: 'fighter',
   maxHp: 6,
-  maxHandCard: 2,
   physicalAttackPower: 3
 });
 
@@ -43,7 +42,8 @@ export var MageJob = _.assign({}, Job, {
 
 export var PriestJob = _.assign({}, Job, {
   typeId: 'priest',
-  maxHp: 4,
+  maxHp: 5,
+  maxHandCard: 2,
   physicalAttackPower: 2
 });
 
@@ -56,6 +56,7 @@ export var RangerJob = _.assign({}, Job, {
 export var ThiefJob = _.assign({}, Job, {
   typeId: 'thief',
   maxHp: 3,
+  maxHandCard: 4,
   physicalAttackPower: 1
 });
 

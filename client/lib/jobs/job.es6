@@ -13,5 +13,10 @@ export default _.assign({}, NamingMixin, {
   maxHp: 1,
   maxHandCard: 3,
   physicalAttackPower: 0,
-  magicalAttackPower: 0
+  magicalAttackPower: 0,
+  attacks: [
+    { typeId: 'physical_attack', name: '攻撃' },
+    { typeId: 'physical_attack', name: '攻撃' },
+    { typeId: 'physical_attack', name: '攻撃' }
+  ]
 });

@@ -39,5 +39,13 @@ export default CreatureStore.extend({
 
   _getMagicalAttackPower() {
     return this.job.magicalAttackPower;
+  },
+
+  getAttacks() {
+    return this.job.attacks;
+  },
+
+  getFeats() {
+    return [];
   }
 });

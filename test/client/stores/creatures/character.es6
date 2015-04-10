@@ -64,11 +64,11 @@ describe('client/stores/creatures/character module', function() {
       });
     });
 
-    it('getAttacks', function() {
+    it('_getAttacks', function() {
       // TODO: Attackクラス実装後にテスト補充
       let c;
       c = new CharacterStore();
-      assert.strictEqual(c.getAttacks().length, 3)
+      assert.strictEqual(c._getAttacks().length, 3)
     });
   });
 });

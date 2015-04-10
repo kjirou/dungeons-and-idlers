@@ -43,7 +43,9 @@ export default Store.extend({
     this.fetch()
       .then(() => {
         this._characters = this.get('characters').map((characterAttrs) => {
-          return new CharacterStore(characterAttrs);
+          let character = new CharacterStore(characterAttrs);
+          character.resetStates();
+          return character;
         });
       })
     ;

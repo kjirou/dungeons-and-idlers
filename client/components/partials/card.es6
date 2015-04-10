@@ -81,7 +81,7 @@ let CreatureCardBodyComponent = React.createClass({
           }
           </table>
         </div>
-        <div className='sub_action'>狂暴化</div>
+        <div className='sub_action'>{this.props.subActionName}</div>
       </div>
     );
   }

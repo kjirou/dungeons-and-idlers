@@ -142,6 +142,18 @@ export default Store.extend(_.assign({}, NamingMixin, {
   },
 
   /**
+   * 全ての状態を初期化する
+   *
+   * 良い効果も消すので、いわゆる「全快」ではない
+   * ゲーム内で使うような処理ではない
+   */
+  resetStates() {
+    this.beHealedFully();
+    this.adaptStates();
+    // TODO: バフ削除
+  },
+
+  /**
    * 処理前後で一部の状態を継続する
    * HPの割合を維持したまま最大値を変更したり
    */

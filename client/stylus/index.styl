@@ -267,7 +267,7 @@ japanese-font-family()
           padding-left: 4px
           line-height: 16px
           font-size: 22px
-    .actions_and_feats
+    .attacks_and_feats
       $rowHeight = 20px
       position: absolute
       top: 45px
@@ -277,14 +277,14 @@ japanese-font-family()
       font-size: 10px
       japanese-font-family()
       clearfix()
-      table.actions
+      table.attacks
         float: left
         width: 55%
         border-right: 1px solid $TEXT_COLOR
         tr
           height: $rowHeight
           th
-            width: 10px
+            width: 9px  // 残り幅に4文字入るように40px残す
             base-font-family()
             font-size: 18px
             text-align: center

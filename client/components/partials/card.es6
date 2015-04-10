@@ -41,7 +41,7 @@ let CreatureCardBodyComponent = React.createClass({
     hp: React.PropTypes.number.isRequired,
     maxHp: React.PropTypes.number.isRequired,
     physicalAttackPower: React.PropTypes.number.isRequired,
-    actions: React.PropTypes.array.isRequired,
+    attacks: React.PropTypes.array.isRequired,
     feats: React.PropTypes.array.isRequired,
     subActionName: React.PropTypes.string.isRequired
   },
@@ -60,10 +60,10 @@ let CreatureCardBodyComponent = React.createClass({
             <span className='value'>{this.props.physicalAttackPower}</span>
           </div>
         </div>
-        <div className='actions_and_feats'>
-          <table className='actions'>
+        <div className='attacks_and_feats'>
+          <table className='attacks'>
           {
-            this.props.actions.map((action, idx) => {
+            this.props.attacks.map((action, idx) => {
               return <tr key={'action-' + idx}>
                 <th>{idx + 1}</th><td>{action.name}</td>
               </tr>;
@@ -130,7 +130,7 @@ export default React.createClass({
           hp: 77,
           maxHp: 99,
           physicalAttackPower: 99,
-          actions: [
+          attacks: [
             { name: '打撃' },
             { name: '打撃' },
             { name: '強打' }

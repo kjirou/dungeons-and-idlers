@@ -24,7 +24,7 @@ export default CreatureStore.extend({
     return this.constructor.magicalAttackPower;
   },
 
-  getAttacks() {
+  _getAttacks() {
     let defaultAttacks = _.range(3).map(() => {
       return { typeId: 'physical_attack', name: '攻撃' };
     });
@@ -44,7 +44,7 @@ export default CreatureStore.extend({
     return attacks;
   },
 
-  getFeats() {
+  _getFeats() {
     return [];
   }
 }, {

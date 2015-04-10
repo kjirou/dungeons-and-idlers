@@ -38,13 +38,13 @@ describe('client/stores/creatures/monsters/monster module', function() {
       assert.strictEqual(sub.name, 'Taro');
     });
 
-    it('getAttacks, attacks, attackUpdates', function() {
+    it('attacks, attackUpdates', function() {
       let attacks;
 
       // default
       let FooStore = MonsterStore.extend();
       let foo = new FooStore();
-      attacks = foo.getAttacks();
+      attacks = foo.attacks;
       assert.strictEqual(attacks.length, 3);
       assert.strictEqual(attacks[0].typeId, 'physical_attack');
 
@@ -57,7 +57,7 @@ describe('client/stores/creatures/monsters/monster module', function() {
         ]
       });
       let bar = new BarStore();
-      attacks = bar.getAttacks();
+      attacks = bar.attacks;
       assert.strictEqual(attacks.length, 3);
       assert.strictEqual(attacks[0].typeId, 'a');
       assert.strictEqual(attacks[1].typeId, 'b');
@@ -71,7 +71,7 @@ describe('client/stores/creatures/monsters/monster module', function() {
         }
       });
       let baz = new BazStore();
-      attacks = baz.getAttacks();
+      attacks = baz.attacks;
       assert.strictEqual(attacks.length, 3);
       assert.strictEqual(attacks[0].typeId, 'x');
       assert.strictEqual(attacks[1].typeId, 'physical_attack');

@@ -26,10 +26,12 @@ export default Store.extend(_.assign({}, NamingMixin, {
     this.attrGetter('hp');
     this.attrGetter('level');
 
-    this.propGetter('maxHp', '_getMaxHp');
+    this.propGetter('attacks', '_getAttacks');
+    this.propGetter('feats', '_getFeats');
     this.propGetter('name', 'getName');
     this.propGetter('hpRate', '_getHpRate');
     this.propGetter('magicalAttackPower', '_getMagicalAttackPower');
+    this.propGetter('maxHp', '_getMaxHp');
     this.propGetter('physicalAttackPower', '_getPhysicalAttackPower');
     this.propGetter('wound', '_getWound');
     this.propGetter('woundRate', '_getWoundRate');
@@ -163,7 +165,7 @@ export default Store.extend(_.assign({}, NamingMixin, {
    * 攻撃リストを返す
    * @return {Array} 要素数は常に3
    */
-  getAttacks() {
+  _getAttacks() {
     throw new Error('Not implemented');
   },
 
@@ -171,7 +173,7 @@ export default Store.extend(_.assign({}, NamingMixin, {
    * 特性リストを返す
    * @return {Array} 要素数は0以上
    */
-  getFeats() {
+  _getFeats() {
     throw new Error('Not implemented');
   }
 }), {

@@ -410,6 +410,10 @@ japanese-font-family()
     background-image: url(/materials/images/denzi/parts/buffs/status_down.png)
   .status_up-bg_img
     background-image: url(/materials/images/denzi/parts/buffs/status_up.png)
+  // jobs
+  for $id in 'alchemist' 'cleric' 'fighter' 'healer' 'knight' 'mage' 'ranger' 'thief'
+    .{$id}-job-bg_img
+      background-image: url('/materials/images/denzi/parts/jobs/' + $id + '.png')
   // monsters
   .goblin-monster-bg_img
     background-image: url(/materials/images/denzi/parts/goblin.png)

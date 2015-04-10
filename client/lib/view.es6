@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import {MODULE_TEMPLATES_ROOT} from 'client/constants';
+import {playableJobList} from 'client/lib/jobs';
 
 
 // pre-reading templates for browserify
@@ -47,4 +48,42 @@ export function compileJsxFile(modulePath, locals = {}) {
 
 export function compileJsxTemplate(templatePath, locals = {}) {
   return compileJsxFile(MODULE_TEMPLATES_ROOT + '/' + templatePath, locals);
+}
+
+/**
+ * IDからアイコン用背景画像のCSSセレクタを生成する
+ * @return {String}
+ */
+export const ICON_CLASS_NAME_PREFIX_MAP = (() => {
+  let map = {};
+  // jobs
+  playableJobList.forEach((job) => {
+    map[job.typeId] = job.typeId + '-job';
+  });
+  // symbols
+  ['invalid'].forEach((id) => {
+    map[id] = id + '-symbol';
+  });
+  return map;
+})();
+
+export function getIconClassName(iconId) {
+  let classNamePrefix = ICON_CLASS_NAME_PREFIX_MAP[iconId];
+  if (classNamePrefix) {
+    return classNamePrefix + '-bg_img';
+  } else {
+    return null;
+  }
+}
+
+export function getIconClassNameOrError(iconId) {
+  let className = getIconClassName(iconId);
+  if (!className) {
+    throw new Error('Invalid id');
+  }
+  return className;
+}
+
+export function isIconId(iconId) {
+  return !!getIconClassName(iconId);
 }

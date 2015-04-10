@@ -1,8 +1,11 @@
 import assert from 'assert';
+import _ from 'lodash';
 import pathModule from 'path';
 import React from 'react';
 
-import {compileJsxFile, createComponentClassName, createPageComponentClassName} from 'client/lib/view';
+import {compileJsxFile, createComponentClassName, createPageComponentClassName,
+  getIconClassName, getIconClassNameOrError, ICON_CLASS_NAME_PREFIX_MAP,
+  isIconId} from 'client/lib/view';
 import conf from 'conf';
 
 
@@ -46,5 +49,21 @@ describe('client/lib/view module', function() {
     assert(/Foo Page/.test(html));
     assert(/999px/.test(html));
     assert(/It is foo page/.test(html));
+  });
+
+  it('ICON_CLASS_NAME_PREFIX_MAP', function() {
+    assert.strictEqual(typeof ICON_CLASS_NAME_PREFIX_MAP, 'object');
+    assert(_.size(ICON_CLASS_NAME_PREFIX_MAP) > 0);
+  });
+
+  it('getIconClassName, getIconClassNameOrError, isIconId', function() {
+    assert.strictEqual(getIconClassName('fighter'), 'fighter-job-bg_img');
+    assert.strictEqual(getIconClassName('not_exist'), null);
+    assert.strictEqual(getIconClassNameOrError('fighter'), 'fighter-job-bg_img');
+    assert.throws(() => {
+      getIconClassNameOrError('not_exist');
+    });
+    assert(isIconId('fighter'));
+    assert(!isIconId('not_exist'));
   });
 });

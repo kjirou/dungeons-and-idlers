@@ -22,7 +22,12 @@ export default function partyPageTemplate({
           return (
             <div className='character' key={key} style={style}>
               <h3>{characterStore.getName()}</h3>
-              <CardComponent top={20} isFace={true} isClickable={true} />
+              <CardComponent {...{
+                top: 20,
+                isFace: true,
+                isClickable: true,
+                cardBodyType: 'creature'
+              }}/>
             </div>
           );
         })

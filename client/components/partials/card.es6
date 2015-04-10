@@ -4,6 +4,36 @@ import {createComponentClassName} from 'client/lib/view';
 import ComponentMixin from 'client/lib/mixins/component';
 
 
+let SimpleCardBodyComponent = React.createClass({
+  displayName: 'SimpleCardBodyComponent',
+  mixins: [ComponentMixin],
+  propTypes: {
+    title: React.PropTypes.string.isRequired,
+    hp: React.PropTypes.number,
+    iconClassName: React.PropTypes.string.isRequired,
+    description: React.PropTypes.string.isRequired
+  },
+  getDefaultProps() {
+    return {
+      hp: null
+    };
+  },
+  render() {
+    let iconContainerClassName = [
+      'icon',
+      this.props.iconClassName
+    ].join(' ');
+
+    return (
+      <div className={createComponentClassName('card_body', 'simple') }>
+        <div className='title'>{this.props.title}</div>
+        <div className={iconContainerClassName}></div>
+        <div className='description'>{this.props.description}</div>
+      </div>
+    );
+  }
+});
+
 let CreatureCardBodyComponent = React.createClass({
   displayName: 'CreatureCardBodyComponent',
   mixins: [ComponentMixin],
@@ -66,7 +96,7 @@ export default React.createClass({
     left: React.PropTypes.number,
     isFace: React.PropTypes.bool,
     isClickable: React.PropTypes.bool,
-    mode: React.PropTypes.string
+    cardBodyType: React.PropTypes.string
   },
 
   getDefaultProps() {
@@ -75,7 +105,7 @@ export default React.createClass({
       left: 0,
       isFace: false,
       isClickable: false,
-      mode: 'simple'
+      cardBodyType: 'simple'
     };
   },
 
@@ -86,47 +116,37 @@ export default React.createClass({
       cursor: this.props.isClickable ? 'pointer' : 'default'
     };
 
-    //let actionDataList = [
-    //  { order: 1, label: 'ATK' },
-    //  { order: 2, label: 'ATK', isCurrent: true },
-    //  { order: 3, label: '--' },
-    //  { order: 4, label: 'SP' },
-    //  { order: 5, label: '--', isHidden: true },
-    //  { order: 6, label: '--', isHidden: true }
-    //];
-    //        //actionDataList.map(({ order, label, isCurrent, isHidden }) => {
-    //        //  let key = 'cell-' + order;
-    //        //  let classNames = ['cell', key];
-    //        //  if (isCurrent) classNames.push('current');
-    //        //  let style = {
-    //        //    display: isHidden ? 'none' : 'block'
-    //        //  };
-    //        //  return <div key={key} className={classNames.join(' ')} style={style}>
-    //        //    <div key='order' className='order'>{order}</div>
-    //        //    <div key='label' className='label'>{label}</div>
-    //        //  </div>;
-    //        //})
-    //      }
+    let cardBodyElement;
+    switch (this.props.cardBodyType) {
+      case 'simple':
+        cardBodyElement = React.createElement(SimpleCardBodyComponent, {
+          title: 'Key',
+          iconClassName: 'blank',
+          description: '3 つ揃えると、出口の扉を開くことができます。'
+        });
+        break;
+      case 'creature':
+        cardBodyElement = React.createElement(CreatureCardBodyComponent, {
+          hp: 77,
+          maxHp: 99,
+          physicalAttackPower: 99,
+          actions: [
+            { name: '打撃' },
+            { name: '打撃' },
+            { name: '強打' }
+          ],
+          feats: [
+            { name: '後手' }
+          ],
+          subActionName: '凶暴化'
+        });
+        break;
+    }
 
     return (
       <div className={createComponentClassName('card')} style={style}>
         <div className='face' style={{ display: this.props.isFace ? 'block' : 'none' }}>
-        {
-          <CreatureCardBodyComponent {...{
-            hp: 77,
-            maxHp: 99,
-            physicalAttackPower: 99,
-            actions: [
-              { name: '打撃' },
-              { name: '打撃' },
-              { name: '強打' }
-            ],
-            feats: [
-              { name: '後手' }
-            ],
-            subActionName: '凶暴化'
-          }}/>
-        }
+          {cardBodyElement}
         </div>
         <div className='back' style={{ display: this.props.isFace ? 'none' : 'block' }}>
           <div className='icon downstairs-object-bg_img'></div>

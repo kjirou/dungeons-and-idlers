@@ -7,6 +7,7 @@ import {playableJobList} from 'client/lib/jobs';
 // pre-reading templates for browserify
 if (false) {
   require('client/templates/pages/character');
+  require('client/templates/pages/equipment');
   require('client/templates/pages/game');
   require('client/templates/pages/home');
   require('client/templates/pages/welcome');

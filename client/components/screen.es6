@@ -1,6 +1,7 @@
 import React from 'react';
 
 import CharacterPageComponent from 'client/components/pages/character';
+import EquipmentPageComponent from 'client/components/pages/equipment';
 import GamePageComponent from 'client/components/pages/game';
 import HomePageComponent from 'client/components/pages/home';
 import WelcomePageComponent from 'client/components/pages/welcome';
@@ -11,6 +12,7 @@ import ScreenStore from 'client/stores/screen';
 
 const PAGE_COMPONENTS = {
   character: CharacterPageComponent,
+  equipment: EquipmentPageComponent,
   game: GamePageComponent,
   home: HomePageComponent,
   welcome: WelcomePageComponent

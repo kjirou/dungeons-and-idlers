@@ -7,7 +7,8 @@ export default function characterPageTemplate({
   style,
   navigationBar,
   CardComponent,
-  charactersStore
+  charactersStore,
+  onMouseDownCharacter
 }) {
   return (
     <div className={className} style={style}>
@@ -15,11 +16,15 @@ export default function characterPageTemplate({
       <div className='inner_page'>
       {
         charactersStore.characters.map((characterStore, idx) => {
-          let key = 'character-' + idx;
-          let style = {
-            top: 48 + (48 + 128) * ~~(idx / 6),
-            left: 32 + (32 + 96) * (idx % 6)
+          let props = {
+            key: 'character-' + idx,
+            style: {
+              top: 48 + (48 + 128) * ~~(idx / 6),
+              left: 32 + (32 + 96) * (idx % 6)
+            },
+            onMouseDown: onMouseDownCharacter
           };
+
           let cardBodyProps = _.assign(
             _.pick(characterStore, 'hp', 'maxHp', 'physicalAttackPower', 'attacks', 'feats'),
             {
@@ -29,7 +34,7 @@ export default function characterPageTemplate({
           );
 
           return (
-            <div className='character' key={key} style={style}>
+            <div className='character' {...props}>
               <h3>{characterStore.getName()}</h3>
               <CardComponent {...{
                 top: 20,

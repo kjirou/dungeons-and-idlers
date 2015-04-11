@@ -16,6 +16,7 @@ export default class App {
    */
   static clearStores() {
     [
+      CharactersStore,
       ScreenStore
     ].forEach((storeClass) => {
       storeClass.clearInstance();

@@ -39,6 +39,7 @@ let CreatureCardBodyComponent = React.createClass({
   displayName: 'CreatureCardBodyComponent',
   mixins: [ComponentMixin],
   propTypes: {
+    iconClassName: React.PropTypes.string.isRequired,
     hp: React.PropTypes.number.isRequired,
     maxHp: React.PropTypes.number.isRequired,
     physicalAttackPower: React.PropTypes.number.isRequired,
@@ -50,7 +51,7 @@ let CreatureCardBodyComponent = React.createClass({
     return (
       <div className={createComponentClassName('card_body', 'creature') }>
         <div className='icon_and_states'>
-          <div className='icon minotaur-monster-bg_img'></div>
+          <div className={'icon ' + this.props.iconClassName}></div>
           <div className='hp_container'>
             <span className='hp'>{this.props.hp}</span>
             <span className='separator'>/</span>

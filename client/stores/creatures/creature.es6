@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import {within} from 'client/lib/core';
+import IconizeMixin from 'client/lib/mixins/iconize';
 import NamingMixin from 'client/lib/mixins/naming';
 import CoreDispatcher from 'client/dispatcher/core';
 import Store from 'client/stores/store';
@@ -10,12 +11,11 @@ const MIN_MAX_HP = 1;
 const MAX_MAX_HP = 9999;
 const MIN_ATTACK_POWER = 0;
 
-export default Store.extend(_.assign({}, NamingMixin, {
+export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, {
 
   defaults() {
     return {
       name: '',
-      level: 1,
       hp: MIN_MAX_HP
     };
   },
@@ -24,7 +24,6 @@ export default Store.extend(_.assign({}, NamingMixin, {
     this._coreDispatcher = CoreDispatcher.getInstance();
 
     this.attrGetter('hp');
-    this.attrGetter('level');
 
     this.propGetter('attacks', '_getAttacks');
     this.propGetter('feats', '_getFeats');

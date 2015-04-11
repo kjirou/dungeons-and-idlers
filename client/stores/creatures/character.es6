@@ -20,13 +20,17 @@ export default CreatureStore.extend({
     this.propGetter('job', '_getJob');
   },
 
+  _getJob() {
+    return jobs[this.get('jobTypeId')];
+  },
+
   getName() {
     return CreatureStore.prototype.getName.apply(this) ||
       _s.titleize(_s.humanize(this.job.typeId));
   },
 
-  _getJob() {
-    return jobs[this.get('jobTypeId')];
+  getIconId() {
+    return this.job.getIconId();
   },
 
   _getBaseMaxHp() {
@@ -39,5 +43,13 @@ export default CreatureStore.extend({
 
   _getMagicalAttackPower() {
     return this.job.magicalAttackPower;
+  },
+
+  _getAttacks() {
+    return this.job.attacks;
+  },
+
+  _getFeats() {
+    return [];
   }
 });

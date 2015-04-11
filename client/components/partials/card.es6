@@ -1,7 +1,92 @@
+import _ from 'lodash';
 import React from 'react';
 
 import {createComponentClassName} from 'client/lib/view';
 import ComponentMixin from 'client/lib/mixins/component';
+
+
+let SimpleCardBodyComponent = React.createClass({
+  displayName: 'SimpleCardBodyComponent',
+  mixins: [ComponentMixin],
+  propTypes: {
+    title: React.PropTypes.string.isRequired,
+    hp: React.PropTypes.number,
+    iconClassName: React.PropTypes.string.isRequired,
+    description: React.PropTypes.string.isRequired
+  },
+  getDefaultProps() {
+    return {
+      hp: null
+    };
+  },
+  render() {
+    let iconContainerClassName = [
+      'icon',
+      this.props.iconClassName
+    ].join(' ');
+
+    return (
+      <div className={createComponentClassName('card_body', 'simple') }>
+        <div className='title'>{this.props.title}</div>
+        <div className={iconContainerClassName}></div>
+        <div className='description'>{this.props.description}</div>
+      </div>
+    );
+  }
+});
+
+let CreatureCardBodyComponent = React.createClass({
+  displayName: 'CreatureCardBodyComponent',
+  mixins: [ComponentMixin],
+  propTypes: {
+    iconClassName: React.PropTypes.string.isRequired,
+    hp: React.PropTypes.number.isRequired,
+    maxHp: React.PropTypes.number.isRequired,
+    physicalAttackPower: React.PropTypes.number.isRequired,
+    attacks: React.PropTypes.array.isRequired,
+    feats: React.PropTypes.array.isRequired,
+    subActionName: React.PropTypes.string.isRequired
+  },
+  render() {
+    return (
+      <div className={createComponentClassName('card_body', 'creature') }>
+        <div className='icon_and_states'>
+          <div className={'icon ' + this.props.iconClassName}></div>
+          <div className='hp_container'>
+            <span className='hp'>{this.props.hp}</span>
+            <span className='separator'>/</span>
+            <span className='max_hp'>{this.props.maxHp}</span>
+          </div>
+          <div className='damage_container'>
+            <span className='unit'>ATK</span>
+            <span className='value'>{this.props.physicalAttackPower}</span>
+          </div>
+        </div>
+        <div className='attacks_and_feats'>
+          <table className='attacks'>
+          {
+            this.props.attacks.map((action, idx) => {
+              return <tr key={'action-' + idx}>
+                <th>{idx + 1}</th><td>{action.name}</td>
+              </tr>;
+            })
+          }
+          </table>
+          <table className='feats'>
+          {
+            this.props.feats.map((feat, idx) => {
+              return <tr key={'feat-' + idx}>
+                <td>{feat.name}</td>
+              </tr>;
+            })
+          }
+          </table>
+        </div>
+        <div className='sub_action'>{this.props.subActionName}</div>
+      </div>
+    );
+  }
+});
 
 
 export default React.createClass({
@@ -12,7 +97,9 @@ export default React.createClass({
     top: React.PropTypes.number,
     left: React.PropTypes.number,
     isFace: React.PropTypes.bool,
-    isClickable: React.PropTypes.bool
+    isClickable: React.PropTypes.bool,
+    cardBodyType: React.PropTypes.string,
+    cardBodyProps: React.PropTypes.object
   },
 
   getDefaultProps() {
@@ -20,7 +107,13 @@ export default React.createClass({
       top: 0,
       left: 0,
       isFace: false,
-      isClickable: false
+      isClickable: false,
+      cardBodyType: 'simple',
+      cardBodyProps: {
+        title: 'Key',
+        iconClassName: 'blank',
+        description: '3 つ揃えると、出口の扉を開くことができます。'
+      }
     };
   },
 
@@ -31,48 +124,16 @@ export default React.createClass({
       cursor: this.props.isClickable ? 'pointer' : 'default'
     };
 
-    let actionDataList = [
-      { order: 1, label: 'ATK' },
-      { order: 2, label: 'ATK', isCurrent: true },
-      { order: 3, label: '--' },
-      { order: 4, label: 'SP' },
-      { order: 5, label: '--', isHidden: true },
-      { order: 6, label: '--', isHidden: true }
-    ];
+    let cardBodyComponent = {
+      simple: SimpleCardBodyComponent,
+      creature: CreatureCardBodyComponent
+    }[this.props.cardBodyType];
+    let cardBodyElement = React.createElement(cardBodyComponent, this.props.cardBodyProps);
 
     return (
       <div className={createComponentClassName('card')} style={style}>
         <div className='face' style={{ display: this.props.isFace ? 'block' : 'none' }}>
-          <div className='icon minotaur-monster-bg_img'></div>
-          <div className='hp_container'>
-            <span className='hp'>78</span>
-            <span className='separator'>/</span>
-            <span className='max_hp'>99</span>
-          </div>
-          <div className='damage_container'>
-            <span className='unit'>ATK</span>
-            <span className='value'>99</span>
-          </div>
-          <div className='passive_skills_container'>
-            <span>先制</span>
-            <span>追跡</span>
-          </div>
-          <div className='actions'>
-          {
-            actionDataList.map(({ order, label, isCurrent, isHidden }) => {
-              let key = 'cell-' + order;
-              let classNames = ['cell', key];
-              if (isCurrent) classNames.push('current');
-              let style = {
-                display: isHidden ? 'none' : 'block'
-              };
-              return <div key={key} className={classNames.join(' ')} style={style}>
-                <div key='order' className='order'>{order}</div>
-                <div key='label' className='label'>{label}</div>
-              </div>;
-            })
-          }
-          </div>
+          {cardBodyElement}
         </div>
         <div className='back' style={{ display: this.props.isFace ? 'none' : 'block' }}>
           <div className='icon downstairs-object-bg_img'></div>

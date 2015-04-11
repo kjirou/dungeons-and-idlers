@@ -11,6 +11,13 @@ export var AlchemistJob = _.assign({}, Job, {
   physicalAttackPower: 1
 });
 
+export var ClericJob = _.assign({}, Job, {
+  typeId: 'cleric',
+  maxHp: 5,
+  maxHandCard: 2,
+  physicalAttackPower: 2
+});
+
 export var DummyJob = _.assign({}, Job, {
   typeId: 'dummy',
   isPlayable: false
@@ -19,7 +26,6 @@ export var DummyJob = _.assign({}, Job, {
 export var FighterJob = _.assign({}, Job, {
   typeId: 'fighter',
   maxHp: 6,
-  maxHandCard: 2,
   physicalAttackPower: 3
 });
 
@@ -41,12 +47,6 @@ export var MageJob = _.assign({}, Job, {
   physicalAttackPower: 1
 });
 
-export var PriestJob = _.assign({}, Job, {
-  typeId: 'priest',
-  maxHp: 4,
-  physicalAttackPower: 2
-});
-
 export var RangerJob = _.assign({}, Job, {
   typeId: 'ranger',
   maxHp: 4,
@@ -56,18 +56,19 @@ export var RangerJob = _.assign({}, Job, {
 export var ThiefJob = _.assign({}, Job, {
   typeId: 'thief',
   maxHp: 3,
+  maxHandCard: 4,
   physicalAttackPower: 1
 });
 
 
 export var jobList = [
   AlchemistJob,
+  ClericJob,
   DummyJob,
   FighterJob,
   HealerJob,
   KnightJob,
   MageJob,
-  PriestJob,
   RangerJob,
   ThiefJob
 ];

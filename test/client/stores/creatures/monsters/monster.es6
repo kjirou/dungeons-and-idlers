@@ -37,5 +37,45 @@ describe('client/stores/creatures/monsters/monster module', function() {
       sub = new SubMonsterStore({ name: 'Taro' });
       assert.strictEqual(sub.name, 'Taro');
     });
+
+    it('attacks, attackUpdates', function() {
+      let attacks;
+
+      // default
+      let FooStore = MonsterStore.extend();
+      let foo = new FooStore();
+      attacks = foo.attacks;
+      assert.strictEqual(attacks.length, 3);
+      assert.strictEqual(attacks[0].typeId, 'physical_attack');
+
+      // overwrite by attacks
+      let BarStore = MonsterStore.extend({}, {
+        attacks: [
+          { typeId: 'a' },
+          { typeId: 'b' },
+          { typeId: 'c' }
+        ]
+      });
+      let bar = new BarStore();
+      attacks = bar.attacks;
+      assert.strictEqual(attacks.length, 3);
+      assert.strictEqual(attacks[0].typeId, 'a');
+      assert.strictEqual(attacks[1].typeId, 'b');
+      assert.strictEqual(attacks[2].typeId, 'c');
+
+      // update by attackUpdates
+      let BazStore = MonsterStore.extend({}, {
+        attackUpdates: {
+          1: { typeId: 'x' },
+          3: { typeId: 'z' }
+        }
+      });
+      let baz = new BazStore();
+      attacks = baz.attacks;
+      assert.strictEqual(attacks.length, 3);
+      assert.strictEqual(attacks[0].typeId, 'x');
+      assert.strictEqual(attacks[1].typeId, 'physical_attack');
+      assert.strictEqual(attacks[2].typeId, 'z');
+    });
   });
 });

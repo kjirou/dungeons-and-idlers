@@ -24,14 +24,33 @@ export default CreatureStore.extend({
     return this.constructor.magicalAttackPower;
   },
 
-  getActions() {
-    let actions = _.cloneDeep(this.constructor.actions || []);
-    return actions;
+  _getAttacks() {
+    let defaultAttacks = _.range(3).map(() => {
+      return { typeId: 'physical_attack', name: '攻撃' };
+    });
+    let attacks = _.cloneDeep(this.constructor.attacks || defaultAttacks);
+    if (attacks.length !== 3) {
+      throw new Error('Invalid attacks');
+    }
+    if (this.constructor.attackUpdates) {
+      Object.keys(this.constructor.attackUpdates).forEach((k) => {
+        if (['1', '2', '3'].indexOf(k) === -1) {
+          throw new Error('Invalid attackUpdates');
+        }
+        var idx = ~~(k) - 1;
+        attacks[idx] = _.cloneDeep(this.constructor.attackUpdates[k]);
+      });
+    }
+    return attacks;
+  },
+
+  _getFeats() {
+    return [];
   }
 }, {
   typeId: undefined,
   maxHp: CreatureStore.MIN_MAX_HP,
   physicalAttackPower: 0,
   magicalAttackPower: 0,
-  actions: null
+  attacks: null
 });

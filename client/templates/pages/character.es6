@@ -1,7 +1,8 @@
+import _ from 'lodash';
 import React from 'react';
 
 
-export default function partyPageTemplate({
+export default function characterPageTemplate({
   className,
   style,
   navigationBar,
@@ -19,10 +20,24 @@ export default function partyPageTemplate({
             top: 48 + (48 + 128) * ~~(idx / 6),
             left: 32 + (32 + 96) * (idx % 6)
           };
+          let cardBodyProps = _.assign(
+            _.pick(characterStore, 'hp', 'maxHp', 'physicalAttackPower', 'attacks', 'feats'),
+            {
+              iconClassName: characterStore.getIconClassName(),
+              subActionName: '--'
+            }
+          );
+
           return (
             <div className='character' key={key} style={style}>
               <h3>{characterStore.getName()}</h3>
-              <CardComponent top={20} isFace={true} isClickable={true} />
+              <CardComponent {...{
+                top: 20,
+                isFace: true,
+                isClickable: true,
+                cardBodyType: 'creature',
+                cardBodyProps: cardBodyProps
+              }}/>
             </div>
           );
         })

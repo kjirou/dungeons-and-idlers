@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import {within} from 'client/lib/core';
+import IconizeMixin from 'client/lib/mixins/iconize';
 import NamingMixin from 'client/lib/mixins/naming';
 import CoreDispatcher from 'client/dispatcher/core';
 import Store from 'client/stores/store';
@@ -10,12 +11,11 @@ const MIN_MAX_HP = 1;
 const MAX_MAX_HP = 9999;
 const MIN_ATTACK_POWER = 0;
 
-export default Store.extend(_.assign({}, NamingMixin, {
+export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, {
 
   defaults() {
     return {
       name: '',
-      level: 1,
       hp: MIN_MAX_HP
     };
   },
@@ -24,12 +24,13 @@ export default Store.extend(_.assign({}, NamingMixin, {
     this._coreDispatcher = CoreDispatcher.getInstance();
 
     this.attrGetter('hp');
-    this.attrGetter('level');
 
-    this.propGetter('maxHp', '_getMaxHp');
+    this.propGetter('attacks', '_getAttacks');
+    this.propGetter('feats', '_getFeats');
     this.propGetter('name', 'getName');
     this.propGetter('hpRate', '_getHpRate');
     this.propGetter('magicalAttackPower', '_getMagicalAttackPower');
+    this.propGetter('maxHp', '_getMaxHp');
     this.propGetter('physicalAttackPower', '_getPhysicalAttackPower');
     this.propGetter('wound', '_getWound');
     this.propGetter('woundRate', '_getWoundRate');
@@ -140,6 +141,18 @@ export default Store.extend(_.assign({}, NamingMixin, {
   },
 
   /**
+   * 全ての状態を初期化する
+   *
+   * 良い効果も消すので、いわゆる「全快」ではない
+   * ゲーム内で使うような処理ではない
+   */
+  resetStates() {
+    this.beHealedFully();
+    this.adaptStates();
+    // TODO: バフ削除
+  },
+
+  /**
    * 処理前後で一部の状態を継続する
    * HPの割合を維持したまま最大値を変更したり
    */
@@ -157,6 +170,22 @@ export default Store.extend(_.assign({}, NamingMixin, {
 
   _getMagicalAttackPower() {
     return 0;
+  },
+
+  /**
+   * 攻撃リストを返す
+   * @return {Array} 要素数は常に3
+   */
+  _getAttacks() {
+    throw new Error('Not implemented');
+  },
+
+  /**
+   * 特性リストを返す
+   * @return {Array} 要素数は0以上
+   */
+  _getFeats() {
+    throw new Error('Not implemented');
   }
 }), {
   MIN_MAX_HP,

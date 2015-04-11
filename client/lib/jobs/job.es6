@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import _s from 'underscore.string';
 
+import IconizeMixin from 'client/lib/mixins/iconize';
 import NamingMixin from 'client/lib/mixins/naming';
 
 
-export default _.assign({}, NamingMixin, {
+export default _.assign({}, NamingMixin, IconizeMixin, {
   typeId: undefined,
   getName() {
     return this._name || _s.titleize(_s.humanize(this.typeId));
@@ -13,5 +14,10 @@ export default _.assign({}, NamingMixin, {
   maxHp: 1,
   maxHandCard: 3,
   physicalAttackPower: 0,
-  magicalAttackPower: 0
+  magicalAttackPower: 0,
+  attacks: [
+    { typeId: 'physical_attack', name: '打撃' },
+    { typeId: 'physical_attack', name: '打撃' },
+    { typeId: 'physical_attack', name: '打撃' }
+  ]
 });

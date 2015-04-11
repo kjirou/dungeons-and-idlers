@@ -26,6 +26,8 @@ buttonize($width, $height, $borderSize=3px, $borderRadius=5px)
 text-bordering(size, color=#000)
   text-shadow: -(size) (-(size)) color, size (-(size)) color, -(size) size color, size size color
 
+base-font-family()
+  font-family: Miranda
 japanese-font-family()
   font-family: Hiragino Kaku Gothic ProN, Meiryo, MS PGothic, sans-serif
 
@@ -33,7 +35,7 @@ japanese-font-family()
 #js-game-container .screen-component
   position: absolute
   color: $TEXT_COLOR
-  font-family: 'Miranda';
+  base-font-family()
   background-color: $BACKGROUND_COLOR
   overflow: hidden
 
@@ -218,6 +220,95 @@ japanese-font-family()
   height: 160px
 
 
+// 92 x 124
+#js-game-container .card_body-component
+  position: absolute
+  width: 92px
+  height: 124px
+  &.creature-card_body-component
+    .icon_and_states
+      position: absolute
+      width: 100%
+      height: 40px
+      .icon
+        position: absolute
+        top: 4px
+        left: 4px
+        width: 32px
+        height: 32px
+      .hp_container
+        position: absolute
+        top: 0
+        left: 40px
+        width: 52px  // 92 - 40(icon + padding)
+        height: 24px
+        text-align: center
+        .hp
+          line-height: 24px
+          font-size: 24px
+        .separator
+          padding: 0 4px
+          line-height: 16px
+          font-size: 16px
+        .max_hp
+          line-height: 16px
+          font-size: 16px
+      .damage_container
+        position: absolute
+        top: 24px
+        left: 40px
+        width: 52px
+        height: 16px
+        text-align: center
+        .unit
+          line-height: 16px
+          font-size: 16px
+        .value
+          padding-left: 4px
+          line-height: 16px
+          font-size: 22px
+    .attacks_and_feats
+      $rowHeight = 20px
+      position: absolute
+      top: 45px
+      width: 100%
+      height: $rowHeight * 3
+      line-height: $rowHeight
+      font-size: 10px
+      japanese-font-family()
+      clearfix()
+      table.attacks
+        float: left
+        width: 55%
+        border-right: 1px solid $TEXT_COLOR
+        tr
+          height: $rowHeight
+          th
+            width: 9px  // 残り幅に4文字入るように40px残す
+            base-font-family()
+            font-size: 18px
+            text-align: center
+          td
+            text-align: center
+      table.feats
+        float: right
+        width: 45%
+        tr
+          height: $rowHeight
+          td
+            text-align: center
+    .sub_action
+      position: absolute
+      bottom: 0
+      width: 100%
+      height: 14px
+      line-height: 14px
+      border-top: 1px solid $TEXT_COLOR
+      japanese-font-family()
+      font-size: 10px
+      text-align: center
+
+
 // 96 x 128
 #js-game-container .card-component
   position: absolute
@@ -230,100 +321,6 @@ japanese-font-family()
     position: absolute
     width: 100%
     height: 100%
-    .icon
-      position: absolute
-      top: 4px
-      left: 4px
-      width: 32px
-      height: 32px
-    .hp_container
-      position: absolute
-      top: 0
-      left: 40px
-      width: 52px  // 92 - 40(icon + padding)
-      height: 24px
-      text-align: center
-      .hp
-        line-height: 24px
-        font-size: 24px
-      .separator
-        padding: 0 4px
-        line-height: 16px
-        font-size: 16px
-      .max_hp
-        line-height: 16px
-        font-size: 16px
-    .damage_container
-      position: absolute
-      top: 24px
-      left: 40px
-      width: 52px
-      height: 16px
-      text-align: center
-      .unit
-        line-height: 16px
-        font-size: 16px
-      .value
-        padding-left: 4px
-        line-height: 16px
-        font-size: 22px
-    .passive_skills_container
-      position: absolute
-      top: 40px
-      left: 0
-      width: 100%
-      height: 16px
-      text-align: left
-      span
-        japanese-font-family()
-        padding-left: 4px
-        line-height: 16px
-        font-size: 10px
-    .actions
-      position: absolute
-      top: 58px
-      width: 100%
-      height: 66px
-      .cell
-        position: absolute
-        width: 46px
-        height: 22px
-        line-height: 22px
-        text-align: center
-        &.cell-1
-          top: 0
-          left: 0
-        &.cell-2
-          top: 22px
-          left: 0
-        &.cell-3
-          top: 44px
-          left: 0
-        &.cell-4
-          top: 0
-          left: 46px
-        &.cell-5
-          top: 22px
-          left: 46px
-        &.cell-6
-          top: 44px
-          left: 46px
-        &.current
-          color: #f00
-        .order
-          position: absolute
-          top: 0
-          left: 0
-          width: 14px
-          height: 100%
-          font-size: 18px
-        .label
-          position: absolute
-          top: 0
-          left: 14px
-          width: 32px
-          height: 100%
-          font-size: 16px
   .back
     position: absolute
     width: 100%
@@ -413,6 +410,10 @@ japanese-font-family()
     background-image: url(/materials/images/denzi/parts/buffs/status_down.png)
   .status_up-bg_img
     background-image: url(/materials/images/denzi/parts/buffs/status_up.png)
+  // jobs
+  for $id in 'alchemist' 'cleric' 'fighter' 'healer' 'knight' 'mage' 'ranger' 'thief'
+    .{$id}-job-bg_img
+      background-image: url('/materials/images/denzi/parts/jobs/' + $id + '.png')
   // monsters
   .goblin-monster-bg_img
     background-image: url(/materials/images/denzi/parts/goblin.png)

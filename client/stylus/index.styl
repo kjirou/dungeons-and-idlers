@@ -184,6 +184,43 @@ japanese-font-family()
       text-align: center
 
 
+#js-game-container .equipment-page-component
+  .inner_page
+    clearfix()
+    .page_column
+      height: 100%
+      $leftPageColumnWidth = 160px
+      &.left-page_column
+        float: left
+        width: $leftPageColumnWidth
+        $characterPaginationSide = 32px
+        .character_pagination
+          width: 100%
+          height: $characterPaginationSide
+          line-height: $characterPaginationSide
+          clearfix()
+          .part
+            float: left
+            height: 100%
+            text-align: center
+            font-size: 20px
+            &.left-part
+              width: $characterPaginationSide
+              cursor: pointer
+            &.center-part
+              width: $leftPageColumnWidth - $characterPaginationSide * 2
+            &.right-part
+              width: $characterPaginationSide
+              cursor: pointer
+        .card_container
+          position: relative
+          width: 100%
+          height: 160px  // 128 + 16 * 2
+      &.right-page_column
+        float: right
+        width: 640px
+
+
 #js-game-container .game-page-component
   $rightSideTop = 24px
   $rightSideRight = 24px

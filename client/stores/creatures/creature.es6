@@ -186,6 +186,20 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, {
    */
   _getFeats() {
     throw new Error('Not implemented');
+  },
+
+  /**
+   * React Component へ渡す情報へ変換する
+   * @return {object}
+   */
+  toCardBodyComponentProps() {
+    return _.assign(
+      _.pick(this, 'hp', 'maxHp', 'physicalAttackPower', 'attacks', 'feats'),
+      {
+        iconClassName: this.getIconClassName(),
+        subActionName: '--'
+      }
+    );
   }
 }), {
   MIN_MAX_HP,

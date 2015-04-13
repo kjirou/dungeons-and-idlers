@@ -25,14 +25,6 @@ export default function characterPageTemplate({
             onMouseDown: onMouseDownCharacter
           };
 
-          let cardBodyProps = _.assign(
-            _.pick(characterStore, 'hp', 'maxHp', 'physicalAttackPower', 'attacks', 'feats'),
-            {
-              iconClassName: characterStore.getIconClassName(),
-              subActionName: '--'
-            }
-          );
-
           return (
             <div className='character' {...props}>
               <h3>{characterStore.getName()}</h3>
@@ -41,7 +33,7 @@ export default function characterPageTemplate({
                 isFace: true,
                 isClickable: true,
                 cardBodyType: 'creature',
-                cardBodyProps: cardBodyProps
+                cardBodyProps: characterStore.toCardBodyComponentProps()
               }}/>
             </div>
           );

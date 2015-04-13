@@ -15,7 +15,19 @@ export default React.createClass({
   mixins: [ComponentMixin, PageComponentMixin],
 
   render: function render() {
-    let characterElements
+    let charactersStore = CharactersStore.getInstance();
+    let selectedCharacterStore = charactersStore.characters[0] || null;  // TMP
+
+    let selectedCharacterElement = null;
+    if (selectedCharacterStore) {
+      selectedCharacterElement = <CardComponent {...{
+        top: 16,
+        left: 32,
+        isFace: true,
+        cardBodyType: 'creature',
+        cardBodyProps: selectedCharacterStore.toCardBodyComponentProps()
+      }}/>;
+    }
 
     return compileJsxTemplate('pages/equipment', {
       className: createPageComponentClassName('equipment'),
@@ -24,7 +36,10 @@ export default React.createClass({
         NavigationBarComponent
       },
       CardComponent,
-      charactersStore: CharactersStore.getInstance()
+      charactersStore,
+      selectedCharacterStore,
+      selectedCharacterName: (selectedCharacterStore) ? selectedCharacterStore.getName() : '',
+      selectedCharacterElement
     });
   }
 });

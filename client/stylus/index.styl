@@ -196,27 +196,27 @@ japanese-font-family()
         width: $leftPageColumnWidth
         $characterPaginationSide = 32px
         .character_pagination
-          width: 100%
-          height: $characterPaginationSide
-          line-height: $characterPaginationSide
+          margin: 8px 8px 0 8px
+          width: $leftPageColumnWidth - 16px
+          height: 48px
+          line-height: 48px
           clearfix()
           .part
             float: left
             height: 100%
             text-align: center
             font-size: 20px
+            cursor: pointer
             &.left-part
               width: $characterPaginationSide
-              cursor: pointer
             &.center-part
-              width: $leftPageColumnWidth - $characterPaginationSide * 2
+              width: $leftPageColumnWidth - $characterPaginationSide * 2 - 16px
             &.right-part
               width: $characterPaginationSide
-              cursor: pointer
         .card_container
           position: relative
           width: 100%
-          height: 160px  // 128 + 16 * 2
+          height: 144px  // 128 + 8 * 2
       &.right-page_column
         float: right
         width: 640px

@@ -27,6 +27,10 @@ export default React.createClass({
     this.pipeStoreAttributeToState(charactersStore, 'editingCharacterIndex');
   },
 
+  _onMouseDownCharacterName() {
+    ScreenActionCreators.changePage('character');
+  },
+
   _onMouseDownNextCharacter() {
     ScreenActionCreators.rotateEditingCharacter(1);
     ScreenActionCreators.changePage('equipment');
@@ -44,7 +48,7 @@ export default React.createClass({
     let selectedCharacterElement = null;
     if (selectedCharacterStore) {
       selectedCharacterElement = <CardComponent {...{
-        top: 16,
+        top: 8,
         left: 32,
         isFace: true,
         cardBodyType: 'creature',
@@ -63,6 +67,7 @@ export default React.createClass({
       selectedCharacterStore,
       selectedCharacterName: (selectedCharacterStore) ? selectedCharacterStore.getName() : '',
       selectedCharacterElement,
+      onMouseDownCharacterName: this._onMouseDownCharacterName,
       onMouseDownNextCharacter: this._onMouseDownNextCharacter,
       onMouseDownPrevCharacter: this._onMouseDownPrevCharacter
     });

@@ -2,6 +2,7 @@ import {Promise} from 'bluebird';
 import _ from 'lodash';
 
 import CoreDispatcher from 'client/dispatcher/core';
+import {rotateIndex} from 'client/lib/core';
 import {jobs, playableJobList} from 'client/lib/jobs';
 import CharacterStore from 'client/stores/creatures/character';
 import Store from 'client/stores/store';
@@ -31,7 +32,10 @@ export default Store.extend({
     let dispatchToken0 = coreDispatcher.register(function({action}) {
       switch (action.type) {
         case 'change_editing_character':
-          self.set('editingCharacterIndex', action.characterIndex, { validate: true });
+          self.setEditingCharacterIndex(action.characterIndex);
+          break;
+        case 'rotate_editing_character':
+          self.rotateEditingCharacterIndex(action.indexDelta);
           break;
       }
     });
@@ -39,6 +43,7 @@ export default Store.extend({
 
     this._characters = [];
 
+    this.attrGetter('editingCharacterIndex');
     this.propGetter('characters');
   },
 
@@ -63,7 +68,19 @@ export default Store.extend({
     return this.fetch();
   },
 
+  setEditingCharacterIndex(value) {
+    if (this.characters[value] === undefined) {
+      value = this.defaults().editingCharacterIndex;
+    }
+    this.set('editingCharacterIndex', value, { validate: true });
+  },
+
+  rotateEditingCharacterIndex(indexDelta) {
+    let nextIndex = rotateIndex(this.characters.length, this.editingCharacterIndex, indexDelta);
+    this.setEditingCharacterIndex(nextIndex);
+  },
+
   getEditingCharacter() {
-    return this.characters[this.get('editingCharacterIndex')] || null;
+    return this.characters[this.editingCharacterIndex] || null;
   }
 });

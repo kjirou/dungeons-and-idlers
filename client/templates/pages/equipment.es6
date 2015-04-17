@@ -9,7 +9,9 @@ export default function characterPageTemplate({
   CardComponent,
   charactersStore,
   selectedCharacterName,
-  selectedCharacterElement
+  selectedCharacterElement,
+  onMouseDownNextCharacter,
+  onMouseDownPrevCharacter
 }) {
   return (
     <div className={className} style={style}>
@@ -17,9 +19,9 @@ export default function characterPageTemplate({
       <div className='inner_page'>
         <div className='page_column left-page_column'>
           <div className='character_pagination'>
-            <div className='part left-part'>&lt;</div>
+            <div className='part left-part' onMouseDown={onMouseDownPrevCharacter}>&lt;</div>
             <div className='part center-part'>{selectedCharacterName}</div>
-            <div className='part right-part'>&gt;</div>
+            <div className='part right-part' onMouseDown={onMouseDownNextCharacter}>&gt;</div>
           </div>
           <div className='card_container'>
             {selectedCharacterElement}

@@ -23,5 +23,16 @@ export default {
       type: 'change_editing_character',
       characterIndex
     });
+  },
+
+  /**
+   * Rotate editing character
+   * @param {number} indexDelta
+   */
+  rotateEditingCharacter(indexDelta) {
+    CoreDispatcher.getInstance().handleViewAction({
+      type: 'rotate_editing_character',
+      indexDelta
+    });
   }
 };

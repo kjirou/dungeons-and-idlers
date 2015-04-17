@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import {dictionarize, listize, within} from 'client/lib/core';
+import {dictionarize, listize, rotateIndex, within} from 'client/lib/core';
 
 
 describe('client/lib/core module', function() {
@@ -36,5 +36,13 @@ describe('client/lib/core module', function() {
         { type: 'bar', value: 2 }
       ]
     );
+  });
+
+  it('rotateIndex', function() {
+    assert.strictEqual(rotateIndex(10, 0, 1), 1);
+    assert.strictEqual(rotateIndex(10, 3, 5), 8);
+    assert.strictEqual(rotateIndex(10, 5, 7), 2);
+    assert.strictEqual(rotateIndex(10, 0, -1), 9);
+    assert.strictEqual(rotateIndex(0, 0, 1), -1);
   });
 });

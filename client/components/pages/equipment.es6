@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 var {DOM} = React;
 
+import ScreenActionCreators from 'client/actions/screen-action-creators';
 import CardComponent from 'client/components/partials/card';
 import NavigationBarComponent from 'client/components/partials/navigation-bar';
 import {compileJsxTemplate, createPageComponentClassName} from 'client/lib/view';
@@ -13,6 +14,28 @@ import CharactersStore from 'client/stores/characters';
 export default React.createClass({
   displayName: 'EquipmentPageComponent',
   mixins: [ComponentMixin, PageComponentMixin],
+
+  getInitialState() {
+    let charactersStore = CharactersStore.getInstance();
+    return {
+      editingCharacterIndex: charactersStore.editingCharacterIndex
+    };
+  },
+
+  componentWillMount() {
+    let charactersStore = CharactersStore.getInstance();
+    this.pipeStoreAttributeToState(charactersStore, 'editingCharacterIndex');
+  },
+
+  _onMouseDownNextCharacter() {
+    ScreenActionCreators.rotateEditingCharacter(1);
+    ScreenActionCreators.changePage('equipment');
+  },
+
+  _onMouseDownPrevCharacter() {
+    ScreenActionCreators.rotateEditingCharacter(-1);
+    ScreenActionCreators.changePage('equipment');
+  },
 
   render: function render() {
     let charactersStore = CharactersStore.getInstance();
@@ -39,7 +62,9 @@ export default React.createClass({
       charactersStore,
       selectedCharacterStore,
       selectedCharacterName: (selectedCharacterStore) ? selectedCharacterStore.getName() : '',
-      selectedCharacterElement
+      selectedCharacterElement,
+      onMouseDownNextCharacter: this._onMouseDownNextCharacter,
+      onMouseDownPrevCharacter: this._onMouseDownPrevCharacter
     });
   }
 });

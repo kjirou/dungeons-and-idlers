@@ -216,7 +216,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
       _.pick(this, 'hp', 'maxHp', 'physicalAttackPower', 'attacks', 'feats'),
       {
         iconClassName: this.getIconClassName(),
-        subActionName: '--'
+        subActionName: '補助行動無し'
       }
     );
   }

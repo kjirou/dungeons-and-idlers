@@ -28,8 +28,8 @@ export default class App {
    * @return {Object}
    */
   static initializeStores() {
-    let screenStore = ScreenStore.getInstance();
     let charactersStore = CharactersStore.getInstance();
+    let screenStore = ScreenStore.getInstance({ charactersStore });
 
     return {
       charactersStore,

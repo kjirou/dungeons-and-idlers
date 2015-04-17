@@ -22,7 +22,9 @@ export default function characterPageTemplate({
               top: 48 + (48 + 128) * ~~(idx / 6),
               left: 32 + (32 + 96) * (idx % 6)
             },
-            onMouseDown: onMouseDownCharacter
+            onMouseDown() {
+              onMouseDownCharacter(idx);
+            }
           };
 
           return (

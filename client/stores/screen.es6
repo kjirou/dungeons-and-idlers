@@ -6,22 +6,28 @@ export default Store.extend({
 
   defaults: function() {
     return {
-      pageId: 'welcome'
+      pageId: 'welcome',
+      editingCharacterIndex: 0
     };
   },
 
-  initialize: function() {
+  initialize: function({ charactersStore }) {
     let self = this;
     let coreDispatcher = CoreDispatcher.getInstance();
 
     this.attrGetter('pageId');
 
-    this.dispatchToken = coreDispatcher.register(function({action}) {
+    let dispatchToken0 = coreDispatcher.register(function({action}) {
+      coreDispatcher.waitFor([
+        ...charactersStore.dispatchTokens
+      ]);
+
       switch (action.type) {
         case 'change_page':
-          self.set('pageId', action.pageId);
+          self.set('pageId', action.pageId, { validate: true });
           break;
       }
     });
+    this.dispatchTokens = [dispatchToken0];
   }
 });

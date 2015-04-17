@@ -5,11 +5,23 @@ export default {
 
   /**
    * Change active page
+   * @param {string} pageId
    */
-  changePage: function changePage(pageId) {
+  changePage(pageId) {
     CoreDispatcher.getInstance().handleViewAction({
       type: 'change_page',
-      pageId: pageId
+      pageId
+    });
+  },
+
+  /**
+   * Change editing character
+   * @param {number} characterIndex
+   */
+  changeEditingCharacter(characterIndex) {
+    CoreDispatcher.getInstance().handleViewAction({
+      type: 'change_editing_character',
+      characterIndex
     });
   }
 };

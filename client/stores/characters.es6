@@ -19,12 +19,23 @@ export default Store.extend({
     });
 
     return {
-      characters: characters
+      characters,
+      editingCharacterIndex: 0
     };
   },
 
   initialize() {
-    this._coreDispatcher = CoreDispatcher.getInstance();
+    let self = this;
+    let coreDispatcher = CoreDispatcher.getInstance();
+
+    let dispatchToken0 = coreDispatcher.register(function({action}) {
+      switch (action.type) {
+        case 'change_editing_character':
+          self.set('editingCharacterIndex', action.characterIndex, { validate: true });
+          break;
+      }
+    });
+    this.dispatchTokens = [dispatchToken0];
 
     this._characters = [];
 
@@ -50,5 +61,9 @@ export default Store.extend({
       })
     ;
     return this.fetch();
+  },
+
+  getEditingCharacter() {
+    return this.characters[this.get('editingCharacterIndex')] || null;
   }
 });

@@ -15,12 +15,16 @@ export default React.createClass({
   displayName: 'CharacterPageComponent',
   mixins: [ComponentMixin, PageComponentMixin],
 
-  _onMouseDownCharacter() {
+  /**
+   * @param {number} characterIndex Index of `charactersStore.characters`
+   */
+  _onMouseDownCharacter(characterIndex) {
+    ScreenActionCreators.changeEditingCharacter(characterIndex);
     ScreenActionCreators.changePage('equipment');
   },
 
   render: function render() {
-    let characterElements
+    let characterElements;
 
     return compileJsxTemplate('pages/character', {
       className: createPageComponentClassName('character'),

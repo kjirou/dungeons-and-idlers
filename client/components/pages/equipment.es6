@@ -16,7 +16,7 @@ export default React.createClass({
 
   render: function render() {
     let charactersStore = CharactersStore.getInstance();
-    let selectedCharacterStore = charactersStore.characters[0] || null;  // TMP
+    let selectedCharacterStore = charactersStore.getEditingCharacter();
 
     let selectedCharacterElement = null;
     if (selectedCharacterStore) {

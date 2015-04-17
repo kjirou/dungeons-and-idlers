@@ -21,6 +21,7 @@
     "morgan": "1.5.1",
     "nib": "1.1.0",
     "react": "0.13.1",
+    "rpgparameter": "1.0.0",
     "serve-favicon": "2.2.0",
     "underscore.string": "3.0.3"
   },

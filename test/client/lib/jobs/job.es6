@@ -13,12 +13,12 @@ describe('client/lib/jobs/job module', function() {
   it('extension', function() {
     let FooJob = _.assign({}, Job, {
       typeId: 'foo',
-      physicalAttackPower: 2
+      _physicalAttackPower: 2
     });
 
     assert.strictEqual(FooJob.getName(), 'Foo');
-    assert.strictEqual(FooJob.physicalAttackPower, 2);
-    assert.strictEqual(FooJob.magicalAttackPower, 0);
+    assert.strictEqual(FooJob.getPhysicalAttackPower(), 2);
+    assert.strictEqual(FooJob.getMagicalAttackPower(), 0);
 
     FooJob._name = 'FOOO';
     assert.strictEqual(FooJob.getName(), 'FOOO');

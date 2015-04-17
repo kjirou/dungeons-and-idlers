@@ -26,6 +26,7 @@ var JS_REQUIREMENTS = [
   'lodash',
   'mock-localstorage',
   'react',
+  'rpgparameter',
   'underscore.string'
 ];
 

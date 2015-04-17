@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import {MODULE_TEMPLATES_ROOT} from 'client/constants';
-import {playableJobList} from 'client/lib/jobs';
 
 
 // pre-reading templates for browserify
@@ -58,8 +57,11 @@ export function compileJsxTemplate(templatePath, locals = {}) {
 export const ICON_CLASS_NAME_PREFIX_MAP = (() => {
   let map = {};
   // jobs
-  playableJobList.forEach((job) => {
-    map[job.typeId] = job.typeId + '-job';
+  [
+    'alchemist', 'cleric', 'fighter', 'healer',
+    'knight', 'mage', 'ranger', 'thief'
+  ].forEach((id) => {
+    map[id] = id + '-job';
   });
   // symbols
   ['invalid'].forEach((id) => {

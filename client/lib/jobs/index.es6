@@ -6,16 +6,21 @@ import Job from 'client/lib/jobs/job';
 
 export var AlchemistJob = _.assign({}, Job, {
   typeId: 'alchemist',
-  maxHp: 3,
-  maxHandCard: 4,
-  physicalAttackPower: 1
+  _maxHp: 3,
+  _physicalAttackPower: 1
 });
 
 export var ClericJob = _.assign({}, Job, {
   typeId: 'cleric',
-  maxHp: 5,
-  maxHandCard: 2,
-  physicalAttackPower: 2
+  _maxHp: 5,
+  _maxHandCardCount: 2,
+  _physicalAttackPower: 2
+});
+
+export var CreatureJob = _.assign({}, Job, {
+  typeId: 'creature',
+  _name: 'No Class',
+  isPlayable: false
 });
 
 export var DummyJob = _.assign({}, Job, {
@@ -25,45 +30,46 @@ export var DummyJob = _.assign({}, Job, {
 
 export var FighterJob = _.assign({}, Job, {
   typeId: 'fighter',
-  maxHp: 6,
-  physicalAttackPower: 3
+  _maxHp: 6,
+  _physicalAttackPower: 3
 });
 
 export var HealerJob = _.assign({}, Job, {
   typeId: 'healer',
-  maxHp: 5,
-  physicalAttackPower: 1
+  _maxHp: 5,
+  _physicalAttackPower: 1
 });
 
 export var KnightJob = _.assign({}, Job, {
   typeId: 'knight',
-  maxHp: 8,
-  physicalAttackPower: 2
+  _maxHp: 8,
+  _physicalAttackPower: 2
 });
 
 export var MageJob = _.assign({}, Job, {
   typeId: 'mage',
-  maxHp: 3,
-  physicalAttackPower: 1
+  _maxHp: 3,
+  _physicalAttackPower: 1
 });
 
 export var RangerJob = _.assign({}, Job, {
   typeId: 'ranger',
-  maxHp: 4,
-  physicalAttackPower: 2
+  _maxHp: 4,
+  _physicalAttackPower: 2
 });
 
 export var ThiefJob = _.assign({}, Job, {
   typeId: 'thief',
-  maxHp: 3,
-  maxHandCard: 4,
-  physicalAttackPower: 1
+  _maxHp: 3,
+  _maxHandCardCount: 4,
+  _physicalAttackPower: 1
 });
 
 
 export var jobList = [
   AlchemistJob,
   ClericJob,
+  CreatureJob,
   DummyJob,
   FighterJob,
   HealerJob,

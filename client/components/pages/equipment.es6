@@ -47,13 +47,11 @@ export default React.createClass({
 
     let selectedCharacterElement = null;
     if (selectedCharacterStore) {
-      selectedCharacterElement = <CardComponent {...{
+      let cardProps = _.assign({}, selectedCharacterStore.toCardComponentProps(), {
         top: 8,
-        left: 32,
-        isFace: true,
-        cardBodyType: 'creature',
-        cardBodyProps: selectedCharacterStore.toCardBodyComponentProps()
-      }}/>;
+        left: 32
+      });
+      selectedCharacterElement = <CardComponent {...cardProps}/>;
     }
 
     return compileJsxTemplate('pages/equipment', {

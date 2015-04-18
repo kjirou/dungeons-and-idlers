@@ -4,18 +4,17 @@ let aggregators = rpgparameter.aggregators;
 
 import {within} from 'client/lib/core';
 import {jobs} from 'client/lib/jobs';
+import CardifyMixin from 'client/lib/mixins/cardify';
 import IconizeMixin from 'client/lib/mixins/iconize';
 import NamingMixin from 'client/lib/mixins/naming';
 import ParametersMixin from 'client/lib/mixins/parameters';
-import CoreDispatcher from 'client/dispatcher/core';
 import Store from 'client/stores/store';
 
 
 const MIN_MAX_HP = 1;
 const MAX_MAX_HP = 9999;
-const MIN_ATTACK_POWER = 0;
 
-export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMixin, {
+export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixin, {
 
   defaults() {
     return {
@@ -26,10 +25,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
   },
 
   initialize() {
-    this._coreDispatcher = CoreDispatcher.getInstance();
-
     this.attrGetter('hp');
-
     this.propGetter('attacks', '_getAttacks');
     this.propGetter('feats', '_getFeats');
     this.propGetter('job', '_getJob');
@@ -207,11 +203,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     throw new Error('Not implemented');
   },
 
-  /**
-   * React Component へ渡す情報へ変換する
-   * @return {object}
-   */
-  toCardBodyComponentProps() {
+  _toCardBodyComponentProps() {
     return _.assign(
       _.pick(this, 'hp', 'maxHp', 'physicalAttackPower', 'attacks', 'feats'),
       {
@@ -219,9 +211,16 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
         subActionName: '補助行動無し'
       }
     );
+  },
+
+  toCardComponentProps() {
+    return {
+      isFace: this.isFace(),
+      cardBodyType: 'creature',
+      cardBodyProps: this._toCardBodyComponentProps()
+    };
   }
 }), {
   MIN_MAX_HP,
-  MAX_MAX_HP,
-  MIN_ATTACK_POWER
+  MAX_MAX_HP
 });

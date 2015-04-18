@@ -27,16 +27,15 @@ export default function characterPageTemplate({
             }
           };
 
+          let cardProps = _.assign({}, characterStore.toCardComponentProps(), {
+            top: 20,
+            isClickable: true
+          });
+
           return (
             <div className='character' {...props}>
               <h3>{characterStore.getName()}</h3>
-              <CardComponent {...{
-                top: 20,
-                isFace: true,
-                isClickable: true,
-                cardBodyType: 'creature',
-                cardBodyProps: characterStore.toCardBodyComponentProps()
-              }}/>
+              <CardComponent {...cardProps}/>
             </div>
           );
         })

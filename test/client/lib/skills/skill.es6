@@ -10,17 +10,15 @@ describe('client/lib/skills/skill module', function() {
     assert.strictEqual(typeof Skill, 'object');
   });
 
-  //it('extension', function() {
-  //  let FooJob = _.assign({}, Job, {
-  //    typeId: 'foo',
-  //    physicalAttackPower: 2
-  //  });
 
-  //  assert.strictEqual(FooJob.getName(), 'Foo');
-  //  assert.strictEqual(FooJob.physicalAttackPower, 2);
-  //  assert.strictEqual(FooJob.magicalAttackPower, 0);
+  context('sub skill definition', function() {
 
-  //  FooJob._name = 'FOOO';
-  //  assert.strictEqual(FooJob.getName(), 'FOOO');
-  //});
+    it('should be', function() {
+      let SubSkill = _.assign({}, Skill, {
+        typeId: 'sub',
+        _summary: 'it is sub skill'
+      });
+      assert.strictEqual(SubSkill.getSummary(), 'it is sub skill');
+    });
+  });
 });

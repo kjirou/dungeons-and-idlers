@@ -1,12 +1,23 @@
 import _ from 'lodash';
 import _s from 'underscore.string';
 
+import CardifyMixin from 'client/lib/mixins/cardify';
 import IconizeMixin from 'client/lib/mixins/iconize';
 import NamingMixin from 'client/lib/mixins/naming';
 import ParametersMixin from 'client/lib/mixins/parameters';
 
 
-var Skill = _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, {
+//
+// TODO: データ定義
+//
+// - 対象の指定
+// - バフ/デバフ付与の指定
+// - 即行動の場合の指定(照明や射撃など)
+//   - 対象選定と効果を分離するために、[射撃1] [射撃2] とかは別定義にした方がいい
+//
+
+
+var Skill = _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixin, {
   typeId: undefined,
   getName() {
     return this._name || _s.titleize(_s.humanize(this.typeId));
@@ -25,6 +36,37 @@ var Skill = _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, {
   category: 'skill',
 
   /**
+   * 概要と詳細説明文
+   *
+   * TODO: どちらもデフォルトで自動生成したい
+   */
+  _summary: '',
+  getSummary() {
+    return this._summary;
+  },
+  _description: '',
+  getDescription() {
+    return this._description;
+  },
+
+  /**
+   * 装備コスト
+   *
+   * TODO: 職業別に変える、少なくとも得手不得手はつくれないといけない
+   */
+  _equipmentCost: 0,
+  getEquipmentCost() {
+    return this._equipmentCost;
+  },
+
+  /**
+   * 手札として使用する際の消費行動力
+   *
+   * 現在は 1 or 0 のみ
+   */
+  actionPowerCost: 1,
+
+  /**
    * 攻撃リストを更新する
    *
    * e.g.
@@ -35,7 +77,19 @@ var Skill = _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, {
    *
    * 指定順により結果が変わることがある
    */
-  attacksUpdateQuery: null
+  attacksUpdateQuery: null,
+
+  toCardComponentProps() {
+    return {
+      isFace: true,
+      cardBodyType: 'simple',
+      cardBodyProps: {
+        title: this.getName(),
+        iconClassName: this.getIconClassName(),
+        description: this.getSummary()
+      }
+    };
+  }
 });
 
 

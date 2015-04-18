@@ -31,6 +31,10 @@ base-font-family()
 japanese-font-family()
   font-family: Hiragino Kaku Gothic ProN, Meiryo, MS PGothic, sans-serif
 
+turn-colors()
+  color: $BACKGROUND_COLOR
+  background-color: $TEXT_COLOR
+
 
 #js-game-container .screen-component
   position: absolute
@@ -213,6 +217,8 @@ japanese-font-family()
               width: $leftPageColumnWidth - $characterPaginationSide * 2 - 16px
             &.right-part
               width: $characterPaginationSide
+            &:hover
+              turn-colors()
         .card_container
           position: relative
           width: 100%

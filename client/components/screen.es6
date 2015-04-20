@@ -1,5 +1,6 @@
 import React from 'react';
 
+import CardPageComponent from 'client/components/pages/card';
 import CharacterPageComponent from 'client/components/pages/character';
 import EquipmentPageComponent from 'client/components/pages/equipment';
 import GamePageComponent from 'client/components/pages/game';
@@ -11,6 +12,7 @@ import ScreenStore from 'client/stores/screen';
 
 
 const PAGE_COMPONENTS = {
+  card: CardPageComponent,
   character: CharacterPageComponent,
   equipment: EquipmentPageComponent,
   game: GamePageComponent,

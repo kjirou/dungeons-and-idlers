@@ -5,7 +5,7 @@ export default function homePageTemplate({
   className,
   style,
   navigationBar,
-  onMouseDownStartGame
+  createOnMouseDownPageChangeButton
 }) {
   return (
     <div className={className} style={style}>
@@ -57,16 +57,16 @@ export default function homePageTemplate({
         <div className='right-side side'>
           <ul className='links'>
             <li>
-              <div className='image bar-paint-bg_img'></div>
+              <div className='image bar-paint-bg_img' onMouseDown={createOnMouseDownPageChangeButton('character')}/>
               <div className='detail'>
                 <div className='title'>Character</div>
                 <div className='description'>
-                  冒険者のカード設定をします<br/>
+                  冒険者の装備を整えます<br/>
                 </div>
               </div>
             </li>
             <li>
-              <div className='image library-paint-bg_img'></div>
+              <div className='image library-paint-bg_img' onMouseDown={createOnMouseDownPageChangeButton('card')}/>
               <div className='detail'>
                 <div className='title'>Card</div>
                 <div className='description'>
@@ -75,7 +75,7 @@ export default function homePageTemplate({
               </div>
             </li>
             <li>
-              <div className='image dungeon-paint-bg_img' onMouseDown={onMouseDownStartGame}></div>
+              <div className='image dungeon-paint-bg_img' onMouseDown={createOnMouseDownPageChangeButton('game')}/>
               <div className='detail'>
                 <div className='title'>Dungeon</div>
                 <div className='description'>

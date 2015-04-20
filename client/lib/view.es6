@@ -5,6 +5,7 @@ import {MODULE_TEMPLATES_ROOT} from 'client/constants';
 
 // pre-reading templates for browserify
 if (false) {
+  require('client/templates/pages/card');
   require('client/templates/pages/character');
   require('client/templates/pages/equipment');
   require('client/templates/pages/game');

@@ -1,13 +1,15 @@
 import _ from 'lodash';
 import _s from 'underscore.string';
 
-import {dictionarize} from 'client/lib/core';
+import {createCounter, dictionarize} from 'client/lib/core';
 import Skill from 'client/lib/skills/skill';
 
 
 function _classifyTypeId(typeId) {
   return _s.classify(typeId + 'Skill');
 }
+
+let _counter = createCounter();
 
 
 export var skillList = [];
@@ -27,7 +29,7 @@ export var skillList = [];
     _summary: '[距離3-5, 敵1人, 任意]へ[射撃1]を実行' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
-  let skill = _.assign({ category: 'sub_action' }, Skill, source);
+  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'sub_action' }, source);
   skillList.push(skill);
   exports[exportName] = skill;
 });
@@ -53,7 +55,7 @@ export var skillList = [];
     _summary: '[距離1, 敵1人]へ[射撃1]を実行＆[毒1]を付与' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
-  let skill = _.assign({ category: 'deck' }, Skill, source);
+  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'deck' }, source);
   skillList.push(skill);
   exports[exportName] = skill;
 });
@@ -69,7 +71,7 @@ export var skillList = [];
     _summary: '攻撃力: +1' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
-  let skill = _.assign({ category: 'skill' }, Skill, source);
+  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'skill' }, source);
   skillList.push(skill);
   exports[exportName] = skill;
 });

@@ -5,6 +5,7 @@ import React from 'react';
 import ScreenComponent from 'client/components/screen';
 import {SCREEN_WIDTH, SCREEN_HEIGHT} from 'client/constants';
 import CoreDispatcher from 'client/dispatcher/core';
+import CardsStore from 'client/stores/cards';
 import CharactersStore from 'client/stores/characters';
 import ScreenStore from 'client/stores/screen';
 
@@ -16,6 +17,7 @@ export default class App {
    */
   static clearStores() {
     [
+      CardsStore,
       CharactersStore,
       ScreenStore
     ].forEach((storeClass) => {
@@ -28,10 +30,12 @@ export default class App {
    * @return {Object}
    */
   static initializeStores() {
+    let cardsStore = CardsStore.getInstance();
     let charactersStore = CharactersStore.getInstance();
     let screenStore = ScreenStore.getInstance({ charactersStore });
 
     return {
+      cardsStore,
       charactersStore,
       screenStore
     };
@@ -65,6 +69,7 @@ export default class App {
    */
   restoreStorages() {
     return Promise.all([
+      this._stores.cardsStore.restore(),
       this._stores.charactersStore.restore()
     ]);
   }

@@ -6,6 +6,8 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 480
 NAVIGATION_BAR_HEIGHT = 40
 INNER_PAGE_HEIGHT = SCREEN_HEIGHT - NAVIGATION_BAR_HEIGHT
+$CARD_WIDTH = 96px
+$CARD_HEIGHT = 128px
 
 $TEXT_COLOR = #fff
 $BACKGROUND_COLOR = #000
@@ -187,6 +189,29 @@ turn-colors()
       line-height: 20px
       font-size: 20px
       text-align: center
+
+
+#js-game-container .card-page-component
+  $leftMargin = 32px
+  .inner_page > .controller
+    $controllerHeight = 24px
+    margin: 8px 0 0 $leftMargin
+    height: $controllerHeight
+    select
+      margin-right: 8px
+      jp-font-family()
+  .inner_page > .cards
+    margin: 16px 0 0 0
+    width: 100%
+    height: 360px  // 440 - 32(controller) - 16(その下のマージン) - 32(下マージン)
+    overflow-y: scroll
+    clearfix()
+    .card_container
+      float: left
+      margin: 0 0 32px $leftMargin
+      width: $CARD_WIDTH
+      height: $CARD_HEIGHT + 16px
+      background-color: white
 
 
 #js-game-container .equipment-page-component

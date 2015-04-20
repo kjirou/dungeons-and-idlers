@@ -1,7 +1,8 @@
 import assert from 'assert';
+import _ from 'lodash';
 
 import Storage from 'client/lib/storage';
-import {skills, TorchSkill} from 'client/lib/skills';
+import {skills, LanternSkill, SnipingSkill, TorchSkill} from 'client/lib/skills';
 import CardsStore from 'client/stores/cards';
 
 
@@ -39,6 +40,69 @@ describe('client/stores/cards module', function() {
     assert.deepEqual(cardData, {
       skillTypeId: 'bar',
       addedAt: 1
+    });
+  });
+
+
+  context('card aggregation', function() {
+
+    beforeEach(function() {
+      let s = new CardsStore();
+      s.set('cards', [
+        { skillTypeId: 'torch', addedAt: 1 },
+        { skillTypeId: 'sniping', addedAt: 2 },
+        { skillTypeId: 'lantern', addedAt: 3 },
+        { skillTypeId: 'torch', addedAt: 4 }
+      ]);
+      s.syncAttributesToStates();
+      this.s = s;
+    });
+
+    it('aggregateCards', function() {
+      let s = this.s;
+      assert.strictEqual(s.cards.length, 4);
+      assert.strictEqual(s._aggregatedCards.length, 0);
+
+      s.aggregateCards();
+      assert.strictEqual(s._aggregatedCards.length, 3);
+      assert.deepEqual(s._aggregatedCards, [
+        { skill: TorchSkill, lastAddedAt: 4, count: 2 },
+        { skill: SnipingSkill, lastAddedAt: 2, count: 1 },
+        { skill: LanternSkill, lastAddedAt: 3, count: 1 }
+      ]);
+    });
+
+    it('findAggregatedCards', function() {
+      let s = this.s;
+      s.aggregateCards();
+      assert.strictEqual(s.findAggregatedCards().length, 3);
+
+      // conditions
+      let conds;
+      conds = {
+        skill: {
+          category: 'deck'
+        }
+      };
+      assert.strictEqual(s.findAggregatedCards({ conditions: conds }).length, 2);
+      conds = {
+        skill: {
+          typeId: 'torch'
+        }
+      };
+      assert.strictEqual(s.findAggregatedCards({ conditions: conds }).length, 1);
+
+      // sort
+      let sorted;
+      sorted = s.findAggregatedCards();
+      assert.strictEqual(sorted[0].skill.typeId, 'sniping');
+      assert.strictEqual(sorted[1].skill.typeId, 'lantern');
+      assert.strictEqual(sorted[2].skill.typeId, 'torch');
+
+      sorted = s.findAggregatedCards({ sort: 'recent' });
+      assert.strictEqual(sorted[0].skill.typeId, 'torch');
+      assert.strictEqual(sorted[1].skill.typeId, 'lantern');
+      assert.strictEqual(sorted[2].skill.typeId, 'sniping');
     });
   });
 

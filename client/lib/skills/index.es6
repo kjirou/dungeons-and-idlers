@@ -36,6 +36,24 @@ export var skillList = [];
 
 
 //
+// other skills
+//
+//   初期表示順の関係で、deck より先に定義する
+//
+[
+  { typeId: 'hard_blow', _name: '強打', _equipmentCost: 5,
+    _summary: '[攻撃3]を[強打]へ置換' },
+  { typeId: 'katana', _name: '刀', _equipmentCost: 12, _physicalAttackPower: 1,
+    _summary: '攻撃力: +1' }
+].forEach((source) => {
+  let exportName = _classifyTypeId(source.typeId);
+  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'skill' }, source);
+  skillList.push(skill);
+  exports[exportName] = skill;
+});
+
+
+//
 // deck skills
 //
 [
@@ -47,31 +65,15 @@ export var skillList = [];
     _summary: '[照明3]を実行 / [タイル1-2, 敵全員]へ[盲目1]を付与' },
   { typeId: 'haste', _name: '急速', _equipmentCost: 8,
     _summary: '[味方全員]へ[行動力増加1]を実行' },
-  { typeId: 'torch', _name: '松明',
-    _summary: '[自分]へ[照明1]を付与' },
   { typeId: 'lantern', _name: 'ランタン', _equipmentCost: 1, actionPowerCost: 0,
     _summary: '[自分]へ[照明1]を付与 / 疲れない' },
+  { typeId: 'torch', _name: '松明',
+    _summary: '[自分]へ[照明1]を付与' },
   { typeId: 'poison_dart', _name: '毒付き投げ矢', _equipmentCost: 2,
     _summary: '[距離1, 敵1人]へ[射撃1]を実行＆[毒1]を付与' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
   let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'deck' }, source);
-  skillList.push(skill);
-  exports[exportName] = skill;
-});
-
-
-//
-// other skills
-//
-[
-  { typeId: 'hard_blow', _name: '強打', _equipmentCost: 5,
-    _summary: '[攻撃3]を[強打]へ置換' },
-  { typeId: 'katana', _name: '刀', _equipmentCost: 12, _physicalAttackPower: 1,
-    _summary: '攻撃力: +1' }
-].forEach((source) => {
-  let exportName = _classifyTypeId(source.typeId);
-  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'skill' }, source);
   skillList.push(skill);
   exports[exportName] = skill;
 });

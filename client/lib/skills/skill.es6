@@ -19,6 +19,7 @@ import ParametersMixin from 'client/lib/mixins/parameters';
 
 var Skill = _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixin, {
   typeId: undefined,
+  serialNumber: undefined,
   getName() {
     return this._name || _s.titleize(_s.humanize(this.typeId));
   },

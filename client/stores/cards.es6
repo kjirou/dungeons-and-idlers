@@ -39,6 +39,12 @@ let CardsStore = Store.extend({
      */
     this._cards = [];
 
+    /**
+     * 集計済みカード情報リスト
+     * Ref) aggregateCards
+     */
+    this._aggregatedCards = [];
+
     this.propGetter('cards');
 
     //let dispatchToken0 = coreDispatcher.register(function({action}) {
@@ -114,6 +120,73 @@ let CardsStore = Store.extend({
       })
     ;
     this.set('deletedCards', deletedCardDataList, { validate: true });
+  },
+
+  /**
+   * カードを集計して更新する
+   *
+   * e.g.
+   *
+   *   from: this._cards
+   *   [
+   *     { skill: FooSkill, addedAt: 1 },
+   *     { skill: BarSkill, addedAt: 2 },
+   *     { skill: FooSkill, addedAt: 3 }
+   *   ]
+   *
+   *   to: this._aggregatedCards
+   *   [
+   *      { skill: FooSkill, lastAddedAt: 3, count: 2 },
+   *      { skill: BarSkill, lastAddedAt: 2, count: 1 }
+   *   ]
+   */
+  aggregateCards() {
+    let cardsAsDict = {};
+    this.cards.forEach((card) => {
+      let skillTypeId = card.skill.typeId;
+      if (!(skillTypeId in cardsAsDict)) {
+        cardsAsDict[skillTypeId] = {
+          skill: card.skill,
+          lastAddedAt: card.addedAt,
+          count: 1
+        };
+      } else {
+        cardsAsDict[skillTypeId].count += 1;
+        if (cardsAsDict[skillTypeId].lastAddedAt < card.addedAt) {
+          cardsAsDict[skillTypeId].lastAddedAt = card.addedAt;
+        }
+      }
+    });
+
+    this._aggregatedCards = Object.keys(cardsAsDict).map((k) => {
+      return cardsAsDict[k];
+    });
+  },
+
+  findAggregatedCards(options = {}) {
+    options = _.assign({
+      conditions: null,
+      sort: 'default'
+    }, options);
+    let results = _.clone(this._aggregatedCards);
+    // where
+    if (options.conditions) {
+      results = _.where(this._aggregatedCards, options.conditions);
+    }
+    // sort
+    let compare = {
+      default: (a, b) => {
+        return a.skill.serialNumber - b.skill.serialNumber;
+      },
+      recent: (a, b) => {
+        return b.lastAddedAt - a.lastAddedAt;
+      }
+      // TODO: 仕様次第では重くなるので保留
+      //cost_asc: (a, b) => {},
+      //cost_desc: (a, b) => {}
+    }[options.sort];
+    results.sort(compare);
+    return results;
   }
 }, {
   MAX_DISPLAY_CARD_COUNT

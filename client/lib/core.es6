@@ -43,3 +43,10 @@ export function rotateIndex(length, baseIndex, relativeIndex) {
   if (length === 0) return -1;
   return (baseIndex + relativeIndex + length) % length;
 }
+
+export function createCounter(start = 1) {
+  start -= 1;
+  return () => {
+    return start += 1;
+  };
+}

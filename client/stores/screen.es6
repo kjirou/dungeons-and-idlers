@@ -11,7 +11,7 @@ export default Store.extend({
     };
   },
 
-  initialize: function({ charactersStore }) {
+  initialize: function(attrs, { charactersStore }) {
     let self = this;
     let coreDispatcher = CoreDispatcher.getInstance();
 

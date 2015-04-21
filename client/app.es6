@@ -32,7 +32,6 @@ export default class App {
   static initializeStores() {
     let cardsStore = CardsStore.getInstance();
     let charactersStore = CharactersStore.getInstance();
-    // TODO: これって attrs に入れてない？
     let screenStore = ScreenStore.getInstance({}, { charactersStore });
 
     return {

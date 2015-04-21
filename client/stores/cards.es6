@@ -101,6 +101,19 @@ let CardsStore = Store.extend({
     this.set('cards', cardDataList, { validate: true });
   },
 
+  /** カードへダミーデータを入れる */
+  _addDummyCards() {
+    let { skillList } = require('client/lib/skills');
+    let skillList3 = skillList.concat(skillList, skillList);
+    let dummyCards = skillList3.filter(() => {
+      return Math.random() < 0.5;
+    }).map((skill) => {
+      this.addCard(skill.typeId, {
+        addedAt: (new Date()).getTime() - ~~(Math.random() * 86400 * 1000 * 7)
+      });
+    });
+  },
+
   syncAttributesToStates() {
     // 削除されたカードのバックアップも行う
     var deletedCardDataList = this.get('deletedCards');

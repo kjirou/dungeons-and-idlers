@@ -105,13 +105,14 @@ let CardsStore = Store.extend({
   _addDummyCards() {
     let { skillList } = require('client/lib/skills');
     let skillList3 = skillList.concat(skillList, skillList);
-    let dummyCards = skillList3.filter(() => {
+    skillList3.filter(() => {
       return Math.random() < 0.5;
     }).map((skill) => {
       this.addCard(skill.typeId, {
         addedAt: (new Date()).getTime() - ~~(Math.random() * 86400 * 1000 * 7)
       });
     });
+    this.aggregateCards();
   },
 
   syncAttributesToStates() {

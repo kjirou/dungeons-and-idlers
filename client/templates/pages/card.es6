@@ -20,42 +20,17 @@ export default function cardPageTemplate({
             <option value='skill'>スキル</option>
             <option value='deck'>デッキ</option>
           </select>
-          <select className='sort' value='recent'>
+          <select className='sort' value='default'>
+            <option value='default'>初期順</option>
             <option value='recent'>新着順</option>
-            <option value='cost_asc'>コスト昇順</option>
-            <option value='cost_desc'>コスト降順</option>
           </select>
         </div>
         <div className='cards'>
         {
-          [
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {},
-            {}
-          ].map((card, cardIndex) => {
-            return <div className='card_container'>{cardIndex}</div>;
+          cardsStore.findAggregatedCards().map((card, cardIndex) => {
+            return <div className='card_container' key={'card-' + cardIndex}>
+              <CardComponent {...(card.skill.toCardComponentProps())}/>
+            </div>;
           })
         }
         </div>

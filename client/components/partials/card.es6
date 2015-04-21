@@ -27,8 +27,13 @@ let SimpleCardBodyComponent = React.createClass({
 
     return (
       <div className={createComponentClassName('card_body', 'simple') }>
-        <div className='title'>{this.props.title}</div>
-        <div className={iconContainerClassName}></div>
+        <div className='header'>
+          <div className='title'>{this.props.title}</div>
+          <div className='category'>S</div>
+        </div>
+        <div className='icon_container'>
+          <div className={'icon ' + iconContainerClassName}/>
+        </div>
         <div className='description'>{this.props.description}</div>
       </div>
     );

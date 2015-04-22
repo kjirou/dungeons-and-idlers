@@ -10,12 +10,14 @@ let SimpleCardBodyComponent = React.createClass({
   mixins: [ComponentMixin],
   propTypes: {
     title: React.PropTypes.string.isRequired,
+    category: React.PropTypes.string,
     hp: React.PropTypes.number,
     iconClassName: React.PropTypes.string.isRequired,
     description: React.PropTypes.string.isRequired
   },
   getDefaultProps() {
     return {
+      category: null,
       hp: null
     };
   },
@@ -25,12 +27,27 @@ let SimpleCardBodyComponent = React.createClass({
       this.props.iconClassName
     ].join(' ');
 
+    let categoryElement = null;
+    if (this.props.category) {
+      categoryElement = <td className='category'>{
+        (() => {
+          return {
+            deck: 'D',
+            feat: 'F',
+            sub_action: 'S'
+          }[this.props.category] || '?';
+        })()
+      }</td>;
+    }
+
     return (
       <div className={createComponentClassName('card_body', 'simple') }>
-        <div className='header'>
-          <div className='title'>{this.props.title}</div>
-          <div className='category'>S</div>
-        </div>
+        <table className='header'>
+          <tr>
+            {categoryElement}
+            <td className='title'>{this.props.title}</td>
+          </tr>
+        </table>
         <div className='icon_container'>
           <div className={'icon ' + iconContainerClassName}/>
         </div>

@@ -28,13 +28,13 @@ var Skill = _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixi
    * 管理用の所属を示す
    *
    *   "sub_action" = 補助行動
+   *   "feat" = パッシブスキル付与や攻撃リスト修正
    *   "deck" = デッキ、手札になるもの
-   *   "skill" = その他的な扱い、主に特性付与や攻撃リスト修正
    *
    * ただし、実際の作用としてはこの区分に影響されない
    * 例えば、'deck' に指定したものが、手札を増加しつつ特性を付与することも有る
    */
-  category: 'skill',
+  category: undefined,
 
   /**
    * 概要と詳細説明文
@@ -86,6 +86,7 @@ var Skill = _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixi
       cardBodyType: 'simple',
       cardBodyProps: {
         title: this.getName(),
+        category: this.category,
         iconClassName: this.getIconClassName(),
         description: this.getSummary()
       }

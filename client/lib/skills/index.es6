@@ -36,9 +36,9 @@ export var skillList = [];
 
 
 //
-// other skills
+// feat
 //
-//   初期表示順の関係で、deck より先に定義する
+//   その他的な分類のものも含むが、表示上の問題でこの位置にする
 //
 [
   { typeId: 'hard_blow', _name: '強打', _equipmentCost: 5,
@@ -47,7 +47,7 @@ export var skillList = [];
     _summary: '攻撃力: +1' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
-  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'skill' }, source);
+  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'feat' }, source);
   skillList.push(skill);
   exports[exportName] = skill;
 });

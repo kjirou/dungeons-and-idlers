@@ -17,7 +17,7 @@ export default function cardPageTemplate({
           <select className='search' value='all'>
             <option value='all'>全てのカード</option>
             <option value='sub_action'>サブアクション</option>
-            <option value='skill'>スキル</option>
+            <option value='feat'>フィート</option>
             <option value='deck'>デッキ</option>
           </select>
           <select className='sort' value='default'>

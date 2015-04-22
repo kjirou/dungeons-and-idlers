@@ -61,6 +61,7 @@
     "build": "gulp build",
     "d": "npm run dev",
     "dev": "node-dev ./bin/www",
+    "generate-images": "image-divider",
     "start": "node ./bin/www",
     "test": "mocha 'test/**/*.es6'",
     "w": "npm run watch",

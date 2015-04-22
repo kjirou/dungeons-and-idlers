@@ -35,6 +35,7 @@
     "gulp-rename": "1.2.0",
     "gulp-stylus": "2.0.1",
     "http-server": "0.7.5",
+    "image-divider": "0.0.1",
     "is-integer": "1.0.4",
     "mocha": "2.1.0",
     "node-dev": "2.6.1",

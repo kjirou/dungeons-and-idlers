@@ -6,7 +6,8 @@ import {skills} from 'client/lib/skills';
 import Store from 'client/stores/store';
 
 
-const MAX_DISPLAY_CARD_COUNT = 99;
+const UPDATED_AGGREGATED_CARDS_EVENT = 'UPDATED_AGGREGATED_CARDS_EVENT';
+const UPDATED_CARD_PAGE_QUERY_EVENT = 'UPDATED_CARD_PAGE_QUERY_EVENT';
 
 let CardsStore = Store.extend({
 
@@ -46,25 +47,36 @@ let CardsStore = Store.extend({
     this._aggregatedCards = [];
 
     /**
+     * Card Page で指定されている検索条件群
+     */
+    this._selectedCardPageSearchQuery = 'all';
+    this._selectedCardPageSortQuery = 'default';
+
+    /**
      * 種類数カウント集計情報
      */
     this._aggregatedCounts = undefined;
     this._resetAggregatedCounts();
 
-    this.propGetter('cards');
+    this.propGetter('aggregatedCards');
     this.propGetter('aggregatedCounts');
+    this.propGetter('cards');
+    this.propGetter('selectedCardPageSearchQuery');
+    this.propGetter('selectedCardPageSortQuery');
 
-    //let dispatchToken0 = coreDispatcher.register(function({action}) {
-    //  switch (action.type) {
-    //    case 'change_editing_character':
-    //      self.setEditingCharacterIndex(action.characterIndex);
-    //      break;
-    //    case 'rotate_editing_character':
-    //      self.rotateEditingCharacterIndex(action.indexDelta);
-    //      break;
-    //  }
-    //});
-    //this.dispatchTokens = [dispatchToken0];
+    let dispatchToken0 = coreDispatcher.register(function({action}) {
+      switch (action.type) {
+        case 'change_card_page_search_query':
+          self._selectedCardPageSearchQuery = action.searchQuery;
+          self.trigger(UPDATED_CARD_PAGE_QUERY_EVENT);
+          break;
+        case 'change_card_page_sort_query':
+          self._selectedCardPageSortQuery = action.sortQuery;
+          self.trigger(UPDATED_CARD_PAGE_QUERY_EVENT);
+          break;
+      }
+    });
+    this.dispatchTokens = [dispatchToken0];
   },
 
   _resetAggregatedCounts() {
@@ -201,6 +213,8 @@ let CardsStore = Store.extend({
       this._aggregatedCounts[aggregatedCard.skill.category] += 1;
       return aggregatedCard;
     });
+
+    this.trigger(UPDATED_AGGREGATED_CARDS_EVENT);
   },
 
   findAggregatedCards(options = {}) {
@@ -210,6 +224,7 @@ let CardsStore = Store.extend({
     }, options);
     let results = _.clone(this._aggregatedCards);
     // where
+    // e.g. conditions = { skill: { category: 'feat' } }
     if (options.conditions) {
       results = _.where(this._aggregatedCards, options.conditions);
     }
@@ -227,9 +242,25 @@ let CardsStore = Store.extend({
     }[options.sort];
     results.sort(compare);
     return results;
+  },
+
+  findAggregatedCardsForCardPage() {
+    let conditions = null;
+    if (this.selectedCardPageSearchQuery !== 'all') {
+      conditions = {
+        skill: {
+          category: this.selectedCardPageSearchQuery
+        }
+      };
+    }
+    return this.findAggregatedCards({
+      conditions,
+      sort: this.selectedCardPageSortQuery
+    });
   }
 }, {
-  MAX_DISPLAY_CARD_COUNT
+  UPDATED_AGGREGATED_CARDS_EVENT,
+  UPDATED_CARD_PAGE_QUERY_EVENT
 });
 
 

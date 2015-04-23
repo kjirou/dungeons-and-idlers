@@ -7,27 +7,21 @@ export default function cardPageTemplate({
   style,
   navigationBar,
   CardComponent,
-  cardsStore
+  cards,
+  searchSelectElement,
+  sortSelectElement
 }) {
   return (
     <div className={className} style={style}>
       <navigationBar.NavigationBarComponent />
       <div className='inner_page'>
         <div className='controller'>
-          <select className='search' value='all'>
-            <option value='all'>全てのカード</option>
-            <option value='sub_action'>サブアクション</option>
-            <option value='feat'>フィート</option>
-            <option value='deck'>デッキ</option>
-          </select>
-          <select className='sort' value='default'>
-            <option value='default'>初期順</option>
-            <option value='recent'>新着順</option>
-          </select>
+          {searchSelectElement}
+          {sortSelectElement}
         </div>
         <div className='cards'>
         {
-          cardsStore.findAggregatedCards().map((card, cardIndex) => {
+          cards.map((card, cardIndex) => {
             return <div className='card_container' key={'card-' + cardIndex}>
               <CardComponent {...(card.skill.toCardComponentProps())}/>
             </div>;

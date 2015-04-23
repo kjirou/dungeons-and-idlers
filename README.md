@@ -6,6 +6,7 @@
 ## Development
 ### Dependency
 - [direnv](https://github.com/zimbatm/direnv)
+- [ImageMagick](http://www.imagemagick.org/) CLI tools (is used by [image-divider](https://github.com/kjirou/image-divider))
 
 ### Deployment
 ```bash

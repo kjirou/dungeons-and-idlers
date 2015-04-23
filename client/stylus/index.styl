@@ -12,6 +12,10 @@ $CARD_HEIGHT = 128px
 $TEXT_COLOR = #fff
 $BACKGROUND_COLOR = #000
 
+turn-colors()
+  color: $BACKGROUND_COLOR
+  background-color: $TEXT_COLOR
+
 // div tag to button
 buttonize($width, $height, $borderSize=3px, $borderRadius=5px)
   width: $width
@@ -24,6 +28,8 @@ buttonize($width, $height, $borderSize=3px, $borderRadius=5px)
   font-size: ($height * 2 / 3)
   text-align: center
   cursor: pointer
+  &:hover
+    turn-colors()
 
 text-bordering(size, color=#000)
   text-shadow: -(size) (-(size)) color, size (-(size)) color, -(size) size color, size size color
@@ -32,10 +38,6 @@ base-font-family()
   font-family: Miranda
 japanese-font-family()
   font-family: Hiragino Kaku Gothic ProN, Meiryo, MS PGothic, sans-serif
-
-turn-colors()
-  color: $BACKGROUND_COLOR
-  background-color: $TEXT_COLOR
 
 
 #js-game-container .screen-component
@@ -241,8 +243,8 @@ turn-colors()
         .character_pagination
           margin: 8px 8px 0 8px
           width: $leftPageColumnWidth - 16px
-          height: 48px
-          line-height: 48px
+          height: 32px
+          line-height: 32px
           clearfix()
           .part
             float: left
@@ -265,6 +267,74 @@ turn-colors()
       &.right-page_column
         float: right
         width: 640px
+        overflow-y: scroll
+        section
+          margin-top: 16px
+          &.section_1
+            margin-top: 8px
+          .headline
+            height: 24px
+            japanese-font-family()
+            clearfix()
+            h3
+              float: left
+              margin-right: 16px
+              line-height: 24px
+              font-size: 18px
+            .add_button
+              float: left
+              margin-top: 2px
+              buttonize(60px, 18px, $borderSize:2px, $borderRadius:4px)
+          table
+            margin-top: 8px
+            width: 608px  // 640 - 32
+            tr
+              margin-top: 2px
+              height: 32px
+              line-height: 32px
+              border-top: 2px solid $BACKGROUND_COLOR
+              &.row_1
+                margin-top: 0
+                height: 16px
+                line-height: 16px
+                border-top: none
+              th, td
+                japanese-font-family()
+                text-align: center
+                border-left: 2px solid $BACKGROUND_COLOR
+              th
+                font-size: 10px
+                color: $BACKGROUND_COLOR
+                background-color: $TEXT_COLOR
+              td
+                font-size: 12px
+              .col_1
+                width: 32px
+                border-left: none
+                div
+                  width: 32px
+                  height: 32px
+              .col_2
+                width: 96px
+              td.col_3
+                text-align: left
+              .col_4
+                width: 32px
+              .col_5
+                width: 32px
+              .col_6
+                width: 32px
+              .col_7
+                width: 128px
+                clearfix()
+                .button
+                  float: left
+                  margin: 2px 4px 0 0
+                  buttonize(24px, 24px, $borderSize:2px, $borderRadius:2px)
+                  &.button-first
+                    margin-left: 2px
+                  &.button-last
+                    margin-right: 0
 
 
 #js-game-container .game-page-component

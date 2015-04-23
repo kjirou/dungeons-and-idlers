@@ -63,8 +63,36 @@ export const ICON_IDS = [
   'ranger',
   'thief',
 
+  // enemies
+  'goblin',
+  'minotaur',
+
   // icons
-  'invalid'//,
+  'flash',
+  'happy',
+  'heart',
+  'invalid',
+  'running',
+  'unhappy',
+
+  // items
+  'arrow',
+  'bow',
+  'gold',
+  'jewel',
+  'jewel_box',
+  'katana',
+  'key',
+  'lantern',
+  'torch',
+  'sword',
+
+  // objects
+  'chest',
+  'downstairs',
+  'signboard',
+  'treasure_box',
+  'upstairs'//,
 ];
 
 export function getIconClassName(iconId) {

@@ -67,8 +67,8 @@ var icons = [
   ['icons', [0, 13], 'unhappy'],
 
   // items
+  ['items', [0, 6], 'arrow'],
   ['items', [0, 5], 'bow'],
-  ['items', [0, 6], 'dart'],
   ['items', [0, 4], 'gold'],
   ['items', [1, 1], 'jewel'],
   ['items', [0, 10], 'jewel_box'],

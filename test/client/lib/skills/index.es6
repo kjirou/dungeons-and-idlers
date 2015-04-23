@@ -9,13 +9,15 @@ describe('client/lib/skills module', function() {
   it('skillList', function() {
     assert(Array.isArray(skillList));
     assert(skillList.length > 0);
-    console.log(skillList[0].serialNumber);
-    console.log(skillList[5].serialNumber);
   });
 
   it('skills', function() {
     assert.strictEqual(typeof skills, 'object');
     assert(_.size(skills) > 0);
     assert('undefined' in skills === false);
+  });
+
+  it('skill.torch.toCardComponentProps', function() {
+    assert.strictEqual(skills.torch.toCardComponentProps().cardBodyProps.iconClassName, 'invalid-icon-image');
   });
 });

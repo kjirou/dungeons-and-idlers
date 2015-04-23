@@ -22,11 +22,6 @@ let SimpleCardBodyComponent = React.createClass({
     };
   },
   render() {
-    let iconContainerClassName = [
-      'icon',
-      this.props.iconClassName
-    ].join(' ');
-
     let categoryElement = null;
     if (this.props.category) {
       categoryElement = <td className='category'>{
@@ -40,6 +35,11 @@ let SimpleCardBodyComponent = React.createClass({
       }</td>;
     }
 
+    let iconClassName = [
+      'icon',
+      this.props.iconClassName
+    ].join(' ');
+
     return (
       <div className={createComponentClassName('card_body', 'simple') }>
         <table className='header'>
@@ -49,7 +49,7 @@ let SimpleCardBodyComponent = React.createClass({
           </tr>
         </table>
         <div className='icon_container'>
-          <div className={'icon ' + iconContainerClassName}/>
+          <div className={iconClassName}/>
         </div>
         <div className='description'>{this.props.description}</div>
       </div>

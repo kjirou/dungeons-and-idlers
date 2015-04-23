@@ -19,13 +19,13 @@ export var skillList = [];
 // sub action skills
 //
 [
-  { typeId: 'disturbance', _name: '撹乱', _equipmentCost: 4,
+  { typeId: 'disturbance', _name: '撹乱', _iconId: 'unhappy', _equipmentCost: 4,
     _summary: '[タイル1, 敵1人]へ[防御低下1]を付与' },
-  { typeId: 'redemption', _name: '贖罪', _equipmentCost: 8,
+  { typeId: 'redemption', _name: '贖罪', _iconId: 'heart', _equipmentCost: 8,
     _summary: '[自分以外, 味方1人, 任意]へ[贖罪1]を実行' },
-  { typeId: 'shooting', _name: '射撃', _equipmentCost: 6,
+  { typeId: 'shooting', _name: '射撃', _iconId: 'bow', _equipmentCost: 6,
     _summary: '[距離2-3, 敵1人, 任意]へ[射撃1]を実行' },
-  { typeId: 'sniping', _name: '狙撃', _equipmentCost: 8,
+  { typeId: 'sniping', _name: '狙撃', _iconId: 'bow',  _equipmentCost: 8,
     _summary: '[距離3-5, 敵1人, 任意]へ[射撃1]を実行' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
@@ -41,7 +41,7 @@ export var skillList = [];
 //   その他的な分類のものも含むが、表示上の問題でこの位置にする
 //
 [
-  { typeId: 'hard_blow', _name: '強打', _equipmentCost: 5,
+  { typeId: 'hard_blow', _name: '強打', _iconId: 'sword', _equipmentCost: 5,
     _summary: '[攻撃3]を[強打]へ置換' },
   { typeId: 'katana', _name: '刀', _equipmentCost: 12, _physicalAttackPower: 1,
     _summary: '攻撃力: +1' }
@@ -57,19 +57,19 @@ export var skillList = [];
 // deck skills
 //
 [
-  { typeId: 'acceleration', _name: '加速', _equipmentCost: 2,
+  { typeId: 'acceleration', _name: '加速', _iconId: 'running', _equipmentCost: 2,
     _summary: '[自分]へ[行動力増加1]を実行 / 疲れない' },
-  { typeId: 'dart', _name: '投げ矢',
+  { typeId: 'dart', _name: '投げ矢', _iconId: 'arrow',
     _summary: '[距離1, 敵1人]へ[射撃1]を実行' },
   { typeId: 'flash', _name: '閃光', _equipmentCost: 5,
     _summary: '[照明3]を実行 / [タイル1-2, 敵全員]へ[盲目1]を付与' },
-  { typeId: 'haste', _name: '急速', _equipmentCost: 8,
+  { typeId: 'haste', _name: '急速', _iconId: 'running', _equipmentCost: 8,
     _summary: '[味方全員]へ[行動力増加1]を実行' },
   { typeId: 'lantern', _name: 'ランタン', _equipmentCost: 1, actionPowerCost: 0,
     _summary: '[自分]へ[照明1]を付与 / 疲れない' },
   { typeId: 'torch', _name: '松明',
     _summary: '[自分]へ[照明1]を付与' },
-  { typeId: 'poison_dart', _name: '毒付き投げ矢', _equipmentCost: 2,
+  { typeId: 'poison_dart', _name: '毒付き投げ矢', _iconId: 'arrow', _equipmentCost: 2,
     _summary: '[距離1, 敵1人]へ[射撃1]を実行＆[毒1]を付与' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);

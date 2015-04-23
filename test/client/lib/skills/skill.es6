@@ -19,6 +19,7 @@ describe('client/lib/skills/skill module', function() {
         _summary: 'it is sub skill'
       });
       assert.strictEqual(SubSkill.getSummary(), 'it is sub skill');
+      assert.strictEqual(SubSkill.toCardComponentProps().cardBodyProps.iconClassName, 'invalid-icon-image');
     });
   });
 });

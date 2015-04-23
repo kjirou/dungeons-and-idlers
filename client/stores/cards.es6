@@ -136,6 +136,12 @@ let CardsStore = Store.extend({
     this.set('deletedCards', deletedCardDataList, { validate: true });
   },
 
+  restore() {
+    return Store.prototype.restore.apply(this)
+      .then(() => { this.aggregateCards(); })
+    ;
+  },
+
   /**
    * カードを集計して更新する
    *

@@ -3,6 +3,8 @@ require('./env/gulp');
 var babelify = require('babelify');
 var browserify = require('browserify');
 var gulp = require('gulp');
+var gulpConcat = require('gulp-concat');
+var gulpImageDataURI = require('gulp-image-data-uri');
 var gulpRename = require('gulp-rename');
 var gulpStylus = require('gulp-stylus');
 var nib = require('nib');
@@ -26,6 +28,7 @@ var JS_REQUIREMENTS = [
   'lodash',
   'mock-localstorage',
   'react',
+  'rpgparameter',
   'underscore.string'
 ];
 
@@ -98,7 +101,7 @@ gulp.task('build-css', function() {
     .pipe(gulpStylus({
       use: nib()
     }))
-    .pipe(gulpRename('style.css'))
+    .pipe(gulpRename('client-style.css'))
     .pipe(gulp.dest(PUBLIC_DIST_DIR))
   ;
 });
@@ -119,6 +122,18 @@ gulp.task('watch-css', function() {
       .pipe(gulp.dest(PUBLIC_DIST_DIR))
     ;
   });
+});
+
+gulp.task('build-icon-images-css', function() {
+  return gulp.src(pathModule.join(PUBLIC_DIST_DIR, '/icons/**/*.png'))
+    .pipe(gulpImageDataURI({
+      customClass: function customClass(className) {
+        return className + '-icon-image';
+      }
+    }))
+    .pipe(gulpConcat('icon-images.css'))
+    .pipe(gulp.dest(PUBLIC_DIST_DIR))
+  ;
 });
 
 

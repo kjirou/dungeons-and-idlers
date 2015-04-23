@@ -8,7 +8,10 @@ import Storage from 'client/lib/storage';
 
 export default Backbone.Model.extend({
 
-  propGetter(getterName, propName=null) {
+  /**
+   * プロパティのgetterを定義する
+   */
+  propGetter(getterName, propName = null) {
     Object.defineProperty(this, getterName, {
       get: function() {
         return _.result(this, propName || '_' + getterName);
@@ -16,7 +19,10 @@ export default Backbone.Model.extend({
     });
   },
 
-  attrGetter(getterName, attrName=null) {
+  /**
+   * attributeのgetterを定義する
+   */
+  attrGetter(getterName, attrName = null) {
     Object.defineProperty(this, getterName, {
       get: function() {
         return this.get(attrName || getterName);
@@ -26,6 +32,11 @@ export default Backbone.Model.extend({
 
   /**
    * インスタンスの状態を返す
+   *
+   * TODO:
+   * [deprecation]
+   * "状態" はインスタンスのプロパティの値などを示すので不適切
+   * そもそもの意図としては「保存用のattributesを返す」なので別名にする
    */
   toStates() {
     return this.attributes;
@@ -43,7 +54,7 @@ export default Backbone.Model.extend({
   },
 
   /**
-   * ストレージの情報をattributesへ反映する
+   * ストレージをattributesへ反映する
    * @return {Promise}
    */
   fetch() {
@@ -51,9 +62,15 @@ export default Backbone.Model.extend({
     return storage.fetch(this.storageName).then((data) => {
       data = data || {};
       Object.keys(data).forEach((k) => {
-        this.set(k, data[k], { validate: true });
+        this.set(k, data[k]);  // validate はしない、ここで落とすと修正できなくなるから
       });
     });
+  },
+
+  /**
+   * インスタンスの状態を正としてattributesへ反映し、両者を同期する
+   */
+  syncStatesToAttributes() {
   },
 
   /**
@@ -61,7 +78,14 @@ export default Backbone.Model.extend({
    * @return {Promise}
    */
   store() {
+    this.syncStatesToAttributes();
     return this.save();
+  },
+
+  /**
+   * attributesを正としてインスタンスの状態へ反映し、両者を同期する
+   */
+  syncAttributesToStates() {
   },
 
   /**
@@ -69,7 +93,10 @@ export default Backbone.Model.extend({
    * @return {Promise}
    */
   restore() {
-    return this.fetch();
+    return this
+      .fetch()
+      .then(() => { this.syncAttributesToStates(); })
+    ;
   }
 }, _.assign(
   {},

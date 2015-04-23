@@ -4,16 +4,18 @@ import MockLocalStorage from 'mock-localstorage';
 
 import conf from 'client/conf';
 
-var localStorage;  // ifブロック内で宣言するとクラス内で参照不可
+var realLocalStorage;  // ifブロック内で宣言するとクラス内で参照不可
 if (typeof localStorage === 'undefined') {
-  localStorage = new MockLocalStorage();
+  realLocalStorage = new MockLocalStorage();
+} else {
+  realLocalStorage = localStorage;
 }
 
 
 export default class Storage {
 
   static _getLocalStorage() {
-    return localStorage;
+    return realLocalStorage;
   }
 
   /**
@@ -28,13 +30,13 @@ export default class Storage {
 
   save(fieldPath, data) {
     let realFieldPath = Storage._getNamespace() + fieldPath;
-    localStorage.setItem(realFieldPath, JSON.stringify(data));
+    realLocalStorage.setItem(realFieldPath, JSON.stringify(data));
     return Promise.resolve();
   }
 
   fetch(fieldPath) {
     let realFieldPath = Storage._getNamespace() + fieldPath;
-    let data = localStorage.getItem(realFieldPath);
+    let data = realLocalStorage.getItem(realFieldPath);
     if (data === undefined || data === null) {
       data = null;
     } else {
@@ -45,16 +47,16 @@ export default class Storage {
 
   remove(fieldPath) {
     let realFieldPath = Storage._getNamespace() + fieldPath;
-    localStorage.removeItem(realFieldPath);
+    realLocalStorage.removeItem(realFieldPath);
     return Promise.resolve();
   }
 
   static clear() {
     let matcher = new RegExp('^' + escapeRegExp(this._getNamespace()));
-    for (let i = 0; i < localStorage.length; i++) {
-      let k = localStorage.key(i);
+    for (let i = 0; i < realLocalStorage.length; i++) {
+      let k = realLocalStorage.key(i);
       if (matcher.test(k)) {
-        localStorage.removeItem(k);
+        realLocalStorage.removeItem(k);
       }
     }
     return Promise.resolve();

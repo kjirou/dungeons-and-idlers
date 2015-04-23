@@ -22,27 +22,20 @@ export default function characterPageTemplate({
               top: 48 + (48 + 128) * ~~(idx / 6),
               left: 32 + (32 + 96) * (idx % 6)
             },
-            onMouseDown: onMouseDownCharacter
+            onMouseDown() {
+              onMouseDownCharacter(idx);
+            }
           };
 
-          let cardBodyProps = _.assign(
-            _.pick(characterStore, 'hp', 'maxHp', 'physicalAttackPower', 'attacks', 'feats'),
-            {
-              iconClassName: characterStore.getIconClassName(),
-              subActionName: '--'
-            }
-          );
+          let cardProps = _.assign({}, characterStore.toCardComponentProps(), {
+            top: 20,
+            isClickable: true
+          });
 
           return (
             <div className='character' {...props}>
               <h3>{characterStore.getName()}</h3>
-              <CardComponent {...{
-                top: 20,
-                isFace: true,
-                isClickable: true,
-                cardBodyType: 'creature',
-                cardBodyProps: cardBodyProps
-              }}/>
+              <CardComponent {...cardProps}/>
             </div>
           );
         })

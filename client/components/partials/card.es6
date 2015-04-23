@@ -10,25 +10,47 @@ let SimpleCardBodyComponent = React.createClass({
   mixins: [ComponentMixin],
   propTypes: {
     title: React.PropTypes.string.isRequired,
+    category: React.PropTypes.string,
     hp: React.PropTypes.number,
     iconClassName: React.PropTypes.string.isRequired,
     description: React.PropTypes.string.isRequired
   },
   getDefaultProps() {
     return {
+      category: null,
       hp: null
     };
   },
   render() {
-    let iconContainerClassName = [
+    let categoryElement = null;
+    if (this.props.category) {
+      categoryElement = <td className='category'>{
+        (() => {
+          return {
+            deck: 'D',
+            feat: 'F',
+            sub_action: 'S'
+          }[this.props.category] || '?';
+        })()
+      }</td>;
+    }
+
+    let iconClassName = [
       'icon',
       this.props.iconClassName
     ].join(' ');
 
     return (
       <div className={createComponentClassName('card_body', 'simple') }>
-        <div className='title'>{this.props.title}</div>
-        <div className={iconContainerClassName}></div>
+        <table className='header'>
+          <tr>
+            {categoryElement}
+            <td className='title'>{this.props.title}</td>
+          </tr>
+        </table>
+        <div className='icon_container'>
+          <div className={iconClassName}/>
+        </div>
         <div className='description'>{this.props.description}</div>
       </div>
     );

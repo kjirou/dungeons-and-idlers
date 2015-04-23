@@ -1,37 +1,39 @@
 import _ from 'lodash';
+import rpgparameter from 'rpgparameter';
+let aggregators = rpgparameter.aggregators;
 
 import {within} from 'client/lib/core';
+import {jobs} from 'client/lib/jobs';
+import CardifyMixin from 'client/lib/mixins/cardify';
 import IconizeMixin from 'client/lib/mixins/iconize';
 import NamingMixin from 'client/lib/mixins/naming';
-import CoreDispatcher from 'client/dispatcher/core';
+import ParametersMixin from 'client/lib/mixins/parameters';
 import Store from 'client/stores/store';
 
 
 const MIN_MAX_HP = 1;
 const MAX_MAX_HP = 9999;
-const MIN_ATTACK_POWER = 0;
 
-export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, {
+export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixin, {
 
   defaults() {
     return {
       name: '',
-      hp: MIN_MAX_HP
+      hp: MIN_MAX_HP,
+      jobTypeId: 'creature'
     };
   },
 
   initialize() {
-    this._coreDispatcher = CoreDispatcher.getInstance();
-
     this.attrGetter('hp');
-
     this.propGetter('attacks', '_getAttacks');
     this.propGetter('feats', '_getFeats');
+    this.propGetter('job', '_getJob');
     this.propGetter('name', 'getName');
     this.propGetter('hpRate', '_getHpRate');
-    this.propGetter('magicalAttackPower', '_getMagicalAttackPower');
-    this.propGetter('maxHp', '_getMaxHp');
-    this.propGetter('physicalAttackPower', '_getPhysicalAttackPower');
+    this.propGetter('magicalAttackPower', 'getMagicalAttackPower');
+    this.propGetter('maxHp', 'getMaxHp');
+    this.propGetter('physicalAttackPower', 'getPhysicalAttackPower');
     this.propGetter('wound', '_getWound');
     this.propGetter('woundRate', '_getWoundRate');
   },
@@ -40,18 +42,19 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, {
     return this.get('name') || NamingMixin.getName.call(this);
   },
 
-  /**
-   * キャラクターとモンスターで基底値の源泉が異なるので、
-   * そこをオーバーライドして吸収する
-   * キャラは職業ベース、モンスターはそのままモンスターの種別
-   */
-  _getBaseMaxHp() {
-    return MIN_MAX_HP;
+  _getJob() {
+    return jobs[this.get('jobTypeId')];
   },
 
-  _getMaxHp() {
-    let b = this._getBaseMaxHp();
-    return within(b, MIN_MAX_HP, MAX_MAX_HP);
+  _getMaxHpParameters() {
+    return [
+      this.getRawMaxHp(),
+      this.job.getMaxHp()
+    ];
+  },
+  getMaxHp() {
+    let parameter = aggregators.aggregateIntegers(this._getMaxHpParameters());
+    return within(parameter, MIN_MAX_HP, MAX_MAX_HP);
   },
 
   _getWound() {
@@ -164,12 +167,24 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, {
     return result;
   },
 
-  _getPhysicalAttackPower() {
-    return 0;
+  _getPhysicalAttackPowerParameters() {
+    return [
+      this.getRawPhysicalAttackPower(),
+      this.job.getPhysicalAttackPower()
+    ];
+  },
+  getPhysicalAttackPower() {
+    return aggregators.aggregateIntegers(this._getPhysicalAttackPowerParameters());
   },
 
-  _getMagicalAttackPower() {
-    return 0;
+  _getMagicalAttackPowerParameters() {
+    return [
+      this.getRawMagicalAttackPower(),
+      this.job.getMagicalAttackPower()
+    ];
+  },
+  getMagicalAttackPower() {
+    return aggregators.aggregateIntegers(this._getMagicalAttackPowerParameters());
   },
 
   /**
@@ -186,9 +201,26 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, {
    */
   _getFeats() {
     throw new Error('Not implemented');
+  },
+
+  _toCardBodyComponentProps() {
+    return _.assign(
+      _.pick(this, 'hp', 'maxHp', 'physicalAttackPower', 'attacks', 'feats'),
+      {
+        iconClassName: this.getIconClassName(),
+        subActionName: '補助行動無し'
+      }
+    );
+  },
+
+  toCardComponentProps() {
+    return {
+      isFace: this.isFace(),
+      cardBodyType: 'creature',
+      cardBodyProps: this._toCardBodyComponentProps()
+    };
   }
 }), {
   MIN_MAX_HP,
-  MAX_MAX_HP,
-  MIN_ATTACK_POWER
+  MAX_MAX_HP
 });

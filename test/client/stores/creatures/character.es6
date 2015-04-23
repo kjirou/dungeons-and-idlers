@@ -1,8 +1,9 @@
 import assert from 'assert';
 import _ from 'lodash';
+import _s from 'underscore.string';
 import sinon from 'sinon';
 
-import {DummyJob, FighterJob} from 'client/lib/jobs';
+import {CreatureJob, DummyJob, FighterJob} from 'client/lib/jobs';
 import Job from 'client/lib/jobs/job';
 import CharacterStore from 'client/stores/creatures/character';
 
@@ -30,7 +31,7 @@ describe('client/stores/creatures/character module', function() {
 
     it('name', function() {
       let c = new CharacterStore();
-      assert.strictEqual(c.name, 'Dummy');
+      assert.strictEqual(c.name, 'Creature');
       c._name = 'Foo';
       assert.strictEqual(c.name, 'Foo');
       c.set('name', 'Bar');
@@ -40,7 +41,7 @@ describe('client/stores/creatures/character module', function() {
     it('job', function() {
       let c;
       c = new CharacterStore();
-      assert.strictEqual(c.job, DummyJob);
+      assert.strictEqual(c.job, CreatureJob);
       c = new CharacterStore({ jobTypeId: 'fighter' });
       assert.strictEqual(c.job, FighterJob);
     });
@@ -52,11 +53,16 @@ describe('client/stores/creatures/character module', function() {
         'physicalAttackPower',
         'magicalAttackPower'
       ].forEach(function(propName) {
+        let getterName = 'get' + _s.classify(propName);
+        let setterName = 'set' + _s.classify(propName);
+
         let c = new CharacterStore();
         let beforeValue = c[propName];
 
-        let TestJob = _.assign({}, Job);
-        TestJob[propName] = DummyJob[propName] + 99;
+        let TestJob = _.assign({}, Job, {
+          typeId: 'test',
+        });
+        TestJob[setterName](DummyJob[getterName]() + 99);
         sinon.stub(c, '_getJob', () => { return TestJob; });
 
         assert.strictEqual(typeof c[propName], 'number');

@@ -48,4 +48,23 @@ describe('client/stores/character module', function() {
       })
     ;
   });
+
+  it('setEditingCharacterIndex, rotateEditingCharacterIndex', function() {
+    let s = new CharactersStore();
+    assert.strictEqual(s.editingCharacterIndex, 0);
+    assert.strictEqual(s.characters.length, 0);
+    // not changed
+    s.setEditingCharacterIndex(99);
+    assert.strictEqual(s.editingCharacterIndex, 0);
+
+    return s.restore().then(() => {
+      assert(s.characters.length >= 3, 'テスト用に初期状態で3キャラ以上存在することを期待');
+      s.setEditingCharacterIndex(1);
+      assert.strictEqual(s.editingCharacterIndex, 1);
+      s.rotateEditingCharacterIndex(1);
+      assert.strictEqual(s.editingCharacterIndex, 2);
+      s.rotateEditingCharacterIndex(-2);
+      assert.strictEqual(s.editingCharacterIndex, 0);
+    });
+  });
 });

@@ -23,7 +23,8 @@ export default React.createClass({
       { id: 'card', label: 'Card' },
       { id: 'dungeon', label: 'Dungeon' },
       { id: 'config', label: 'Config' },
-      { id: 'help', label: 'Help' }
+      { id: 'help', label: 'Help' },
+      { id: 'equipment', label: 'Debug' }
     ];
 
     return (

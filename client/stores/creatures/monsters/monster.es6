@@ -8,20 +8,29 @@ import CreatureStore from 'client/stores/creatures/creature';
 export default CreatureStore.extend({
 
   getName() {
-    return CreatureStore.prototype.getName.apply(this) ||
+    return CreatureStore.prototype.getName.call(this) ||
       _s.titleize(_s.humanize(this.constructor.typeId));
   },
 
-  _getBaseMaxHp() {
-    return this.constructor.maxHp;
+  _getMaxHpParameters() {
+    return [
+      ...(CreatureStore.prototype._getMaxHpParameters.call(this)),
+      ...[this.constructor.maxHp]
+    ];
   },
 
-  _getPhysicalAttackPower() {
-    return this.constructor.physicalAttackPower;
+  _getPhysicalAttackPowerParameters() {
+    return [
+      ...(CreatureStore.prototype._getPhysicalAttackPowerParameters.call(this)),
+      ...[this.constructor.physicalAttackPower]
+    ];
   },
 
-  _getMagicalAttackPower() {
-    return this.constructor.magicalAttackPower;
+  _getMagicalAttackPowerParameters() {
+    return [
+      ...(CreatureStore.prototype._getMagicalAttackPowerParameters.call(this)),
+      ...[this.constructor.magicalAttackPower]
+    ];
   },
 
   _getAttacks() {

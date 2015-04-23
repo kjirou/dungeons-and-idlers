@@ -1,11 +1,11 @@
 import _ from 'lodash';
 
 import {MODULE_TEMPLATES_ROOT} from 'client/constants';
-import {playableJobList} from 'client/lib/jobs';
 
 
 // pre-reading templates for browserify
 if (false) {
+  require('client/templates/pages/card');
   require('client/templates/pages/character');
   require('client/templates/pages/equipment');
   require('client/templates/pages/game');
@@ -51,27 +51,53 @@ export function compileJsxTemplate(templatePath, locals = {}) {
   return compileJsxFile(MODULE_TEMPLATES_ROOT + '/' + templatePath, locals);
 }
 
-/**
- * IDからアイコン用背景画像のCSSセレクタを生成する
- * @return {String}
- */
-export const ICON_CLASS_NAME_PREFIX_MAP = (() => {
-  let map = {};
-  // jobs
-  playableJobList.forEach((job) => {
-    map[job.typeId] = job.typeId + '-job';
-  });
-  // symbols
-  ['invalid'].forEach((id) => {
-    map[id] = id + '-symbol';
-  });
-  return map;
-})();
+export const ICON_IDS = [
+
+  // characters
+  'alchemist',
+  'cleric',
+  'fighter',
+  'healer',
+  'knight',
+  'mage',
+  'ranger',
+  'thief',
+
+  // enemies
+  'goblin',
+  'minotaur',
+
+  // icons
+  'flash',
+  'happy',
+  'heart',
+  'invalid',
+  'running',
+  'unhappy',
+
+  // items
+  'arrow',
+  'bow',
+  'gold',
+  'jewel',
+  'jewel_box',
+  'katana',
+  'key',
+  'lantern',
+  'torch',
+  'sword',
+
+  // objects
+  'chest',
+  'downstairs',
+  'signboard',
+  'treasure_box',
+  'upstairs'//,
+];
 
 export function getIconClassName(iconId) {
-  let classNamePrefix = ICON_CLASS_NAME_PREFIX_MAP[iconId];
-  if (classNamePrefix) {
-    return classNamePrefix + '-bg_img';
+  if (ICON_IDS.indexOf(iconId) > -1) {
+    return iconId + '-icon-image';
   } else {
     return null;
   }

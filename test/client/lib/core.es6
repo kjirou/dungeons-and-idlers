@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import {dictionarize, listize, within} from 'client/lib/core';
+import {createCounter, dictionarize, listize, rotateIndex, within} from 'client/lib/core';
 
 
 describe('client/lib/core module', function() {
@@ -36,5 +36,23 @@ describe('client/lib/core module', function() {
         { type: 'bar', value: 2 }
       ]
     );
+  });
+
+  it('rotateIndex', function() {
+    assert.strictEqual(rotateIndex(10, 0, 1), 1);
+    assert.strictEqual(rotateIndex(10, 3, 5), 8);
+    assert.strictEqual(rotateIndex(10, 5, 7), 2);
+    assert.strictEqual(rotateIndex(10, 0, -1), 9);
+    assert.strictEqual(rotateIndex(0, 0, 1), -1);
+  });
+
+  it('createCounter', function() {
+    let counter;
+    counter = createCounter();
+    assert.strictEqual(counter(), 1);
+    assert.strictEqual(counter(), 2);
+    counter = createCounter(-2);
+    assert.strictEqual(counter(), -2);
+    assert.strictEqual(counter(), -1);
   });
 });

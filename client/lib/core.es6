@@ -30,3 +30,23 @@ export function listize(dict, propertyName) {
     return data;
   });
 }
+
+/**
+ * e.g.
+ *   (10, 0, 1)  -> 1
+ *   (10, 3, 5)  -> 8
+ *   (10, 5, 7)  -> 2
+ *   (10, 0, -1) -> 9
+ *   (0, *, *)   -> -1
+ */
+export function rotateIndex(length, baseIndex, relativeIndex) {
+  if (length === 0) return -1;
+  return (baseIndex + relativeIndex + length) % length;
+}
+
+export function createCounter(start = 1) {
+  start -= 1;
+  return () => {
+    return start += 1;
+  };
+}

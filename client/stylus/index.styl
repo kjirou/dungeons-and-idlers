@@ -6,6 +6,8 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 480
 NAVIGATION_BAR_HEIGHT = 40
 INNER_PAGE_HEIGHT = SCREEN_HEIGHT - NAVIGATION_BAR_HEIGHT
+$CARD_WIDTH = 96px
+$CARD_HEIGHT = 128px
 
 $TEXT_COLOR = #fff
 $BACKGROUND_COLOR = #000
@@ -31,6 +33,10 @@ base-font-family()
 japanese-font-family()
   font-family: Hiragino Kaku Gothic ProN, Meiryo, MS PGothic, sans-serif
 
+turn-colors()
+  color: $BACKGROUND_COLOR
+  background-color: $TEXT_COLOR
+
 
 #js-game-container .screen-component
   position: absolute
@@ -38,6 +44,7 @@ japanese-font-family()
   base-font-family()
   background-color: $BACKGROUND_COLOR
   overflow: hidden
+  user-select(none)
 
   .page-component
     position: absolute
@@ -184,6 +191,68 @@ japanese-font-family()
       text-align: center
 
 
+#js-game-container .card-page-component
+  $leftMargin = 32px
+  .inner_page > .controller
+    $controllerHeight = 24px
+    margin: 8px 0 0 $leftMargin
+    height: $controllerHeight
+    select
+      margin-right: 8px
+      japanese-font-family()
+  .inner_page > .cards
+    margin: 16px 0 0 0
+    width: 100%
+    height: 360px  // 440 - 32(controller) - 16(その下のマージン) - 32(下マージン)
+    overflow-y: scroll
+    clearfix()
+    .card_container
+      position: relative
+      float: left
+      margin: 0 0 32px $leftMargin
+      width: $CARD_WIDTH
+      height: $CARD_HEIGHT + 16px
+
+
+#js-game-container .equipment-page-component
+  .inner_page
+    clearfix()
+    .page_column
+      height: 100%
+      $leftPageColumnWidth = 160px
+      &.left-page_column
+        float: left
+        width: $leftPageColumnWidth
+        $characterPaginationSide = 32px
+        .character_pagination
+          margin: 8px 8px 0 8px
+          width: $leftPageColumnWidth - 16px
+          height: 48px
+          line-height: 48px
+          clearfix()
+          .part
+            float: left
+            height: 100%
+            text-align: center
+            font-size: 20px
+            cursor: pointer
+            &.left-part
+              width: $characterPaginationSide
+            &.center-part
+              width: $leftPageColumnWidth - $characterPaginationSide * 2 - 16px
+            &.right-part
+              width: $characterPaginationSide
+            &:hover
+              turn-colors()
+        .card_container
+          position: relative
+          width: 100%
+          height: 144px  // 128 + 8 * 2
+      &.right-page_column
+        float: right
+        width: 640px
+
+
 #js-game-container .game-page-component
   $rightSideTop = 24px
   $rightSideRight = 24px
@@ -225,6 +294,44 @@ japanese-font-family()
   position: absolute
   width: 92px
   height: 124px
+  &.simple-card_body-component
+    japanese-font-family()
+    .header  // height 20
+      position: relative
+      width: 100%
+      height: 20px
+      line-height: 20px
+      text-align: center
+      .category
+        width: 11px
+        height: 100%
+        font-size: 10px
+        //font-weight: bold
+        border-right: 1px solid $TEXT_COLOR
+        //color: $BACKGROUND_COLOR
+        //background-color: $TEXT_COLOR
+      .title
+        font-size: 11px
+        text-align: center
+    .icon_container  // height 52
+      position: relative
+      height: 50px
+      border-top: 1px solid $TEXT_COLOR
+      border-bottom: 1px solid $TEXT_COLOR
+      .icon
+        position: absolute
+        top: 9px
+        left: 30px
+        width: 32px
+        height: 32px
+    .description  // height 52
+      position: relative
+      padding: 2px 4px
+      height: 48px
+      line-height: 12px
+      font-size: 10px
+      text-align: left
+      overflow: hidden
   &.creature-card_body-component
     .icon_and_states
       position: absolute
@@ -382,20 +489,75 @@ japanese-font-family()
   cursor: pointer
 
 
-// 後でdata uri化して別の生CSSにする
-// background-image だけ設定する
-#js-game-container
+//// 32x32 icon images
+//#js-game-container
+//
+//  // characters
+//  for $id in (
+//    'alchemist' \
+//    'cleric' \
+//    'fighter' \
+//    'healer' \
+//    'knight' \
+//    'mage' \
+//    'ranger' \
+//    'thief'
+//  )
+//    .{$id}-icon-image
+//      background-image: url('/materials/images/denzi/icons/characters/' + $id + '.png')
+//
+//  // enemies
+//  for $id in (
+//    'goblin' \
+//    'minotaur'
+//  )
+//    .{$id}-icon-image
+//      background-image: url('/materials/images/denzi/icons/enemies/' + $id + '.png')
+//
+//  // icons
+//  for $id in (
+//    'flash' \
+//    'happy' \
+//    'heart' \
+//    'invalid' \
+//    'running' \
+//    'unhappy'
+//  )
+//    .{$id}-icon-image
+//      background-image: url('/materials/images/denzi/icons/icons/' + $id + '.png')
+//
+//  // items
+//  for $id in (
+//    'bow' \
+//    'dart' \
+//    'gold' \
+//    'jewel' \
+//    'jewel_box' \
+//    'katana' \
+//    'key' \
+//    'lantern' \
+//    'torch' \
+//    'sword'
+//  )
+//    .{$id}-icon-image
+//      background-image: url('/materials/images/denzi/icons/items/' + $id + '.png')
+//
+//  // objects
+//  for $id in (
+//    'chest' \
+//    'downstairs' \
+//    'signboard' \
+//    'treasure_box' \
+//    'upstairs'
+//  )
+//    .{$id}-icon-image
+//      background-image: url('/materials/images/denzi/icons/objects/' + $id + '.png')
 
-  // やっぱフラットに並べるか
-  for $id in (
-    'heart' \
-    'key' \
-    'morale' \
-    'shield' \
-    'sword'
-  )
-    .{$id}-icon-image
-      background-image: url('/materials/images/denzi/parts/' + $id + '.png')
+
+//
+// deprecated
+//
+#js-game-container
 
   // buffs
   .attack_down-bg_img

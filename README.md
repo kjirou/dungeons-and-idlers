@@ -10,7 +10,10 @@
 ### Deployment
 ```bash
 git clone git@github.com:kjirou/dungeons-and-idlers.git
+cd ./dungeons-and-idlers
+direnv allow
 npm install
+npm run build
 npm run dev
 open http://localhost:3000
 ```

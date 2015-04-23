@@ -8,7 +8,7 @@ var realLocalStorage;  // ifブロック内で宣言するとクラス内で参�
 if (typeof localStorage === 'undefined') {
   realLocalStorage = new MockLocalStorage();
 } else {
-  realLocalStorage = localstorage;
+  realLocalStorage = localStorage;
 }
 
 

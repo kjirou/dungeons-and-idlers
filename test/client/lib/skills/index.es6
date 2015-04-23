@@ -18,6 +18,6 @@ describe('client/lib/skills module', function() {
   });
 
   it('skill.torch.toCardComponentProps', function() {
-    assert.strictEqual(skills.torch.toCardComponentProps().cardBodyProps.iconClassName, 'invalid-icon-image');
+    assert.strictEqual(skills.torch.toCardComponentProps().cardBodyProps.iconClassName, 'torch-icon-image');
   });
 });

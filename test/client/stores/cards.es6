@@ -70,6 +70,12 @@ describe('client/stores/cards module', function() {
         { skill: SnipingSkill, lastAddedAt: 2, count: 1 },
         { skill: LanternSkill, lastAddedAt: 3, count: 1 }
       ]);
+      assert.deepEqual(s.aggregatedCounts, {
+        all: 3,
+        sub_action: 1,
+        feat: 0,
+        deck: 2
+      });
     });
 
     it('findAggregatedCards', function() {

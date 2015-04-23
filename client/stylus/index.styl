@@ -207,11 +207,25 @@ turn-colors()
     overflow-y: scroll
     clearfix()
     .card_container
+      $cardCountHeight = 20px
       position: relative
       float: left
-      margin: 0 0 32px $leftMargin
+      margin: 0 0 12px $leftMargin
       width: $CARD_WIDTH
-      height: $CARD_HEIGHT + 16px
+      height: $CARD_HEIGHT + $cardCountHeight
+      .card_count
+        position: absolute
+        top: $CARD_HEIGHT
+        width: 100%
+        height: $cardCountHeight
+        line-height: $cardCountHeight
+        text-align: right
+        .operator
+          margin-right: 4px
+          font-size: 14px
+        .value
+          margin-right: 2px
+          font-size: 20px
 
 
 #js-game-container .equipment-page-component

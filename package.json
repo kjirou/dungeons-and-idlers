@@ -60,7 +60,7 @@
   },
   "scripts": {
     "b": "npm run build",
-    "build": "gulp build",
+    "build": "gulp build && npm run build-images",
     "build-images": "image-divider && gulp build-icon-images-css",
     "d": "npm run dev",
     "dev": "node-dev ./bin/www",

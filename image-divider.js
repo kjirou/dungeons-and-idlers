@@ -6,7 +6,7 @@ var pathModule = require('path');
 
 
 var SOURCE_IMAGE_PATH = pathModule.join(__dirname, '/materials/images/denzi/Denzi140330-12-1--32x32.png');
-var DEST_ROOT = pathModule.join(__dirname, '/materials/images/denzi/icons');
+var DEST_ROOT = pathModule.join(__dirname, '/public/dist/icons');
 var ICON_WIDTH = 32;
 var ICON_HEIGHT = 32;
 var ICON_SIZE = [ICON_WIDTH, ICON_HEIGHT];

@@ -101,7 +101,7 @@ gulp.task('build-css', function() {
     .pipe(gulpStylus({
       use: nib()
     }))
-    .pipe(gulpRename('style.css'))
+    .pipe(gulpRename('client-style.css'))
     .pipe(gulp.dest(PUBLIC_DIST_DIR))
   ;
 });
@@ -125,7 +125,7 @@ gulp.task('watch-css', function() {
 });
 
 gulp.task('build-icon-images-css', function() {
-  return gulp.src('./materials/images/denzi/icons/**/*.png')
+  return gulp.src(pathModule.join(PUBLIC_DIST_DIR, '/icons/**/*.png'))
     .pipe(gulpImageDataURI({
       customClass: function customClass(className) {
         return className + '-icon-image';

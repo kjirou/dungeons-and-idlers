@@ -51,30 +51,25 @@ export function compileJsxTemplate(templatePath, locals = {}) {
   return compileJsxFile(MODULE_TEMPLATES_ROOT + '/' + templatePath, locals);
 }
 
-/**
- * IDからアイコン用背景画像のCSSセレクタを生成する
- * @return {String}
- */
-export const ICON_CLASS_NAME_PREFIX_MAP = (() => {
-  let map = {};
-  // jobs
-  [
-    'alchemist', 'cleric', 'fighter', 'healer',
-    'knight', 'mage', 'ranger', 'thief'
-  ].forEach((id) => {
-    map[id] = id + '-job';
-  });
-  // symbols
-  ['invalid'].forEach((id) => {
-    map[id] = id + '-symbol';
-  });
-  return map;
-})();
+export const ICON_IDS = [
+
+  // characters
+  'alchemist',
+  'cleric',
+  'fighter',
+  'healer',
+  'knight',
+  'mage',
+  'ranger',
+  'thief',
+
+  // icons
+  'invalid'//,
+];
 
 export function getIconClassName(iconId) {
-  let classNamePrefix = ICON_CLASS_NAME_PREFIX_MAP[iconId];
-  if (classNamePrefix) {
-    return classNamePrefix + '-bg_img';
+  if (ICON_IDS.indexOf(iconId) > -1) {
+    return iconId + '-icon-image';
   } else {
     return null;
   }

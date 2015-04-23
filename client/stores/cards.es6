@@ -45,7 +45,14 @@ let CardsStore = Store.extend({
      */
     this._aggregatedCards = [];
 
+    /**
+     * 種類数カウント集計情報
+     */
+    this._aggregatedCounts = undefined;
+    this._resetAggregatedCounts();
+
     this.propGetter('cards');
+    this.propGetter('aggregatedCounts');
 
     //let dispatchToken0 = coreDispatcher.register(function({action}) {
     //  switch (action.type) {
@@ -58,6 +65,15 @@ let CardsStore = Store.extend({
     //  }
     //});
     //this.dispatchTokens = [dispatchToken0];
+  },
+
+  _resetAggregatedCounts() {
+    this._aggregatedCounts = {
+      all: 0,
+      sub_action: 0,
+      feat: 0,
+      deck: 0
+    };
   },
 
   /**
@@ -178,8 +194,12 @@ let CardsStore = Store.extend({
       }
     });
 
+    this._resetAggregatedCounts();
     this._aggregatedCards = Object.keys(cardsAsDict).map((k) => {
-      return cardsAsDict[k];
+      var aggregatedCard = cardsAsDict[k];
+      this._aggregatedCounts.all += 1;
+      this._aggregatedCounts[aggregatedCard.skill.category] += 1;
+      return aggregatedCard;
     });
   },
 

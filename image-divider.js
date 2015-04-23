@@ -79,8 +79,8 @@ var icons = [
   ['items', [0, 1], 'sword'],
 
   // objects
-  ['objects', [0, 12], 'downstairs'],
   ['objects', [2, 7], 'chest'],
+  ['objects', [0, 12], 'downstairs'],
   ['objects', [0, 1], 'signboard'],
   ['objects', [0, 6], 'treasure_box'],
   ['objects', [0, 11], 'upstairs']//,

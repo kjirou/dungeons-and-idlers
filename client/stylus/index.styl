@@ -489,20 +489,75 @@ turn-colors()
   cursor: pointer
 
 
-// 後でdata uri化して別の生CSSにする
-// background-image だけ設定する
-#js-game-container
+//// 32x32 icon images
+//#js-game-container
+//
+//  // characters
+//  for $id in (
+//    'alchemist' \
+//    'cleric' \
+//    'fighter' \
+//    'healer' \
+//    'knight' \
+//    'mage' \
+//    'ranger' \
+//    'thief'
+//  )
+//    .{$id}-icon-image
+//      background-image: url('/materials/images/denzi/icons/characters/' + $id + '.png')
+//
+//  // enemies
+//  for $id in (
+//    'goblin' \
+//    'minotaur'
+//  )
+//    .{$id}-icon-image
+//      background-image: url('/materials/images/denzi/icons/enemies/' + $id + '.png')
+//
+//  // icons
+//  for $id in (
+//    'flash' \
+//    'happy' \
+//    'heart' \
+//    'invalid' \
+//    'running' \
+//    'unhappy'
+//  )
+//    .{$id}-icon-image
+//      background-image: url('/materials/images/denzi/icons/icons/' + $id + '.png')
+//
+//  // items
+//  for $id in (
+//    'bow' \
+//    'dart' \
+//    'gold' \
+//    'jewel' \
+//    'jewel_box' \
+//    'katana' \
+//    'key' \
+//    'lantern' \
+//    'torch' \
+//    'sword'
+//  )
+//    .{$id}-icon-image
+//      background-image: url('/materials/images/denzi/icons/items/' + $id + '.png')
+//
+//  // objects
+//  for $id in (
+//    'chest' \
+//    'downstairs' \
+//    'signboard' \
+//    'treasure_box' \
+//    'upstairs'
+//  )
+//    .{$id}-icon-image
+//      background-image: url('/materials/images/denzi/icons/objects/' + $id + '.png')
 
-  // やっぱフラットに並べるか
-  for $id in (
-    'heart' \
-    'key' \
-    'morale' \
-    'shield' \
-    'sword'
-  )
-    .{$id}-icon-image
-      background-image: url('/materials/images/denzi/parts/' + $id + '.png')
+
+//
+// deprecated
+//
+#js-game-container
 
   // buffs
   .attack_down-bg_img

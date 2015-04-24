@@ -2,7 +2,8 @@ import _ from 'lodash';
 import rpgparameter from 'rpgparameter';
 let aggregators = rpgparameter.aggregators;
 
-import {within} from 'client/lib/core';
+import {slideIndex, within} from 'client/lib/core';
+import {equipments} from 'client/lib/equipments';
 import {jobs} from 'client/lib/jobs';
 import CardifyMixin from 'client/lib/mixins/cardify';
 import IconizeMixin from 'client/lib/mixins/iconize';
@@ -29,13 +30,19 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
   initialize() {
 
     /**
-     * 装備中カードリスト
+     * 集計済み装備中カード情報
      */
+    this._aggregatedEquipments = {
+      // [{ equipment: {Equipment}, count: {number} }, ..]
+      sub_action: [],
+      feat: [],
+      deck: []
+    };
+    /** 直列に展開した装備中カードリスト */
     this._equipments = [];
 
     this.attrGetter('hp');
     this.propGetter('attacks', '_getAttacks');
-    this.propGetter('equipments');
     this.propGetter('job', '_getJob');
     this.propGetter('name', 'getName');
     this.propGetter('hpRate', '_getHpRate');
@@ -53,6 +60,124 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
 
   _getJob() {
     return jobs[this.get('jobTypeId')];
+  },
+
+  /**
+   * 装備IDから所属カテゴリの集計済み装備リストを取得し、同時に装備マスタオブジェクトも取得する
+   * @return {Array<object>}
+   */
+  _getAggregatedEquipmentsWithTargetedEquipment(equipmentTypeId) {
+    let targetedEquipment = equipments[equipmentTypeId];
+    if (!targetedEquipment) {
+      throw new Error(equipmentTypeId + ' is invalid equipmentTypeId');
+    }
+    return [
+      this._aggregatedEquipments[targetedEquipment.category],
+      targetedEquipment
+    ];
+  },
+
+  /**
+   * 集計済みの装備リストを展開して、フラットなオブジェクトの列にする
+   */
+  _expandEquipments() {
+    this._equipments = [];
+    [
+      // 順番依存なので Object.keys は NG
+      'sub_action', 'feat', 'deck'
+    ].forEach((category) => {
+      this._aggregatedEquipments[category].forEach((equipmentData) => {
+        _.range(equipmentData.count).forEach(() => {
+          this._equipments.push(equipmentData.equipment);
+        });
+      });
+    });
+  },
+
+  /**
+   * 装備を追加または加算する
+   *
+   * コストや手札数のバリデーションは行わない、
+   * いずれにせよ総枚数制限が外部依存なので、全部確認するのは無理だから
+   * この辺のバリデーションはパーティ編成後の冒険開始直前に行う
+   *
+   * @param {string} equipmentTypeId
+   */
+  addOrIncreaseEquipment(equipmentTypeId) {
+    let [equipmentsInCategory, targetedEquipment] =
+      this._getAggregatedEquipmentsWithTargetedEquipment(equipmentTypeId);
+
+    if (targetedEquipment.category === 'sub_action' && equipmentsInCategory.length > 0) {
+      throw new Error('Can be equipped sub_action only one');
+    }
+
+    let existingEquipment = _.find(equipmentsInCategory, (v) => {
+      return v.equipment.typeId === targetedEquipment.typeId;
+    }) || null;
+    if (existingEquipment) {
+      existingEquipment.count += 1;
+    } else {
+      equipmentsInCategory.push({
+        equipment: targetedEquipment,
+        count: 1
+      });
+    }
+
+    this._expandEquipments();
+  },
+
+  /**
+   * 装備を削除または減算する
+   * その結果残り個数が0になったら要素ごと削除する
+   * @param {string} equipmentTypeId
+   */
+  decreaseOrRemoveEquipment(equipmentTypeId) {
+    let [equipmentsInCategory, targetedEquipment] =
+      this._getAggregatedEquipmentsWithTargetedEquipment(equipmentTypeId);
+
+    let indexForDelete = null;
+    // 指定した装備のカウントを減算
+    equipmentsInCategory.some((equipmentData, i) => {
+      if (equipmentData.equipment.typeId === targetedEquipment.typeId) {
+        equipmentData.count -= 1;
+        if (equipmentData.count === 0) {
+          indexForDelete = i;
+        }
+        return true;
+      }
+      return false;
+    });
+    // もし0個になっていれば要素削除
+    if (indexForDelete !== null) {
+      equipmentsInCategory.splice(indexForDelete, 1);
+    }
+
+    this._expandEquipments();
+  },
+
+  /**
+   * 同カテゴリ内で並び順を変更する
+   *
+   * @param {string} equipmentTypeId
+   * @param {number} relativeIndex
+   */
+  slideEquipment(equipmentTypeId, relativeIndex) {
+    let [equipmentsInCategory, targetedEquipment] =
+      this._getAggregatedEquipmentsWithTargetedEquipment(equipmentTypeId);
+
+    let startIndex = null;
+    equipmentsInCategory.some((v, i) => {
+      if (v.equipment.typeId === targetedEquipment.typeId) {
+        startIndex = i;
+        return true;
+      }
+      return false;
+    });
+
+    if (startIndex !== null) {
+      slideIndex(equipmentsInCategory, startIndex, relativeIndex, true);
+      this._expandEquipments();
+    }
   },
 
   _getMaxHpParameters() {

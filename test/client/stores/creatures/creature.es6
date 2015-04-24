@@ -2,6 +2,7 @@ import assert from 'assert';
 import isInteger from 'is-integer';
 import sinon from 'sinon';
 
+import {DartEquipment, LanternEquipment, ShootingEquipment, TorchEquipment} from 'client/lib/equipments';
 import CreatureStore from 'client/stores/creatures/creature';
 
 
@@ -19,6 +20,7 @@ describe('client/stores/creatures/creature module', function() {
       assert(c instanceof CreatureStore);
     });
   });
+
 
   context('maxHp', function() {
 
@@ -38,6 +40,7 @@ describe('client/stores/creatures/creature module', function() {
       assert.strictEqual(c.maxHp, CreatureStore.MAX_MAX_HP);
     });
   });
+
 
   context('hp getters', function() {
 
@@ -80,6 +83,7 @@ describe('client/stores/creatures/creature module', function() {
       assert.strictEqual(c.isFullHp(), true);
     });
   });
+
 
   context('hp setters', function() {
 
@@ -135,6 +139,222 @@ describe('client/stores/creatures/creature module', function() {
       sinon.stub(c, 'getMaxHp', () => { return 10; });
       c.beDamagedFully();
       assert.strictEqual(c.hp, 0);
+    });
+  });
+
+
+  context('equipments', function() {
+
+    it('_getAggregatedEquipmentsWithTargetedEquipment', function() {
+      let s = new CreatureStore();
+      assert.deepEqual(s._aggregatedEquipments, {
+        sub_action: [],
+        feat: [],
+        deck: []
+      });
+
+      let result;
+      result = s._getAggregatedEquipmentsWithTargetedEquipment('torch');
+      assert.strictEqual(result[0], s._aggregatedEquipments.deck);
+      assert.strictEqual(result[1], TorchEquipment);
+
+      result = s._getAggregatedEquipmentsWithTargetedEquipment('shooting');
+      assert.strictEqual(result[0], s._aggregatedEquipments.sub_action);
+      assert.strictEqual(result[1], ShootingEquipment);
+
+      assert.throws(() => {
+        s._getAggregatedEquipmentsWithTargetedEquipment('not_exists');
+      }, /not_exists/);
+    });
+
+    it('_expandEquipments', function() {
+      let s = new CreatureStore();
+      s._aggregatedEquipments.sub_action.push({
+        equipment: ShootingEquipment,
+        count: 1
+      });
+      s._aggregatedEquipments.deck.push({
+        equipment: TorchEquipment,
+        count: 2
+      });
+      s._aggregatedEquipments.deck.push({
+        equipment: LanternEquipment,
+        count: 1
+      });
+
+      assert.deepEqual(s._equipments, []);
+      s._expandEquipments();
+      assert.deepEqual(s._equipments, [
+        ShootingEquipment,
+        TorchEquipment,
+        TorchEquipment,
+        LanternEquipment
+      ]);
+    });
+
+    it('addOrIncreaseEquipment, decreaseOrRemoveEquipment', function() {
+      let s = new CreatureStore();
+      s.addOrIncreaseEquipment('torch');
+      assert.deepEqual(s._aggregatedEquipments, {
+        sub_action: [],
+        feat: [],
+        deck: [
+          { equipment: TorchEquipment, count: 1 }
+        ]
+      });
+      assert.deepEqual(s._equipments, [
+        TorchEquipment
+      ]);
+
+      s.addOrIncreaseEquipment('torch');
+      assert.deepEqual(s._aggregatedEquipments, {
+        sub_action: [],
+        feat: [],
+        deck: [
+          { equipment: TorchEquipment, count: 2 }
+        ]
+      });
+
+      s.addOrIncreaseEquipment('shooting');
+      assert.deepEqual(s._aggregatedEquipments, {
+        sub_action: [
+          { equipment: ShootingEquipment, count: 1 }
+        ],
+        feat: [],
+        deck: [
+          { equipment: TorchEquipment, count: 2 }
+        ]
+      });
+
+      s.addOrIncreaseEquipment('lantern');
+      assert.deepEqual(s._aggregatedEquipments, {
+        sub_action: [
+          { equipment: ShootingEquipment, count: 1 }
+        ],
+        feat: [],
+        deck: [
+          { equipment: TorchEquipment, count: 2 },
+          { equipment: LanternEquipment, count: 1 }
+        ]
+      });
+
+      s.decreaseOrRemoveEquipment('torch');
+      assert.deepEqual(s._aggregatedEquipments, {
+        sub_action: [
+          { equipment: ShootingEquipment, count: 1 }
+        ],
+        feat: [],
+        deck: [
+          { equipment: TorchEquipment, count: 1 },
+          { equipment: LanternEquipment, count: 1 }
+        ]
+      });
+      assert.deepEqual(s._equipments, [
+        ShootingEquipment,
+        TorchEquipment,
+        LanternEquipment
+      ]);
+
+      s.decreaseOrRemoveEquipment('torch');
+      assert.deepEqual(s._aggregatedEquipments, {
+        sub_action: [
+          { equipment: ShootingEquipment, count: 1 }
+        ],
+        feat: [],
+        deck: [
+          { equipment: LanternEquipment, count: 1 }
+        ]
+      });
+
+      s.decreaseOrRemoveEquipment('shooting');
+      assert.deepEqual(s._aggregatedEquipments, {
+        sub_action: [],
+        feat: [],
+        deck: [
+          { equipment: LanternEquipment, count: 1 }
+        ]
+      });
+    });
+
+    it('addOrIncreaseEquipment, decreaseOrRemoveEquipment errors', function() {
+      let s = new CreatureStore();
+      assert.throws(() => {
+        s.addOrIncreaseEquipment('not_exists');
+      }, /not_exists/);
+      assert.throws(() => {
+        s.decreaseOrRemoveEquipment('not_exists');
+      }, /not_exists/);
+
+      s.addOrIncreaseEquipment('shooting');
+      assert.throws(() => {
+        s.addOrIncreaseEquipment('sniping');
+      }, /sub_action only one/);
+    });
+
+    it('slideEquipment', function() {
+      let s = new CreatureStore();
+      s.addOrIncreaseEquipment('shooting');
+      s.addOrIncreaseEquipment('dart');
+      s.addOrIncreaseEquipment('lantern');
+      s.addOrIncreaseEquipment('torch');
+      assert.deepEqual(s._equipments, [
+        ShootingEquipment,
+        DartEquipment,
+        LanternEquipment,
+        TorchEquipment
+      ]);
+
+      s.slideEquipment('lantern', -1);
+      assert.deepEqual(s._equipments, [
+        ShootingEquipment,
+        LanternEquipment,
+        DartEquipment,
+        TorchEquipment
+      ]);
+
+      s.slideEquipment('lantern', -1);
+      assert.deepEqual(s._equipments, [
+        ShootingEquipment,
+        DartEquipment,
+        TorchEquipment,
+        LanternEquipment
+      ]);
+
+      s.slideEquipment('torch', 1);
+      assert.deepEqual(s._equipments, [
+        ShootingEquipment,
+        DartEquipment,
+        LanternEquipment,
+        TorchEquipment
+      ]);
+
+      s.slideEquipment('torch', 1);
+      assert.deepEqual(s._equipments, [
+        ShootingEquipment,
+        TorchEquipment,
+        DartEquipment,
+        LanternEquipment
+      ]);
+
+      s.addOrIncreaseEquipment('torch');
+      assert.deepEqual(s._equipments, [
+        ShootingEquipment,
+        TorchEquipment,
+        TorchEquipment,
+        DartEquipment,
+        LanternEquipment
+      ]);
+
+      s.slideEquipment('torch', 1);
+      assert.deepEqual(s._equipments, [
+        ShootingEquipment,
+        DartEquipment,
+        TorchEquipment,
+        TorchEquipment,
+        LanternEquipment
+      ]);
+
+      s.slideEquipment('katana', 1);  // 0個のfeatカテゴリへ実行してもエラーにならない
     });
   });
 });

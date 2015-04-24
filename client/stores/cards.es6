@@ -2,7 +2,7 @@ import {Promise} from 'bluebird';
 import _ from 'lodash';
 
 import CoreDispatcher from 'client/dispatcher/core';
-import {skills} from 'client/lib/skills';
+import {equipments} from 'client/lib/equipments';
 import Store from 'client/stores/store';
 
 
@@ -34,7 +34,7 @@ let CardsStore = Store.extend({
      *
      * e.g.
      *   [{
-     *     skill: {Skill},
+     *     equipment: {Equipment},
      *     addedAt: {number}
      *   }, ..]
      */
@@ -92,55 +92,41 @@ let CardsStore = Store.extend({
    * カードを追加する
    * 表示上の上限は99だが、いくらでも足せる
    * なお、カード削除の予定はない
-   * @param {string} skillTypeId
+   * @param {string} equipmentTypeId
    * @param {object|undefined} options
    */
-  addCard(skillTypeId, options) {
+  addCard(equipmentTypeId, options) {
     options = _.assign({
       addedAt: (new Date()).getTime()
     }, options || {});
-    let skill = skills[skillTypeId];
-    if (!skill) {
-      throw new Error(`${skillTypeId} is invalid skillTypeId`);
+    let equipment = equipments[equipmentTypeId];
+    if (!equipment) {
+      throw new Error(`${equipmentTypeId} is invalid equipmentTypeId`);
     }
     this.cards.push({
-      skill,
+      equipment,
       addedAt: options.addedAt
     });
   },
 
   /**
    * カードデータを作成する
-   * @param {string} skillTypeId
+   * @param {string} equipmentTypeId
    * @param {number} addedAt Timestamp
    * @return {object}
    */
-  _createCardData(skillTypeId, addedAt) {
+  _createCardData(equipmentTypeId, addedAt) {
     return {
-      skillTypeId,
+      equipmentTypeId,
       addedAt
     };
   },
 
   syncStatesToAttributes() {
     var cardDataList = this._cards.map((card) => {
-      return this._createCardData(card.skill.typeId, card.addedAt);
+      return this._createCardData(card.equipment.typeId, card.addedAt);
     });
     this.set('cards', cardDataList, { validate: true });
-  },
-
-  /** カードへダミーデータを入れる */
-  _addDummyCards() {
-    let { skillList } = require('client/lib/skills');
-    let skillList3 = skillList.concat(skillList, skillList);
-    skillList3.filter(() => {
-      return Math.random() < 0.5;
-    }).map((skill) => {
-      this.addCard(skill.typeId, {
-        addedAt: (new Date()).getTime() - ~~(Math.random() * 86400 * 1000 * 7)
-      });
-    });
-    this.aggregateCards();
   },
 
   syncAttributesToStates() {
@@ -148,7 +134,7 @@ let CardsStore = Store.extend({
     var deletedCardDataList = this.get('deletedCards');
     this.get('cards')
       .filter((cardData) => {
-        if (cardData.skillTypeId in skills) {
+        if (cardData.equipmentTypeId in equipments) {
           return true;
         } else {
           deletedCardDataList.push(_.cloneDeep(cardData));
@@ -156,7 +142,7 @@ let CardsStore = Store.extend({
         };
       })
       .forEach((cardData) => {
-        this.addCard(cardData.skillTypeId, {
+        this.addCard(cardData.equipmentTypeId, {
           addedAt: cardData.addedAt
         });
       })
@@ -177,31 +163,31 @@ let CardsStore = Store.extend({
    *
    *   from: this._cards
    *   [
-   *     { skill: FooSkill, addedAt: 1 },
-   *     { skill: BarSkill, addedAt: 2 },
-   *     { skill: FooSkill, addedAt: 3 }
+   *     { equipment: FooEquipment, addedAt: 1 },
+   *     { equipment: BarEquipment, addedAt: 2 },
+   *     { equipment: FooEquipment, addedAt: 3 }
    *   ]
    *
    *   to: this._aggregatedCards
    *   [
-   *      { skill: FooSkill, lastAddedAt: 3, count: 2 },
-   *      { skill: BarSkill, lastAddedAt: 2, count: 1 }
+   *      { equipment: FooEquipment, lastAddedAt: 3, count: 2 },
+   *      { equipment: BarEquipment, lastAddedAt: 2, count: 1 }
    *   ]
    */
   aggregateCards() {
     let cardsAsDict = {};
     this.cards.forEach((card) => {
-      let skillTypeId = card.skill.typeId;
-      if (!(skillTypeId in cardsAsDict)) {
-        cardsAsDict[skillTypeId] = {
-          skill: card.skill,
+      let equipmentTypeId = card.equipment.typeId;
+      if (!(equipmentTypeId in cardsAsDict)) {
+        cardsAsDict[equipmentTypeId] = {
+          equipment: card.equipment,
           lastAddedAt: card.addedAt,
           count: 1
         };
       } else {
-        cardsAsDict[skillTypeId].count += 1;
-        if (cardsAsDict[skillTypeId].lastAddedAt < card.addedAt) {
-          cardsAsDict[skillTypeId].lastAddedAt = card.addedAt;
+        cardsAsDict[equipmentTypeId].count += 1;
+        if (cardsAsDict[equipmentTypeId].lastAddedAt < card.addedAt) {
+          cardsAsDict[equipmentTypeId].lastAddedAt = card.addedAt;
         }
       }
     });
@@ -210,7 +196,7 @@ let CardsStore = Store.extend({
     this._aggregatedCards = Object.keys(cardsAsDict).map((k) => {
       var aggregatedCard = cardsAsDict[k];
       this._aggregatedCounts.all += 1;
-      this._aggregatedCounts[aggregatedCard.skill.category] += 1;
+      this._aggregatedCounts[aggregatedCard.equipment.category] += 1;
       return aggregatedCard;
     });
 
@@ -224,14 +210,14 @@ let CardsStore = Store.extend({
     }, options);
     let results = _.clone(this._aggregatedCards);
     // where
-    // e.g. conditions = { skill: { category: 'feat' } }
+    // e.g. conditions = { equipment: { category: 'feat' } }
     if (options.conditions) {
       results = _.where(this._aggregatedCards, options.conditions);
     }
     // sort
     let compare = {
       default: (a, b) => {
-        return a.skill.serialNumber - b.skill.serialNumber;
+        return a.equipment.serialNumber - b.equipment.serialNumber;
       },
       recent: (a, b) => {
         return b.lastAddedAt - a.lastAddedAt;
@@ -248,7 +234,7 @@ let CardsStore = Store.extend({
     let conditions = null;
     if (this.selectedCardPageSearchQuery !== 'all') {
       conditions = {
-        skill: {
+        equipment: {
           category: this.selectedCardPageSearchQuery
         }
       };

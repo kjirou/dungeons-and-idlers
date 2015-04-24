@@ -23,7 +23,7 @@ export default function cardPageTemplate({
         {
           cards.map((card, cardIndex) => {
             return <div className='card_container' key={'card-' + cardIndex}>
-              <CardComponent {...(card.skill.toCardComponentProps())}/>
+              <CardComponent {...(card.equipment.toCardComponentProps())}/>
               <div className='card_count'>
                 <span className='operator'>x</span>
                 <span className='value'>{card.count}</span>

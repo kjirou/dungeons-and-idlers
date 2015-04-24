@@ -2,21 +2,21 @@ import _ from 'lodash';
 import _s from 'underscore.string';
 
 import {createCounter, dictionarize} from 'client/lib/core';
-import Skill from 'client/lib/skills/skill';
+import Equipment from 'client/lib/equipments/equipment';
 
 
 function _classifyTypeId(typeId) {
-  return _s.classify(typeId + 'Skill');
+  return _s.classify(typeId + 'Equipment');
 }
 
 let _counter = createCounter();
 
 
-export var skillList = [];
+export var equipmentList = [];
 
 
 //
-// sub action skills
+// sub action equipments
 //
 [
   { typeId: 'disturbance', _name: '撹乱', _iconId: 'unhappy', _equipmentCost: 4,
@@ -29,9 +29,9 @@ export var skillList = [];
     _summary: '[距離3-5, 敵1人, 任意]へ[射撃1]を実行' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
-  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'sub_action' }, source);
-  skillList.push(skill);
-  exports[exportName] = skill;
+  let equipment = _.assign({}, Equipment, { serialNumber: _counter(), category: 'sub_action' }, source);
+  equipmentList.push(equipment);
+  exports[exportName] = equipment;
 });
 
 
@@ -47,14 +47,14 @@ export var skillList = [];
     _summary: '攻撃力: +1' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
-  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'feat' }, source);
-  skillList.push(skill);
-  exports[exportName] = skill;
+  let equipment = _.assign({}, Equipment, { serialNumber: _counter(), category: 'feat' }, source);
+  equipmentList.push(equipment);
+  exports[exportName] = equipment;
 });
 
 
 //
-// deck skills
+// deck equipments
 //
 [
   { typeId: 'acceleration', _name: '加速', _iconId: 'running', _equipmentCost: 2,
@@ -73,10 +73,10 @@ export var skillList = [];
     _summary: '[距離1, 敵1人]へ[射撃1]を実行＆[毒1]を付与' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
-  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'deck' }, source);
-  skillList.push(skill);
-  exports[exportName] = skill;
+  let equipment = _.assign({}, Equipment, { serialNumber: _counter(), category: 'deck' }, source);
+  equipmentList.push(equipment);
+  exports[exportName] = equipment;
 });
 
 
-export var skills = dictionarize(skillList, 'typeId');
+export var equipments = dictionarize(equipmentList, 'typeId');

@@ -269,7 +269,7 @@ japanese-font-family()
         width: 640px
         overflow-y: scroll
         section
-          margin-top: 16px
+          margin-top: 24px
           &.section_1
             margin-top: 8px
           .headline
@@ -281,10 +281,6 @@ japanese-font-family()
               margin-right: 16px
               line-height: 24px
               font-size: 18px
-            .add_button
-              float: left
-              margin-top: 2px
-              buttonize(60px, 18px, $borderSize:2px, $borderRadius:4px)
           table
             margin-top: 8px
             width: 608px  // 640 - 32
@@ -319,7 +315,10 @@ japanese-font-family()
               td.col_3
                 text-align: left
               .col_4
-                width: 32px
+                width: 54px
+                .used
+                  margin-left: 2px
+                  font-size: 11px
               .col_5
                 width: 32px
               .col_6
@@ -335,6 +334,10 @@ japanese-font-family()
                     margin-left: 2px
                   &.button-last
                     margin-right: 0
+          .add_equipment_button
+            margin-top: 16px
+            japanese-font-family()
+            buttonize(60px, 18px, $borderSize: 2px, $borderRadius: 4px)
 
 
 #js-game-container .game-page-component

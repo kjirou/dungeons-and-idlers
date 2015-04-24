@@ -42,6 +42,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     this._equipments = [];
 
     this.attrGetter('hp');
+    this.propGetter('aggregatedEquipments');
     this.propGetter('attacks', '_getAttacks');
     this.propGetter('job', '_getJob');
     this.propGetter('name', 'getName');

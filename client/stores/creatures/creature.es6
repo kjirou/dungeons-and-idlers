@@ -20,13 +20,22 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     return {
       name: '',
       hp: MIN_MAX_HP,
-      jobTypeId: 'creature'
+      jobTypeId: 'creature',
+      equipmentPatterns: [{}, {}, {}],
+      currentEquipmentPatternIndex: 0
     };
   },
 
   initialize() {
+
+    /**
+     * 装備中カードリスト
+     */
+    this._equipments = [];
+
     this.attrGetter('hp');
     this.propGetter('attacks', '_getAttacks');
+    this.propGetter('equipments');
     this.propGetter('job', '_getJob');
     this.propGetter('name', 'getName');
     this.propGetter('hpRate', '_getHpRate');

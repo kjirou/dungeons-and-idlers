@@ -66,7 +66,7 @@ let CreatureCardBodyComponent = React.createClass({
     maxHp: React.PropTypes.number.isRequired,
     physicalAttackPower: React.PropTypes.number.isRequired,
     attacks: React.PropTypes.array.isRequired,
-    feats: React.PropTypes.array.isRequired,
+    skills: React.PropTypes.array.isRequired,
     subActionName: React.PropTypes.string.isRequired
   },
   render() {
@@ -84,7 +84,7 @@ let CreatureCardBodyComponent = React.createClass({
             <span className='value'>{this.props.physicalAttackPower}</span>
           </div>
         </div>
-        <div className='attacks_and_feats'>
+        <div className='attacks_and_skills'>
           <table className='attacks'>
           {
             this.props.attacks.map((action, idx) => {
@@ -94,11 +94,11 @@ let CreatureCardBodyComponent = React.createClass({
             })
           }
           </table>
-          <table className='feats'>
+          <table className='skills'>
           {
-            this.props.feats.map((feat, idx) => {
-              return <tr key={'feat-' + idx}>
-                <td>{feat.name}</td>
+            this.props.skills.map((skill, idx) => {
+              return <tr key={'skill-' + idx}>
+                <td>{skill.name}</td>
               </tr>;
             })
           }

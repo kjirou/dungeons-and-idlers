@@ -27,13 +27,13 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
   initialize() {
     this.attrGetter('hp');
     this.propGetter('attacks', '_getAttacks');
-    this.propGetter('feats', '_getFeats');
     this.propGetter('job', '_getJob');
     this.propGetter('name', 'getName');
     this.propGetter('hpRate', '_getHpRate');
     this.propGetter('magicalAttackPower', 'getMagicalAttackPower');
     this.propGetter('maxHp', 'getMaxHp');
     this.propGetter('physicalAttackPower', 'getPhysicalAttackPower');
+    this.propGetter('skills', '_getSkills');
     this.propGetter('wound', '_getWound');
     this.propGetter('woundRate', '_getWoundRate');
   },
@@ -196,16 +196,16 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
   },
 
   /**
-   * 特性リストを返す
+   * スキルリストを返す
    * @return {Array} 要素数は0以上
    */
-  _getFeats() {
+  _getSkills() {
     throw new Error('Not implemented');
   },
 
   _toCardBodyComponentProps() {
     return _.assign(
-      _.pick(this, 'hp', 'maxHp', 'physicalAttackPower', 'attacks', 'feats'),
+      _.pick(this, 'hp', 'maxHp', 'physicalAttackPower', 'attacks', 'skills'),
       {
         iconClassName: this.getIconClassName(),
         subActionName: '補助行動無し'

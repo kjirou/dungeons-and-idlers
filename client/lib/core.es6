@@ -67,11 +67,13 @@ export function slideIndex(array, startIndex, relativeIndex, isDestructive = fal
   if (len === 0) {
     throw new Error('Invalid arguments');
   }
-  let endIndex = (startIndex + (relativeIndex % len) + len) % len;
-  array.splice(endIndex + 1, 0, array[startIndex]);
+  relativeIndex = relativeIndex % len;
+  let endIndex = (startIndex + relativeIndex + len) % len;
   if (endIndex >= startIndex) {
+    array.splice(endIndex + 1, 0, array[startIndex]);
     array.splice(startIndex, 1);
   } else {
+    array.splice(endIndex, 0, array[startIndex]);
     array.splice(startIndex + 1, 1);
   }
   return array;

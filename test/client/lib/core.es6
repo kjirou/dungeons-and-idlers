@@ -58,6 +58,9 @@ describe('client/lib/core module', function() {
     assert.deepEqual(slideIndex([11, 22, 33, 44], 0, -3), [22, 11, 33, 44]);
     assert.deepEqual(slideIndex([11, 22, 33, 44], 0, -4), [11, 22, 33, 44]);
     assert.deepEqual(slideIndex([11, 22, 33, 44], 0, -5), [22, 33, 44, 11]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 1, -1), [22, 11, 33, 44]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 1, -2), [11, 33, 44, 22]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 2, -2), [33, 11, 22, 44]);
 
     // isDestructive option
     let src, dest;

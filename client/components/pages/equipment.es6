@@ -15,16 +15,23 @@ export default React.createClass({
   displayName: 'EquipmentPageComponent',
   mixins: [ComponentMixin, PageComponentMixin],
 
-  getInitialState() {
+  _getStateFromStores() {
     let charactersStore = CharactersStore.getInstance();
     return {
       editingCharacterIndex: charactersStore.editingCharacterIndex
     };
   },
 
+  getInitialState() {
+    return this._getStateFromStores();
+  },
+
   componentWillMount() {
     let charactersStore = CharactersStore.getInstance();
-    this.pipeStoreAttributeToState(charactersStore, 'editingCharacterIndex');
+
+    charactersStore.on(CharactersStore.UPDATED_EDITING_CHARACTER_EVENT, () => {
+      this.setState(this._getStateFromStores());
+    });
   },
 
   _onMouseDownCharacterName() {

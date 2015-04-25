@@ -8,6 +8,8 @@ import CharacterStore from 'client/stores/creatures/character';
 import Store from 'client/stores/store';
 
 
+const UPDATED_EDITING_CHARACTER_EVENT = 'UPDATED_EDITING_CHARACTER_EVENT';
+
 export default Store.extend({
 
   storageName: 'store:characters',
@@ -73,6 +75,7 @@ export default Store.extend({
       value = this.defaults().editingCharacterIndex;
     }
     this.set('editingCharacterIndex', value, { validate: true });
+    this.trigger(UPDATED_EDITING_CHARACTER_EVENT);
   },
 
   rotateEditingCharacterIndex(indexDelta) {
@@ -83,4 +86,6 @@ export default Store.extend({
   getEditingCharacter() {
     return this.characters[this.editingCharacterIndex] || null;
   }
+}, {
+  UPDATED_EDITING_CHARACTER_EVENT
 });

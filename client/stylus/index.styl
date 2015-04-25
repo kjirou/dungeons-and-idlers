@@ -18,6 +18,7 @@ turn-colors()
 
 // div tag to button
 buttonize($width, $height, $borderSize=3px, $borderRadius=5px)
+  display: block
   width: $width
   height: $height
   line-height: $height
@@ -240,6 +241,17 @@ japanese-font-family()
         float: left
         width: $leftPageColumnWidth
         $characterPaginationSide = 32px
+        > section
+          position: relative
+          margin: 8px 32px 0 32px
+          width: 96px
+          > h3
+            height: 16px
+            line-height: 16px
+            font-size: 10px
+            text-align: center
+            japanese-font-family();
+            border-bottom: 1px solid $TEXT_COLOR
         .character_pagination
           margin: 8px 8px 0 8px
           width: $leftPageColumnWidth - 16px
@@ -260,10 +272,28 @@ japanese-font-family()
               width: $characterPaginationSide
             &:hover
               turn-colors()
-        .card_container
-          position: relative
-          width: 100%
-          height: 144px  // 128 + 8 * 2
+        section.card_container
+          height: 128px
+        section.equipment_patterns
+          > ul
+            margin: 4px 0 0 0
+            clearfix()
+            li
+              float: left
+              margin-right: 3px
+              buttonize(26px, 26px, $borderSize: 2px, $borderRadius: 2px)
+              &:last-child
+                margin-right: 0
+              &.active
+                turn-colors()
+        section.equipment_cost,
+        section.deck_count
+          > div
+            margin: 2px 0 0 0
+            font-size: 20px
+            text-align: center
+            .separator
+              margin: 0 4px
       &.right-page_column
         float: right
         width: 640px

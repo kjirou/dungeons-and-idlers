@@ -84,14 +84,35 @@ export default function characterPageTemplate({
             <div className='part center-part' onMouseDown={onMouseDownCharacterName}>{editingCharacter.getName()}</div>
             <div className='part right-part' onMouseDown={onMouseDownNextCharacter}>&gt;</div>
           </div>
-          <div className='card_container'>
+          <section className='card_container'>
             <CardComponent {...(
-              _.assign({}, editingCharacter.toCardComponentProps(), {
-                top: 8,
-                left: 32
-              })
+              _.assign({}, editingCharacter.toCardComponentProps())
             )}/>
-          </div>
+          </section>
+          <section className='equipment_patterns'>
+            <h3>装備パターン</h3>
+            <ul>
+              <li className='active'>1</li>
+              <li>2</li>
+              <li>3</li>
+            </ul>
+          </section>
+          <section className='equipment_cost'>
+            <h3>装備コスト</h3>
+            <div>
+              <span className='current'>78</span>
+              <span className='separator'>/</span>
+              <span className='max'>99</span>
+            </div>
+          </section>
+          <section className='deck_count'>
+            <h3>デッキ枚数</h3>
+            <div>
+              <span className='current'>78</span>
+              <span className='separator'>/</span>
+              <span className='max'>99</span>
+            </div>
+          </section>
         </div>
 
         <div className='page_column right-page_column'>

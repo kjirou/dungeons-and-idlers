@@ -35,8 +35,8 @@ export default function characterPageTemplate({
 
     let onIncrease = createOnMouseDownUpdateEquipment('increase', equipment.typeId);
     let onDecrease = createOnMouseDownUpdateEquipment('decrease', equipment.typeId);
-    let onUp = () => {};
-    let onDown = () => {};
+    let onUp = createOnMouseDownUpdateEquipment('up', equipment.typeId);
+    let onDown = createOnMouseDownUpdateEquipment('down', equipment.typeId);
 
     return (
       <tr key={'equipment_row-' + idx}>
@@ -62,8 +62,8 @@ export default function characterPageTemplate({
                 <div>
                   <div className='button button-first' onMouseDown={onIncrease}>+</div>
                   <div className='button' onMouseDown={onDecrease}>-</div>
-                  <div className='button'>↑</div>
-                  <div className='button button-last'>↓</div>
+                  <div className='button' onMouseDown={onUp}>↑</div>
+                  <div className='button button-last' onMouseDown={onDown}>↓</div>
                 </div>
               );
             }
@@ -153,7 +153,11 @@ export default function characterPageTemplate({
             </table>
             <div
               className='add_equipment_button'
-              onMouseDown={createOnMouseDownUpdateEquipment('add', 'torch')}
+              onMouseDown={
+                function() {
+                  return createOnMouseDownUpdateEquipment('add', _.shuffle(['dart', 'torch', 'lantern'])[0]);
+                }
+              }
             >+追加</div>
           </section>
 

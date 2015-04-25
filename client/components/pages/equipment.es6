@@ -71,6 +71,16 @@ export default React.createClass({
           ScreenActionCreators.decreaseOrRemoveEditingCharacterEquipment(equipmentTypeId);
         };
         break;
+      case 'up':
+        handler = () => {
+          ScreenActionCreators.slideEditingCharacterEquipment(equipmentTypeId, -1);
+        };
+        break;
+      case 'down':
+        handler = () => {
+          ScreenActionCreators.slideEditingCharacterEquipment(equipmentTypeId, 1);
+        };
+        break;
     }
     return handler;
   },

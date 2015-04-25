@@ -48,6 +48,10 @@ export default Store.extend({
           self.getEditingCharacter().decreaseOrRemoveEquipment(action.equipmentTypeId);
           self.trigger(UPDATED_EDITING_CHARACTER_STATE_EVENT);
           break;
+        case 'slideEditingCharacterEquipment':
+          self.getEditingCharacter().slideEquipment(action.equipmentTypeId, action.relativeIndex);
+          self.trigger(UPDATED_EDITING_CHARACTER_STATE_EVENT);
+          break;
       }
     });
     this.dispatchTokens = [dispatchToken0];

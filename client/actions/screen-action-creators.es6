@@ -76,5 +76,17 @@ export default {
       type: 'decreaseOrRemoveEditingCharacterEquipment',
       equipmentTypeId
     });
+  },
+
+  /**
+   * @param {string} equipmentTypeId
+   * @param {number} relativeIndex
+   */
+  slideEditingCharacterEquipment(equipmentTypeId, relativeIndex) {
+    CoreDispatcher.getInstance().handleViewAction({
+      type: 'slideEditingCharacterEquipment',
+      equipmentTypeId,
+      relativeIndex
+    });
   }
 };

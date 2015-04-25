@@ -6,7 +6,7 @@ import CharacterStore from 'client/stores/creatures/character';
 import CharactersStore from 'client/stores/characters';
 
 
-describe('client/stores/character module', function() {
+describe('client/stores/characters module', function() {
 
   beforeEach(function() {
     return Storage.clear();
@@ -52,7 +52,8 @@ describe('client/stores/character module', function() {
   it('setEditingCharacterIndex, rotateEditingCharacterIndex', function() {
     let s = new CharactersStore();
     assert.strictEqual(s.editingCharacterIndex, 0);
-    assert.strictEqual(s.characters.length, 0);
+    assert(s.characters.length > 0, 'インスタンス生成時に少なくとも一人居て、編集中キャラが未定義にならない');
+    assert.strictEqual(s.characters.length, s.defaults().characters.length);
     // not changed
     s.setEditingCharacterIndex(99);
     assert.strictEqual(s.editingCharacterIndex, 0);

@@ -47,27 +47,23 @@ export default Store.extend({
 
     this.attrGetter('editingCharacterIndex');
     this.propGetter('characters');
+
+    this.syncAttributesToStates();
   },
 
-  store() {
+  syncStatesToAttributes() {
     let charactersStates = this._characters.map((character) => {
       return character.toStates();
     });
     this.set('characters', charactersStates, { validate: true });
-    return this.save();
   },
 
-  restore() {
-    this.fetch()
-      .then(() => {
-        this._characters = this.get('characters').map((characterAttrs) => {
-          let character = new CharacterStore(characterAttrs);
-          character.resetStates();
-          return character;
-        });
-      })
-    ;
-    return this.fetch();
+  syncAttributesToStates() {
+    this._characters = this.get('characters').map((characterAttrs) => {
+      let character = new CharacterStore(characterAttrs);
+      character.resetStates();
+      return character;
+    });
   },
 
   setEditingCharacterIndex(value) {

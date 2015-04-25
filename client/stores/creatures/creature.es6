@@ -22,7 +22,14 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
       name: '',
       hp: MIN_MAX_HP,
       jobTypeId: 'creature',
-      equipmentPatterns: [{}, {}, {}],
+      equipmentPatterns: _.range(3).map(() => {
+        return {
+          // e.g. [{ equipmentTypeId: 'foo', count: 3 }, ..]
+          sub_action: [],
+          feat: [],
+          deck: []
+        };
+      }),
       currentEquipmentPatternIndex: 0
     };
   },
@@ -53,6 +60,57 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     this.propGetter('skills', '_getSkills');
     this.propGetter('wound', '_getWound');
     this.propGetter('woundRate', '_getWoundRate');
+
+    this.syncAttributesToStates();
+  },
+
+  //
+  // NOTICE:
+  //
+  // 現装備パターンのみ状態化している
+  // --------------------------------
+  //
+  // 状態化するのは現装備のみ
+  // 全部やると使わない状態が多過ぎると感じたのと、また既に組んじゃったからという理由
+  //
+  // なので、以下の制約が生じている：
+  // - 現装備パターン以外のパターンは、アプリ内で参照できない
+  // - 装備パターン切り替えには、store/restoreによる保存/復旧処理が必要
+  //
+
+  syncStatesToAttributes() {
+    // equipments
+    let attrsOfCurrentEquipments = {};
+    Object.keys(this._aggregatedEquipments).map((category) => {
+      let equipmentsInCategory = this._aggregatedEquipments[category];
+      attrsOfCurrentEquipments[category] = equipmentsInCategory.map(({equipment, count}) => {
+        return {
+          equipmentTypeId: equipment.typeId,
+          count
+        };
+      });
+    });
+    this.get('equipmentPatterns')[this.get('currentEquipmentPatternIndex')] = attrsOfCurrentEquipments;
+  },
+
+  store() {
+    throw new Error('Can not store by self');
+  },
+
+  syncAttributesToStates() {
+    // equipments
+    let attrsOfCurrentEquipments = this.get('equipmentPatterns')[this.get('currentEquipmentPatternIndex')];
+    Object.keys(attrsOfCurrentEquipments).map((category) => {
+      attrsOfCurrentEquipments[category].forEach(({ equipmentTypeId, count }) => {
+        _.range(count).forEach(() => {
+          this.addOrIncreaseEquipment(equipmentTypeId);
+        });
+      });
+    });
+  },
+
+  restore() {
+    throw new Error('Can not restore by self');
   },
 
   getName() {

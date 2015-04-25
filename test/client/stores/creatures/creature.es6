@@ -357,4 +357,83 @@ describe('client/stores/creatures/creature module', function() {
       s.slideEquipment('katana', 1);  // 0個のfeatカテゴリへ実行してもエラーにならない
     });
   });
+
+
+  context('store and restore', function() {
+
+    it('can not execute store/restore', function() {
+      let s = new CreatureStore();
+      assert.throws(() => {
+        s.store();
+      }, /store/);
+      assert.throws(() => {
+        s.restore();
+      }, /restore/);
+    });
+
+    it('syncStatesToAttributes', function() {
+      let s = new CreatureStore();
+      assert.deepEqual(s.get('equipmentPatterns'), [
+        { sub_action: [], feat: [], deck: [] },
+        { sub_action: [], feat: [], deck: [] },
+        { sub_action: [], feat: [], deck: [] }
+      ]);
+
+      s.addOrIncreaseEquipment('torch');
+      s.syncStatesToAttributes();
+      assert.deepEqual(s.get('equipmentPatterns')[0], {
+        sub_action: [],
+        feat: [],
+        deck: [{ equipmentTypeId: 'torch', count: 1 }]
+      });
+
+      s.addOrIncreaseEquipment('shooting');
+      s.syncStatesToAttributes();
+      assert.deepEqual(s.get('equipmentPatterns')[0], {
+        sub_action: [{ equipmentTypeId: 'shooting', count: 1 }],
+        feat: [],
+        deck: [{ equipmentTypeId: 'torch', count: 1 }]
+      });
+
+      s.addOrIncreaseEquipment('torch');
+      s.syncStatesToAttributes();
+      assert.deepEqual(s.get('equipmentPatterns')[0], {
+        sub_action: [{ equipmentTypeId: 'shooting', count: 1 }],
+        feat: [],
+        deck: [{ equipmentTypeId: 'torch', count: 2 }]
+      });
+
+      s.addOrIncreaseEquipment('lantern');
+      s.syncStatesToAttributes();
+      assert.deepEqual(s.get('equipmentPatterns'), [
+        {
+          sub_action: [{ equipmentTypeId: 'shooting', count: 1 }],
+          feat: [],
+          deck: [{ equipmentTypeId: 'torch', count: 2 }, { equipmentTypeId: 'lantern', count: 1 }]
+        },
+        { sub_action: [], feat: [], deck: [] },
+        { sub_action: [], feat: [], deck: [] }
+      ]);
+    });
+
+    it('syncAttributesToStates', function() {
+      let s = new CreatureStore();
+      s.get('equipmentPatterns')[0] = {
+        sub_action: [{ equipmentTypeId: 'shooting', count: 1 }],
+        feat: [],
+        deck: [{ equipmentTypeId: 'torch', count: 2 }, { equipmentTypeId: 'lantern', count: 1 }]
+      };
+      s.syncAttributesToStates();
+      assert.deepEqual(s.aggregatedEquipments, {
+        sub_action: [
+          { equipment: ShootingEquipment, count: 1 }
+        ],
+        feat: [],
+        deck: [
+          { equipment: TorchEquipment, count: 2 },
+          { equipment: LanternEquipment, count: 1 }
+        ]
+      });
+    });
+  });
 });

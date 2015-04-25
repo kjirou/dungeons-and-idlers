@@ -76,18 +76,6 @@ export default React.createClass({
   },
 
   render: function render() {
-    let charactersStore = CharactersStore.getInstance();
-    let selectedCharacterStore = charactersStore.getEditingCharacter();
-
-    let selectedCharacterElement = null;
-    if (selectedCharacterStore) {
-      let cardProps = _.assign({}, selectedCharacterStore.toCardComponentProps(), {
-        top: 8,
-        left: 32
-      });
-      selectedCharacterElement = <CardComponent {...cardProps}/>;
-    }
-
     return compileJsxTemplate('pages/equipment', {
       className: createPageComponentClassName('equipment'),
       style: this.createDefaultStyles(),
@@ -96,9 +84,6 @@ export default React.createClass({
       },
       CardComponent,
       editingCharacter: this.state.editingCharacter,
-      selectedCharacterStore,
-      selectedCharacterName: (selectedCharacterStore) ? selectedCharacterStore.getName() : '',
-      selectedCharacterElement,
       onMouseDownCharacterName: this._onMouseDownCharacterName,
       onMouseDownNextCharacter: this._onMouseDownNextCharacter,
       onMouseDownPrevCharacter: this._onMouseDownPrevCharacter,

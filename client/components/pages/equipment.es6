@@ -54,35 +54,38 @@ export default React.createClass({
   },
 
   createOnMouseDownUpdateEquipment(mode, equipmentTypeId) {
-    let handler = null;
+    let updateEvent = null;
     switch (mode) {
       case 'add':
-        handler = () => {
+        updateEvent = () => {
           ScreenActionCreators.addOrIncreaseEditingCharacterEquipment(equipmentTypeId);
         };
         break;
       case 'increase':
-        handler = () => {
+        updateEvent = () => {
           ScreenActionCreators.addOrIncreaseEditingCharacterEquipment(equipmentTypeId);
         };
         break;
       case 'decrease':
-        handler = () => {
+        updateEvent = () => {
           ScreenActionCreators.decreaseOrRemoveEditingCharacterEquipment(equipmentTypeId);
         };
         break;
       case 'up':
-        handler = () => {
+        updateEvent = () => {
           ScreenActionCreators.slideEditingCharacterEquipment(equipmentTypeId, -1);
         };
         break;
       case 'down':
-        handler = () => {
+        updateEvent = () => {
           ScreenActionCreators.slideEditingCharacterEquipment(equipmentTypeId, 1);
         };
         break;
     }
-    return handler;
+    return () => {
+      updateEvent();
+      ScreenActionCreators.storeCharacters();
+    };
   },
 
   render: function render() {

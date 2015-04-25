@@ -54,7 +54,17 @@ export default Store.extend({
           break;
       }
     });
-    this.dispatchTokens = [dispatchToken0];
+    let dispatchToken1 = coreDispatcher.register(function({action}) {
+      coreDispatcher.waitFor([
+        dispatchToken0
+      ]);
+      switch (action.type) {
+        case 'storeCharacters':
+          self.store();
+          break;
+      }
+    });
+    this.dispatchTokens = [dispatchToken0, dispatchToken1];
 
     this._characters = [];
 

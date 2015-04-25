@@ -88,5 +88,11 @@ export default {
       equipmentTypeId,
       relativeIndex
     });
+  },
+
+  storeCharacters() {
+    CoreDispatcher.getInstance().handleViewAction({
+      type: 'storeCharacters'
+    });
   }
 };

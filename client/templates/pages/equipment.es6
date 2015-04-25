@@ -154,9 +154,9 @@ export default function characterPageTemplate({
             <div
               className='add_equipment_button'
               onMouseDown={
-                function() {
+                (function() {
                   return createOnMouseDownUpdateEquipment('add', _.shuffle(['dart', 'torch', 'lantern'])[0]);
-                }
+                })()
               }
             >+追加</div>
           </section>

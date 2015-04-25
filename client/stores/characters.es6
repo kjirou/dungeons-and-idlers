@@ -65,10 +65,11 @@ export default Store.extend({
   },
 
   syncStatesToAttributes() {
-    let charactersStates = this._characters.map((character) => {
-      return character.attributes;
+    let stateOfCharacters = this._characters.map((character) => {
+      character.syncStatesToAttributes();
+      return _.cloneDeep(character.attributes);
     });
-    this.set('characters', charactersStates, { validate: true });
+    this.set('characters', stateOfCharacters, { validate: true });
   },
 
   syncAttributesToStates() {

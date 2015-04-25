@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import Storage from 'client/lib/storage';
+import {TorchEquipment} from 'client/lib/equipments';
 import {FighterJob} from 'client/lib/jobs';
 import CharacterStore from 'client/stores/creatures/character';
 import CharactersStore from 'client/stores/characters';
@@ -29,9 +30,13 @@ describe('client/stores/characters module', function() {
       })
       // データを強引に変更して保存
       .then(() => {
+        // 全員 fighter にする
         s.characters.forEach((character) => {
-          character.set('jobTypeId', 'fighter');  // 全員戦士にする
+          character.set('jobTypeId', 'fighter');
         });
+        // 二人目のみ装備変更
+        s.characters[1].addOrIncreaseEquipment('torch');
+        s.characters[1].addOrIncreaseEquipment('torch');
         return s.store();
       })
       // 新たに作ったインスタンスでrestoreしたら反映される
@@ -40,8 +45,15 @@ describe('client/stores/characters module', function() {
         s2.restore()
           .then(() => {
             assert(s.characters.length > 0);
+            // 全員 FighterJob である
             s2.characters.forEach((character) => {
               assert.strictEqual(character.job, FighterJob);
+            });
+            // 二人目が TorchEquipment を装備している
+            assert.deepEqual(s2.characters[1].aggregatedEquipments, {
+              sub_action: [],
+              feat: [],
+              deck: [{ equipment: TorchEquipment, count: 2 }]
             });
           })
         ;

@@ -66,7 +66,7 @@ export default Store.extend({
 
   syncStatesToAttributes() {
     let charactersStates = this._characters.map((character) => {
-      return character.toStates();
+      return character.attributes;
     });
     this.set('characters', charactersStates, { validate: true });
   },

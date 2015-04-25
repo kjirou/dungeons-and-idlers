@@ -37,18 +37,6 @@ let Store = Backbone.Model.extend({
     this.trigger(this.constructor.UPDATED_STATE_EVENT);
   },
 
-  /**
-   * インスタンスの状態を返す
-   *
-   * TODO:
-   * [deprecation]
-   * "状態" はインスタンスのプロパティの値などを示すので不適切
-   * そもそもの意図としては「保存用のattributesを返す」なので別名にする
-   */
-  toStates() {
-    return this.attributes;
-  },
-
   storageName: null,
 
   /**

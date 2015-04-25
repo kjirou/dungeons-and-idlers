@@ -17,8 +17,9 @@ export default React.createClass({
 
   _getStateFromStores() {
     let charactersStore = CharactersStore.getInstance();
+    let editingCharacter = charactersStore.getEditingCharacter();
     return {
-      editingCharacterIndex: charactersStore.editingCharacterIndex
+      editingCharacter
     };
   },
 
@@ -30,6 +31,10 @@ export default React.createClass({
     let charactersStore = CharactersStore.getInstance();
 
     charactersStore.on(CharactersStore.UPDATED_EDITING_CHARACTER_EVENT, () => {
+      this.setState(this._getStateFromStores());
+    });
+
+    charactersStore.on(CharactersStore.UPDATED_EDITING_CHARACTER_STATE_EVENT, () => {
       this.setState(this._getStateFromStores());
     });
   },
@@ -46,6 +51,28 @@ export default React.createClass({
   _onMouseDownPrevCharacter() {
     ScreenActionCreators.rotateEditingCharacter(-1);
     ScreenActionCreators.changePage('equipment');
+  },
+
+  createOnMouseDownUpdateEquipment(mode, equipmentTypeId) {
+    let handler = null;
+    switch (mode) {
+      case 'add':
+        handler = () => {
+          ScreenActionCreators.addOrIncreaseEditingCharacterEquipment(equipmentTypeId);
+        };
+        break;
+      case 'increase':
+        handler = () => {
+          ScreenActionCreators.addOrIncreaseEditingCharacterEquipment(equipmentTypeId);
+        };
+        break;
+      case 'decrease':
+        handler = () => {
+          ScreenActionCreators.decreaseOrRemoveEditingCharacterEquipment(equipmentTypeId);
+        };
+        break;
+    }
+    return handler;
   },
 
   render: function render() {
@@ -68,13 +95,14 @@ export default React.createClass({
         NavigationBarComponent
       },
       CardComponent,
-      charactersStore,
+      editingCharacter: this.state.editingCharacter,
       selectedCharacterStore,
       selectedCharacterName: (selectedCharacterStore) ? selectedCharacterStore.getName() : '',
       selectedCharacterElement,
       onMouseDownCharacterName: this._onMouseDownCharacterName,
       onMouseDownNextCharacter: this._onMouseDownNextCharacter,
-      onMouseDownPrevCharacter: this._onMouseDownPrevCharacter
+      onMouseDownPrevCharacter: this._onMouseDownPrevCharacter,
+      createOnMouseDownUpdateEquipment: this.createOnMouseDownUpdateEquipment
     });
   }
 });

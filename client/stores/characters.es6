@@ -9,6 +9,7 @@ import Store from 'client/stores/store';
 
 
 const UPDATED_EDITING_CHARACTER_EVENT = 'UPDATED_EDITING_CHARACTER_EVENT';
+const UPDATED_EDITING_CHARACTER_STATE_EVENT = 'UPDATED_EDITING_CHARACTER_STATE_EVENT';
 
 export default Store.extend({
 
@@ -38,6 +39,14 @@ export default Store.extend({
           break;
         case 'rotate_editing_character':
           self.rotateEditingCharacterIndex(action.indexDelta);
+          break;
+        case 'addOrIncreaseEditingCharacterEquipment':
+          self.getEditingCharacter().addOrIncreaseEquipment(action.equipmentTypeId);
+          self.trigger(UPDATED_EDITING_CHARACTER_STATE_EVENT);
+          break;
+        case 'decreaseOrRemoveEditingCharacterEquipment':
+          self.getEditingCharacter().decreaseOrRemoveEquipment(action.equipmentTypeId);
+          self.trigger(UPDATED_EDITING_CHARACTER_STATE_EVENT);
           break;
       }
     });
@@ -79,9 +88,11 @@ export default Store.extend({
     this.setEditingCharacterIndex(nextIndex);
   },
 
+  // TODO: 常に誰かが存在してnullを返さないようにしたので、反映する
   getEditingCharacter() {
     return this.characters[this.editingCharacterIndex] || null;
   }
 }, {
-  UPDATED_EDITING_CHARACTER_EVENT
+  UPDATED_EDITING_CHARACTER_EVENT,
+  UPDATED_EDITING_CHARACTER_STATE_EVENT
 });

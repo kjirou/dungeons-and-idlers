@@ -6,55 +6,80 @@ import React from 'react';
 import {TorchEquipment} from 'client/lib/equipments';
 
 
-function equipmentHeaderRow() {
-  return (
-    <tr className='row_1'>
-      <th className='col_1'>&nbsp;</th>
-      <th className='col_2'>カード名</th>
-      <th className='col_3'>概要</th>
-      <th className='col_4'>所持(使用)</th>
-      <th className='col_5'>装備</th>
-      <th className='col_6'>コスト</th>
-      <th className='col_7'>&nbsp;</th>
-    </tr>
-  );
-}
-
-function equipmentRow(equipment, equipmentCount) {
-  return (
-    <tr>
-      <td className='col_1'><div className={equipment.getIconClassName()}/></td>
-      <td className='col_2'>{equipment.getName()}</td>
-      <td className='col_3'>{equipment.getSummary()}</td>
-      <td className='col_4'>
-        <span className='total'>4</span>
-        <span className='used'>(3)</span>
-      </td>
-      <td className='col_5'>{equipmentCount}</td>
-      <td className='col_6'>{equipment.getEquipmentCost() * equipmentCount}</td>
-      <td className='col_7'>
-        <div className='button button-first'>+</div>
-        <div className='button'>-</div>
-        <div className='button'>↑</div>
-        <div className='button button-last'>↓</div>
-      </td>
-    </tr>
-  );
-}
-
-
 export default function characterPageTemplate({
   className,
   style,
   navigationBar,
   CardComponent,
-  charactersStore,
+  editingCharacter,
   selectedCharacterName,
   selectedCharacterElement,
   onMouseDownCharacterName,
   onMouseDownNextCharacter,
-  onMouseDownPrevCharacter
+  onMouseDownPrevCharacter,
+  createOnMouseDownUpdateEquipment
 }) {
+
+  function equipmentHeaderRow() {
+    return (
+      <tr className='row_1'>
+        <th className='col_1'>&nbsp;</th>
+        <th className='col_2'>カード名</th>
+        <th className='col_3'>概要</th>
+        <th className='col_4'>所持(使用)</th>
+        <th className='col_5'>装備</th>
+        <th className='col_6'>コスト</th>
+        <th className='col_7'>&nbsp;</th>
+      </tr>
+    );
+  }
+
+  function equipmentRow(idx, equipment, equipmentCount, options = {}) {
+    options = _.assign({
+      isSubAction: false
+    }, options);
+
+    let onIncrease = createOnMouseDownUpdateEquipment('increase', equipment.typeId);
+    let onDecrease = createOnMouseDownUpdateEquipment('decrease', equipment.typeId);
+    let onUp = () => {};
+    let onDown = () => {};
+
+    return (
+      <tr key={'equipment_row-' + idx}>
+        <td className='col_1'><div className={equipment.getIconClassName()}/></td>
+        <td className='col_2'>{equipment.getName()}</td>
+        <td className='col_3'>{equipment.getSummary()}</td>
+        <td className='col_4'>
+          <span className='total'>4</span>
+          <span className='used'>(3)</span>
+        </td>
+        <td className='col_5'>{equipmentCount}</td>
+        <td className='col_6'>{equipment.getEquipmentCost() * equipmentCount}</td>
+        <td className='col_7'>{
+          (function() {
+            if (options.isSubAction) {
+              return (
+                <div>
+                  <div className='button button-first button-last' onMouseDown={onDecrease}>-</div>
+                </div>
+              );
+            } else {
+              return (
+                <div>
+                  <div className='button button-first' onMouseDown={onIncrease}>+</div>
+                  <div className='button' onMouseDown={onDecrease}>-</div>
+                  <div className='button'>↑</div>
+                  <div className='button button-last'>↓</div>
+                </div>
+              );
+            }
+          })()
+        }</td>
+      </tr>
+    );
+  }
+
+
   return (
     <div className={className} style={style}>
       <navigationBar.NavigationBarComponent />
@@ -78,9 +103,23 @@ export default function characterPageTemplate({
             </div>
             <table>
               {equipmentHeaderRow()}
-              {equipmentRow(TorchEquipment, 2)}
+              {
+                editingCharacter.aggregatedEquipments.sub_action.map((equipmentData, idx) => {
+                  return equipmentRow(idx, equipmentData.equipment, equipmentData.count, { isSubAction: true });
+                })
+              }
             </table>
-            <div className='add_equipment_button'>+追加</div>
+            {
+              (() => {
+                if (editingCharacter.aggregatedEquipments.sub_action.length > 0) {
+                  return;
+                }
+                return <div
+                  className='add_equipment_button'
+                  onMouseDown={createOnMouseDownUpdateEquipment('add', 'shooting')}
+                >+追加</div>;
+              })()
+            }
           </section>
 
           <section>
@@ -89,8 +128,16 @@ export default function characterPageTemplate({
             </div>
             <table>
               {equipmentHeaderRow()}
+              {
+                editingCharacter.aggregatedEquipments.feat.map((equipmentData, idx) => {
+                  return equipmentRow(idx, equipmentData.equipment, equipmentData.count);
+                })
+              }
             </table>
-            <div className='add_equipment_button'>+追加</div>
+            <div
+              className='add_equipment_button'
+              onMouseDown={createOnMouseDownUpdateEquipment('add', 'katana')}
+            >+追加</div>
           </section>
 
           <section>
@@ -99,8 +146,16 @@ export default function characterPageTemplate({
             </div>
             <table>
               {equipmentHeaderRow()}
+              {
+                editingCharacter.aggregatedEquipments.deck.map((equipmentData, idx) => {
+                  return equipmentRow(idx, equipmentData.equipment, equipmentData.count);
+                })
+              }
             </table>
-            <div className='add_equipment_button'>+追加</div>
+            <div
+              className='add_equipment_button'
+              onMouseDown={createOnMouseDownUpdateEquipment('add', 'torch')}
+            >+追加</div>
           </section>
 
         </div>

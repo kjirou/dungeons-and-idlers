@@ -56,5 +56,25 @@ export default {
       type: 'change_card_page_sort_query',
       sortQuery
     });
+  },
+
+  /**
+   * @param {string} equipmentTypeId
+   */
+  addOrIncreaseEditingCharacterEquipment(equipmentTypeId) {
+    CoreDispatcher.getInstance().handleViewAction({
+      type: 'addOrIncreaseEditingCharacterEquipment',
+      equipmentTypeId
+    });
+  },
+
+  /**
+   * @param {string} equipmentTypeId
+   */
+  decreaseOrRemoveEditingCharacterEquipment(equipmentTypeId) {
+    CoreDispatcher.getInstance().handleViewAction({
+      type: 'decreaseOrRemoveEditingCharacterEquipment',
+      equipmentTypeId
+    });
   }
 };

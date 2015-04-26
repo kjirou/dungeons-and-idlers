@@ -15,6 +15,8 @@ import Store from 'client/stores/store';
 const MIN_MAX_HP = 1;
 const MAX_MAX_HP = 9999;
 const MAX_EQUIPMENT_PATTERN_COUNT = 3;
+const MIN_MAX_HAND_CARD_COUNT = 1;
+const MAX_MAX_HAND_CARD_COUNT = 5;
 
 export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixin, {
 
@@ -268,7 +270,8 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
   _getMaxHpParameters() {
     return [
       this.getRawMaxHp(),
-      this.job.getMaxHp()
+      this.job.getMaxHp(),
+      ...(this._equipments.map((v) => { return v.getMaxHp(); }))
     ];
   },
   getMaxHp() {
@@ -386,20 +389,36 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     return result;
   },
 
+  _getMaxHandCardCountParameters() {
+    return [
+      this.getRawMaxHandCardCount(),
+      this.job.getMaxHandCardCount(),
+      ...(this._equipments.map((v) => { return v.getMaxHandCardCount(); }))
+    ];
+  },
+  getMaxHandCardCount() {
+    let parameter = aggregators.aggregateIntegers(this._getMaxHandCardCountParameters());
+    return within(parameter, MIN_MAX_HAND_CARD_COUNT, MAX_MAX_HAND_CARD_COUNT);
+  },
+
   _getPhysicalAttackPowerParameters() {
     return [
       this.getRawPhysicalAttackPower(),
-      this.job.getPhysicalAttackPower()
+      this.job.getPhysicalAttackPower(),
+      ...(this._equipments.map((v) => { return v.getPhysicalAttackPower(); }))
     ];
   },
   getPhysicalAttackPower() {
+    // 負の値も可、防御-2の敵に対して攻撃-1で攻撃すると1ダメージ、が出来るように
+    // 表示上も、丸めて0にするよりは、負の値で出した方が情報量多い
     return aggregators.aggregateIntegers(this._getPhysicalAttackPowerParameters());
   },
 
   _getMagicalAttackPowerParameters() {
     return [
       this.getRawMagicalAttackPower(),
-      this.job.getMagicalAttackPower()
+      this.job.getMagicalAttackPower(),
+      ...(this._equipments.map((v) => { return v.getMagicalAttackPower(); }))
     ];
   },
   getMagicalAttackPower() {
@@ -441,5 +460,8 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
   }
 }), {
   MIN_MAX_HP,
-  MAX_MAX_HP
+  MAX_MAX_HP,
+  MAX_EQUIPMENT_PATTERN_COUNT,
+  MIN_MAX_HAND_CARD_COUNT,
+  MAX_MAX_HAND_CARD_COUNT
 });

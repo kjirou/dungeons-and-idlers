@@ -108,9 +108,9 @@ export default function characterPageTemplate({
           <section className='equipment_cost'>
             <h3>装備コスト</h3>
             <div>
-              <span className='current'>78</span>
+              <span className='current'>{editingCharacter.computeEquipmentCost()}</span>
               <span className='separator'>/</span>
-              <span className='max'>99</span>
+              <span className='max'>{editingCharacter.getEquipmentPower()}</span>
             </div>
           </section>
           <section className='hand_card_count'>

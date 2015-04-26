@@ -4,6 +4,9 @@ import rpgparameter from 'rpgparameter';
 
 var ParametersMixin = {};
 
+// 装備力
+rpgparameter.defineIntegerParameter(ParametersMixin, 'equipmentPower');
+
 // 最大HP
 rpgparameter.defineIntegerParameter(ParametersMixin, 'maxHp');
 

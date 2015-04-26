@@ -24,6 +24,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
       name: '',
       hp: MIN_MAX_HP,
       jobTypeId: 'creature',
+      equipmentPower: 0,
       equipmentPatterns: _.range(MAX_EQUIPMENT_PATTERN_COUNT).map(() => {
         return {
           // e.g. [{ equipmentTypeId: 'foo', count: 3 }, ..]
@@ -277,6 +278,27 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     }, 0);
   },
 
+  /**
+   * 装備コスト(=消費済み装備力)を算出する
+   * @return {number}
+   */
+  computeEquipmentCost() {
+    return _.reduce(this._equipments, (m, equipment) => {
+      return m + equipment.getEquipmentCost();
+    }, 0);
+  },
+
+  _getEquipmentPowerParameters() {
+    return [
+      this.get('equipmentPower'),
+      this.job.getEquipmentPower(),
+      ...(this._equipments.map((v) => { return v.getEquipmentPower(); }))
+    ];
+  },
+  getEquipmentPower() {
+    return aggregators.aggregateIntegers(this._getEquipmentPowerParameters());
+  },
+
   _getMaxHpParameters() {
     return [
       this.getRawMaxHp(),
@@ -289,6 +311,53 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
   },
   getLimitedMaxHp() {
     return within(this.getMaxHp(), MIN_MAX_HP, MAX_MAX_HP);
+  },
+
+  _getMaxHandCardCountParameters() {
+    return [
+      this.getRawMaxHandCardCount(),
+      this.job.getMaxHandCardCount(),
+      ...(this._equipments.map((v) => { return v.getMaxHandCardCount(); }))
+    ];
+  },
+  getMaxHandCardCount() {
+    return aggregators.aggregateIntegers(this._getMaxHandCardCountParameters());
+  },
+
+  _getMaxDeckCardCountParameters() {
+    return [
+      BASE_MAX_DECK_CARD_COUNT,
+      this.getRawMaxDeckCardCount(),
+      this.job.getMaxDeckCardCount(),
+      ...(this._equipments.map((v) => { return v.getMaxDeckCardCount(); }))
+    ];
+  },
+  getMaxDeckCardCount() {
+    return aggregators.aggregateIntegers(this._getMaxDeckCardCountParameters());
+  },
+
+  _getPhysicalAttackPowerParameters() {
+    return [
+      this.getRawPhysicalAttackPower(),
+      this.job.getPhysicalAttackPower(),
+      ...(this._equipments.map((v) => { return v.getPhysicalAttackPower(); }))
+    ];
+  },
+  getPhysicalAttackPower() {
+    // 負の値も可、防御-2の敵に対して攻撃-1で攻撃すると1ダメージ、が出来るように
+    // 表示上も、丸めて0にするよりは、負の値で出した方が情報量多い
+    return aggregators.aggregateIntegers(this._getPhysicalAttackPowerParameters());
+  },
+
+  _getMagicalAttackPowerParameters() {
+    return [
+      this.getRawMagicalAttackPower(),
+      this.job.getMagicalAttackPower(),
+      ...(this._equipments.map((v) => { return v.getMagicalAttackPower(); }))
+    ];
+  },
+  getMagicalAttackPower() {
+    return aggregators.aggregateIntegers(this._getMagicalAttackPowerParameters());
   },
 
   _getWound() {
@@ -399,53 +468,6 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     this._updateHpByRate(beforeHpRate);
     this.adaptStates();
     return result;
-  },
-
-  _getMaxHandCardCountParameters() {
-    return [
-      this.getRawMaxHandCardCount(),
-      this.job.getMaxHandCardCount(),
-      ...(this._equipments.map((v) => { return v.getMaxHandCardCount(); }))
-    ];
-  },
-  getMaxHandCardCount() {
-    return aggregators.aggregateIntegers(this._getMaxHandCardCountParameters());
-  },
-
-  _getMaxDeckCardCountParameters() {
-    return [
-      BASE_MAX_DECK_CARD_COUNT,
-      this.getRawMaxDeckCardCount(),
-      this.job.getMaxDeckCardCount(),
-      ...(this._equipments.map((v) => { return v.getMaxDeckCardCount(); }))
-    ];
-  },
-  getMaxDeckCardCount() {
-    return aggregators.aggregateIntegers(this._getMaxDeckCardCountParameters());
-  },
-
-  _getPhysicalAttackPowerParameters() {
-    return [
-      this.getRawPhysicalAttackPower(),
-      this.job.getPhysicalAttackPower(),
-      ...(this._equipments.map((v) => { return v.getPhysicalAttackPower(); }))
-    ];
-  },
-  getPhysicalAttackPower() {
-    // 負の値も可、防御-2の敵に対して攻撃-1で攻撃すると1ダメージ、が出来るように
-    // 表示上も、丸めて0にするよりは、負の値で出した方が情報量多い
-    return aggregators.aggregateIntegers(this._getPhysicalAttackPowerParameters());
-  },
-
-  _getMagicalAttackPowerParameters() {
-    return [
-      this.getRawMagicalAttackPower(),
-      this.job.getMagicalAttackPower(),
-      ...(this._equipments.map((v) => { return v.getMagicalAttackPower(); }))
-    ];
-  },
-  getMagicalAttackPower() {
-    return aggregators.aggregateIntegers(this._getMagicalAttackPowerParameters());
   },
 
   /**

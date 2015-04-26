@@ -33,6 +33,23 @@ describe('client/stores/creatures/creature module', function() {
 
   context('parameters', function() {
 
+    it('equipmentPower', function() {
+      let s = new CreatureStore();
+      let standardValue = s.getEquipmentPower();
+      // raw
+      s.set('equipmentPower', s.get('equipmentPower') + 1)
+      assert.strictEqual(s.getEquipmentPower(), standardValue + 1);
+      // job
+      let originalJobValue = s.job.getEquipmentPower();
+      this.mocks.push(
+        sinon.stub(s.job, 'getEquipmentPower', () => { return originalJobValue - 1; })
+      );
+      assert.strictEqual(s.getEquipmentPower(), standardValue);
+      // equipments
+      s._equipments.push({ getEquipmentPower() { return 1; } });
+      assert.strictEqual(s.getEquipmentPower(), standardValue + 1);
+    });
+
     it('maxHp', function() {
       let s = new CreatureStore();
       let standardValue = s.getMaxHp();
@@ -464,6 +481,16 @@ describe('client/stores/creatures/creature module', function() {
       assert.strictEqual(s.countEquipmentByCategory('sub_action'), 1);
       assert.strictEqual(s.countEquipmentByCategory('feat'), 0);
       assert.strictEqual(s.countEquipmentByCategory('deck'), 3);
+    });
+
+    it('computeEquipmentCost', function() {
+      let s = new CreatureStore();
+      assert.strictEqual(s.computeEquipmentCost(), 0);
+      let lanternCost = LanternEquipment.getEquipmentCost();
+      s.addOrIncreaseEquipment('lantern');
+      assert.strictEqual(s.computeEquipmentCost(), lanternCost);
+      s.addOrIncreaseEquipment('lantern');
+      assert.strictEqual(s.computeEquipmentCost(), lanternCost * 2);
     });
   });
 

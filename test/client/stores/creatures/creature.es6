@@ -122,6 +122,16 @@ describe('client/stores/creatures/creature module', function() {
       s._equipments.push({ getMagicalAttackPower() { return 1; } });
       assert.strictEqual(s.getMagicalAttackPower(), standardValue + 1);
     });
+
+    it('toCardComponentProps', function() {
+      let s = new CreatureStore();
+      s._getAttacks = () => { return []; }
+      s._getSkills = () => { return []; }
+      s._maxHp = -9999;
+      assert.strictEqual(s.toCardComponentProps().cardBodyProps.maxHp, 1);
+      assert(s.toCardComponentProps({ isPreview: true }).cardBodyProps.maxHp < 0);
+      assert.strictEqual(s.toCardComponentProps({ isPreview: true }).cardBodyProps.hp, 1);
+    });
   });
 
 

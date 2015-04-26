@@ -87,7 +87,7 @@ export default function characterPageTemplate({
           </div>
           <section className='card_container'>
             <CardComponent {...(
-              _.assign({}, editingCharacter.toCardComponentProps())
+              _.assign({}, editingCharacter.toCardComponentProps({ isPreview: true }))
             )}/>
           </section>
           <section className='equipment_patterns'>

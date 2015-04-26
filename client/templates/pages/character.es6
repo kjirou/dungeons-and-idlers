@@ -27,7 +27,7 @@ export default function characterPageTemplate({
             }
           };
 
-          let cardProps = _.assign({}, characterStore.toCardComponentProps(), {
+          let cardProps = _.assign({}, characterStore.toCardComponentProps({ isPreview: true }), {
             top: 20,
             isClickable: true
           });

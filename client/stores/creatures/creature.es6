@@ -453,21 +453,26 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     throw new Error('Not implemented');
   },
 
-  _toCardBodyComponentProps() {
-    return _.assign(
-      _.pick(this, 'hp', 'maxHp', 'physicalAttackPower', 'attacks', 'skills'),
+  toCardComponentProps(options = {}) {
+    options = _.assign({
+      // プレビューモードでの表示値を返す、この場合不正値もそのまま表示
+      // 例えば Max HP が -1 なら表示は 1/-1 になる
+      isPreview: false
+    }, options);
+
+    let cardBodyProps = _.assign(
+      _.pick(this, 'hp', 'physicalAttackPower', 'attacks', 'skills'),
       {
+        maxHp: options.isPreview ? this.getMaxHp() : this.maxHp,
         iconClassName: this.getIconClassName(),
         subActionName: '補助行動無し'
       }
     );
-  },
 
-  toCardComponentProps() {
     return {
       isFace: this.isFace(),
       cardBodyType: 'creature',
-      cardBodyProps: this._toCardBodyComponentProps()
+      cardBodyProps
     };
   }
 }), {

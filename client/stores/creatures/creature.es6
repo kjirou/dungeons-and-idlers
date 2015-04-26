@@ -15,7 +15,6 @@ import Store from 'client/stores/store';
 const MIN_MAX_HP = 1;
 const MAX_MAX_HP = 9999;
 const MAX_EQUIPMENT_PATTERN_COUNT = 3;
-const BASE_MAX_DECK_CARD_COUNT = 10;
 
 export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixin, {
 
@@ -326,7 +325,6 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
 
   _getMaxDeckCardCountParameters() {
     return [
-      BASE_MAX_DECK_CARD_COUNT,
       this.getRawMaxDeckCardCount(),
       this.job.getMaxDeckCardCount(),
       ...(this._equipments.map((v) => { return v.getMaxDeckCardCount(); }))
@@ -511,6 +509,5 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
 }), {
   MIN_MAX_HP,
   MAX_MAX_HP,
-  MAX_EQUIPMENT_PATTERN_COUNT,
-  BASE_MAX_DECK_CARD_COUNT
+  MAX_EQUIPMENT_PATTERN_COUNT
 });

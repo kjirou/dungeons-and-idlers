@@ -14,6 +14,7 @@ export default _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, {
   isPlayable: true,
   _equipmentPower: 10,
   _maxHandCardCount: 3,
+  _maxDeckCardCount: 10,
   attacks: [
     { typeId: 'physical_attack', name: '打撃' },
     { typeId: 'physical_attack', name: '打撃' },

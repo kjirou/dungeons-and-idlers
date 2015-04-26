@@ -266,6 +266,17 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     this.syncAttributesToStates();
   },
 
+  /**
+   * 装備数をカテゴリ別に数える
+   * @param {string} category
+   * @return {number}
+   */
+  countEquipmentByCategory(category) {
+    return _.reduce(this.aggregatedEquipments[category], (m, {count}) => {
+      return m + count;
+    }, 0);
+  },
+
   _getMaxHpParameters() {
     return [
       this.getRawMaxHp(),

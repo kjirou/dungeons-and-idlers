@@ -449,6 +449,22 @@ describe('client/stores/creatures/creature module', function() {
 
       s.slideEquipment('katana', 1);  // 0個のfeatカテゴリへ実行してもエラーにならない
     });
+
+    it('countEquipmentByCategory', function() {
+      let s = new CreatureStore();
+      assert.strictEqual(s.countEquipmentByCategory('sub_action'), 0);
+      assert.strictEqual(s.countEquipmentByCategory('feat'), 0);
+      assert.strictEqual(s.countEquipmentByCategory('deck'), 0);
+      [
+        'shooting',
+        'torch', 'torch', 'lantern'
+      ].forEach((typeId) => {
+        s.addOrIncreaseEquipment(typeId);
+      });
+      assert.strictEqual(s.countEquipmentByCategory('sub_action'), 1);
+      assert.strictEqual(s.countEquipmentByCategory('feat'), 0);
+      assert.strictEqual(s.countEquipmentByCategory('deck'), 3);
+    });
   });
 
 

@@ -113,12 +113,16 @@ export default function characterPageTemplate({
               <span className='max'>99</span>
             </div>
           </section>
-          <section className='deck_count'>
+          <section className='hand_card_count'>
+            <h3>手札数</h3>
+            <div>{editingCharacter.getMaxHandCardCount()}</div>
+          </section>
+          <section className='deck_card_count'>
             <h3>デッキ枚数</h3>
             <div>
-              <span className='current'>78</span>
+              <span className='current'>{editingCharacter.countEquipmentByCategory('deck')}</span>
               <span className='separator'>/</span>
-              <span className='max'>99</span>
+              <span className='max'>{editingCharacter.getMaxDeckCardCount()}</span>
             </div>
           </section>
         </div>

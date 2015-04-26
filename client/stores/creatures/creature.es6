@@ -12,11 +12,6 @@ import ParametersMixin from 'client/lib/mixins/parameters';
 import Store from 'client/stores/store';
 
 
-// NOTE:
-//   最大値や最小値による制限は、パラメータ群集計時には行わない
-//   ビルド途中に不正値になることは許容するので、その値を表示するため
-//   プレイ中やモンスター側は必要になるので、それは getLimited〜 というメソッドを別途付ける
-//   maxHp は何も考えずにやってしまっている、要修正
 const MIN_MAX_HP = 1;
 const MAX_MAX_HP = 9999;
 const MAX_EQUIPMENT_PATTERN_COUNT = 3;
@@ -58,7 +53,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     this.propGetter('name', 'getName');
     this.propGetter('hpRate', '_getHpRate');
     this.propGetter('magicalAttackPower', 'getMagicalAttackPower');
-    this.propGetter('maxHp', 'getMaxHp');
+    this.propGetter('maxHp', 'getLimitedMaxHp');
     this.propGetter('physicalAttackPower', 'getPhysicalAttackPower');
     this.propGetter('skills', '_getSkills');
     this.propGetter('wound', '_getWound');
@@ -279,8 +274,10 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     ];
   },
   getMaxHp() {
-    let parameter = aggregators.aggregateIntegers(this._getMaxHpParameters());
-    return within(parameter, MIN_MAX_HP, MAX_MAX_HP);
+    return aggregators.aggregateIntegers(this._getMaxHpParameters());
+  },
+  getLimitedMaxHp() {
+    return within(this.getMaxHp(), MIN_MAX_HP, MAX_MAX_HP);
   },
 
   _getWound() {

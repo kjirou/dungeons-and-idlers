@@ -31,22 +31,96 @@ describe('client/stores/creatures/creature module', function() {
   });
 
 
-  context('maxHp', function() {
+  context('parameters', function() {
 
-    it('should be', function() {
-      let c = new CreatureStore();
-      assert(isInteger(c.maxHp));
-      assert(c.maxHp > 0);
+    it('maxHp', function() {
+      let s = new CreatureStore();
+      let standardValue = s.getMaxHp();
+      // raw
+      s._maxHp = s._maxHp + 1;
+      assert.strictEqual(s.getMaxHp(), standardValue + 1);
+      // job
+      let originalJobValue = s.job.getMaxHp();
+      this.mocks.push(
+        sinon.stub(s.job, 'getMaxHp', () => { return originalJobValue - 1; })
+      );
+      assert.strictEqual(s.getMaxHp(), standardValue);
+      // equipments
+      s._equipments.push({ getMaxHp() { return 1; } });
+      assert.strictEqual(s.getMaxHp(), standardValue + 1);
+      // limited
+      s._maxHp = -999999;
+      assert.strictEqual(s.getLimitedMaxHp(), CreatureStore.MIN_MAX_HP);
+      s._maxHp = 999999;
+      assert.strictEqual(s.getLimitedMaxHp(), CreatureStore.MAX_MAX_HP);
     });
 
-    it('should be within max and min', function() {
-      let c;
-      c = new CreatureStore();
-      c._maxHp = CreatureStore.MIN_MAX_HP - 1;
-      assert.strictEqual(c.maxHp, CreatureStore.MIN_MAX_HP);
-      c = new CreatureStore();
-      c._maxHp = CreatureStore.MAX_MAX_HP + 1;
-      assert.strictEqual(c.maxHp, CreatureStore.MAX_MAX_HP);
+    it('maxHandCardCount', function() {
+      let s = new CreatureStore();
+      let standardValue = s.getMaxHandCardCount();
+      // raw
+      s._maxHandCardCount = s._maxHandCardCount + 1;
+      assert.strictEqual(s.getMaxHandCardCount(), standardValue + 1);
+      // job
+      let originalJobValue = s.job.getMaxHandCardCount();
+      this.mocks.push(
+        sinon.stub(s.job, 'getMaxHandCardCount', () => { return originalJobValue - 1; })
+      );
+      assert.strictEqual(s.getMaxHandCardCount(), standardValue);
+      // equipments
+      s._equipments.push({ getMaxHandCardCount() { return 1; } });
+      assert.strictEqual(s.getMaxHandCardCount(), standardValue + 1);
+    });
+
+    it('maxDeckCardCount', function() {
+      let s = new CreatureStore();
+      let standardValue = s.getMaxDeckCardCount();
+      // raw
+      s._maxDeckCardCount = s._maxDeckCardCount + 1;
+      assert.strictEqual(s.getMaxDeckCardCount(), standardValue + 1);
+      // job
+      let originalJobValue = s.job.getMaxDeckCardCount();
+      this.mocks.push(
+        sinon.stub(s.job, 'getMaxDeckCardCount', () => { return originalJobValue - 1; })
+      );
+      assert.strictEqual(s.getMaxDeckCardCount(), standardValue);
+      // equipments
+      s._equipments.push({ getMaxDeckCardCount() { return 1; } });
+      assert.strictEqual(s.getMaxDeckCardCount(), standardValue + 1);
+    });
+
+    it('physicalAttackPower', function() {
+      let s = new CreatureStore();
+      let standardValue = s.getPhysicalAttackPower();
+      // raw
+      s._physicalAttackPower = s._physicalAttackPower + 1;
+      assert.strictEqual(s.getPhysicalAttackPower(), standardValue + 1);
+      // job
+      let originalJobValue = s.job.getPhysicalAttackPower();
+      this.mocks.push(
+        sinon.stub(s.job, 'getPhysicalAttackPower', () => { return originalJobValue - 1;; })
+      );
+      assert.strictEqual(s.getPhysicalAttackPower(), standardValue);
+      // equipments
+      s._equipments.push({ getPhysicalAttackPower() { return 1; } });
+      assert.strictEqual(s.getPhysicalAttackPower(), standardValue + 1);
+    });
+
+    it('magicalAttackPower', function() {
+      let s = new CreatureStore();
+      let standardValue = s.getMagicalAttackPower();
+      // raw
+      s._magicalAttackPower = s._magicalAttackPower + 1;
+      assert.strictEqual(s.getMagicalAttackPower(), standardValue + 1);
+      // job
+      let originalJobValue = s.job.getPhysicalAttackPower();
+      this.mocks.push(
+        sinon.stub(s.job, 'getMagicalAttackPower', () => { return originalJobValue - 1;; })
+      );
+      assert.strictEqual(s.getMagicalAttackPower(), standardValue);
+      // equipments
+      s._equipments.push({ getMagicalAttackPower() { return 1; } });
+      assert.strictEqual(s.getMagicalAttackPower(), standardValue + 1);
     });
   });
 
@@ -148,78 +222,6 @@ describe('client/stores/creatures/creature module', function() {
       sinon.stub(c, 'getMaxHp', () => { return 10; });
       c.beDamagedFully();
       assert.strictEqual(c.hp, 0);
-    });
-  });
-
-
-  context('other parameters', function() {
-
-    it('getMaxHandCardCount', function() {
-      let s = new CreatureStore();
-      let standardValue = s.getMaxHandCardCount();
-      // raw
-      s._maxHandCardCount = s._maxHandCardCount + 1;
-      assert.strictEqual(s.getMaxHandCardCount(), standardValue + 1);
-      // job
-      let originalJobValue = s.job.getMaxHandCardCount();
-      this.mocks.push(
-        sinon.stub(s.job, 'getMaxHandCardCount', () => { return originalJobValue - 1; })
-      );
-      assert.strictEqual(s.getMaxHandCardCount(), standardValue);
-      // equipments
-      s._equipments.push({ getMaxHandCardCount() { return 1; } });
-      assert.strictEqual(s.getMaxHandCardCount(), standardValue + 1);
-    });
-
-    it('getMaxDeckCardCount', function() {
-      let s = new CreatureStore();
-      let standardValue = s.getMaxDeckCardCount();
-      // raw
-      s._maxDeckCardCount = s._maxDeckCardCount + 1;
-      assert.strictEqual(s.getMaxDeckCardCount(), standardValue + 1);
-      // job
-      let originalJobValue = s.job.getMaxDeckCardCount();
-      this.mocks.push(
-        sinon.stub(s.job, 'getMaxDeckCardCount', () => { return originalJobValue - 1; })
-      );
-      assert.strictEqual(s.getMaxDeckCardCount(), standardValue);
-      // equipments
-      s._equipments.push({ getMaxDeckCardCount() { return 1; } });
-      assert.strictEqual(s.getMaxDeckCardCount(), standardValue + 1);
-    });
-
-    it('getPhysicalAttackPower', function() {
-      let s = new CreatureStore();
-      let standardValue = s.getPhysicalAttackPower();
-      // raw
-      s._physicalAttackPower = s._physicalAttackPower + 1;
-      assert.strictEqual(s.getPhysicalAttackPower(), standardValue + 1);
-      // job
-      let originalJobValue = s.job.getPhysicalAttackPower();
-      this.mocks.push(
-        sinon.stub(s.job, 'getPhysicalAttackPower', () => { return originalJobValue - 1;; })
-      );
-      assert.strictEqual(s.getPhysicalAttackPower(), standardValue);
-      // equipments
-      s._equipments.push({ getPhysicalAttackPower() { return 1; } });
-      assert.strictEqual(s.getPhysicalAttackPower(), standardValue + 1);
-    });
-
-    it('getMagicalAttackPower', function() {
-      let s = new CreatureStore();
-      let standardValue = s.getMagicalAttackPower();
-      // raw
-      s._magicalAttackPower = s._magicalAttackPower + 1;
-      assert.strictEqual(s.getMagicalAttackPower(), standardValue + 1);
-      // job
-      let originalJobValue = s.job.getPhysicalAttackPower();
-      this.mocks.push(
-        sinon.stub(s.job, 'getMagicalAttackPower', () => { return originalJobValue - 1;; })
-      );
-      assert.strictEqual(s.getMagicalAttackPower(), standardValue);
-      // equipments
-      s._equipments.push({ getMagicalAttackPower() { return 1; } });
-      assert.strictEqual(s.getMagicalAttackPower(), standardValue + 1);
     });
   });
 

@@ -12,11 +12,15 @@ import ParametersMixin from 'client/lib/mixins/parameters';
 import Store from 'client/stores/store';
 
 
+// NOTE:
+//   最大値や最小値による制限は、パラメータ群集計時には行わない
+//   ビルド途中に不正値になることは許容するので、その値を表示するため
+//   プレイ中やモンスター側は必要になるので、それは getLimited〜 というメソッドを別途付ける
+//   maxHp は何も考えずにやってしまっている、要修正
 const MIN_MAX_HP = 1;
 const MAX_MAX_HP = 9999;
 const MAX_EQUIPMENT_PATTERN_COUNT = 3;
-const MIN_MAX_HAND_CARD_COUNT = 1;
-const MAX_MAX_HAND_CARD_COUNT = 5;
+const BASE_MAX_DECK_CARD_COUNT = 10;
 
 export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixin, {
 
@@ -397,8 +401,19 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     ];
   },
   getMaxHandCardCount() {
-    let parameter = aggregators.aggregateIntegers(this._getMaxHandCardCountParameters());
-    return within(parameter, MIN_MAX_HAND_CARD_COUNT, MAX_MAX_HAND_CARD_COUNT);
+    return aggregators.aggregateIntegers(this._getMaxHandCardCountParameters());
+  },
+
+  _getMaxDeckCardCountParameters() {
+    return [
+      BASE_MAX_DECK_CARD_COUNT,
+      this.getRawMaxDeckCardCount(),
+      this.job.getMaxDeckCardCount(),
+      ...(this._equipments.map((v) => { return v.getMaxDeckCardCount(); }))
+    ];
+  },
+  getMaxDeckCardCount() {
+    return aggregators.aggregateIntegers(this._getMaxDeckCardCountParameters());
   },
 
   _getPhysicalAttackPowerParameters() {
@@ -462,6 +477,5 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
   MIN_MAX_HP,
   MAX_MAX_HP,
   MAX_EQUIPMENT_PATTERN_COUNT,
-  MIN_MAX_HAND_CARD_COUNT,
-  MAX_MAX_HAND_CARD_COUNT
+  BASE_MAX_DECK_CARD_COUNT
 });

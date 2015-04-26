@@ -169,11 +169,23 @@ describe('client/stores/creatures/creature module', function() {
       // equipments
       s._equipments.push({ getMaxHandCardCount() { return 1; } });
       assert.strictEqual(s.getMaxHandCardCount(), standardValue + 1);
-      // min, max
-      s._maxHandCardCount = -99;
-      assert.strictEqual(s.getMaxHandCardCount(), CreatureStore.MIN_MAX_HAND_CARD_COUNT);
-      s._maxHandCardCount = 99;
-      assert.strictEqual(s.getMaxHandCardCount(), CreatureStore.MAX_MAX_HAND_CARD_COUNT);
+    });
+
+    it('getMaxDeckCardCount', function() {
+      let s = new CreatureStore();
+      let standardValue = s.getMaxDeckCardCount();
+      // raw
+      s._maxDeckCardCount = s._maxDeckCardCount + 1;
+      assert.strictEqual(s.getMaxDeckCardCount(), standardValue + 1);
+      // job
+      let originalJobValue = s.job.getMaxDeckCardCount();
+      this.mocks.push(
+        sinon.stub(s.job, 'getMaxDeckCardCount', () => { return originalJobValue - 1; })
+      );
+      assert.strictEqual(s.getMaxDeckCardCount(), standardValue);
+      // equipments
+      s._equipments.push({ getMaxDeckCardCount() { return 1; } });
+      assert.strictEqual(s.getMaxDeckCardCount(), standardValue + 1);
     });
 
     it('getPhysicalAttackPower', function() {

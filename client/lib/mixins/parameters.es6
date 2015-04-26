@@ -10,6 +10,9 @@ rpgparameter.defineIntegerParameter(ParametersMixin, 'maxHp');
 // 最大手札数
 rpgparameter.defineIntegerParameter(ParametersMixin, 'maxHandCardCount');
 
+// 最大キャラクターデッキ枚数
+rpgparameter.defineIntegerParameter(ParametersMixin, 'maxDeckCardCount');
+
 // 物理攻撃力
 rpgparameter.defineIntegerParameter(ParametersMixin, 'physicalAttackPower');
 

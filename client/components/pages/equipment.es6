@@ -53,6 +53,13 @@ export default React.createClass({
     ScreenActionCreators.changePage('equipment');
   },
 
+  createOnMouseDownChangeEquipmentPattern(nextEquipmentPatternIndex) {
+    return () => {
+      ScreenActionCreators.changeEditingCharacterEquipmentPattern(nextEquipmentPatternIndex);
+      ScreenActionCreators.storeCharacters();
+    };
+  },
+
   createOnMouseDownUpdateEquipment(mode, equipmentTypeId) {
     let updateEvent = null;
     switch (mode) {
@@ -100,6 +107,7 @@ export default React.createClass({
       onMouseDownCharacterName: this._onMouseDownCharacterName,
       onMouseDownNextCharacter: this._onMouseDownNextCharacter,
       onMouseDownPrevCharacter: this._onMouseDownPrevCharacter,
+      createOnMouseDownChangeEquipmentPattern: this.createOnMouseDownChangeEquipmentPattern,
       createOnMouseDownUpdateEquipment: this.createOnMouseDownUpdateEquipment
     });
   }

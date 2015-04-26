@@ -11,6 +11,7 @@ export default function characterPageTemplate({
   onMouseDownCharacterName,
   onMouseDownNextCharacter,
   onMouseDownPrevCharacter,
+  createOnMouseDownChangeEquipmentPattern,
   createOnMouseDownUpdateEquipment
 }) {
 
@@ -91,11 +92,18 @@ export default function characterPageTemplate({
           </section>
           <section className='equipment_patterns'>
             <h3>装備パターン</h3>
-            <ul>
-              <li className='active'>1</li>
-              <li>2</li>
-              <li>3</li>
-            </ul>
+            <ul>{
+              _.range(3).map((i) => {
+                let props = {
+                  key: 'pattern' + i,
+                  onMouseDown: createOnMouseDownChangeEquipmentPattern(i)
+                };
+                if (editingCharacter.currentEquipmentPatternIndex === i) {
+                  props.className = 'active';
+                }
+                return <li {...props}>{i + 1}</li>;
+              })
+            }</ul>
           </section>
           <section className='equipment_cost'>
             <h3>装備コスト</h3>

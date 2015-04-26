@@ -90,6 +90,16 @@ export default {
     });
   },
 
+  /**
+   * @param {number} nextEquipmentPatternIndex
+   */
+  changeEditingCharacterEquipmentPattern(nextEquipmentPatternIndex) {
+    CoreDispatcher.getInstance().handleViewAction({
+      type: 'changeEditingCharacterEquipmentPattern',
+      nextEquipmentPatternIndex
+    });
+  },
+
   storeCharacters() {
     CoreDispatcher.getInstance().handleViewAction({
       type: 'storeCharacters'

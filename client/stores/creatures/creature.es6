@@ -14,6 +14,7 @@ import Store from 'client/stores/store';
 
 const MIN_MAX_HP = 1;
 const MAX_MAX_HP = 9999;
+const MAX_EQUIPMENT_PATTERN_COUNT = 3;
 
 export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixin, {
 
@@ -22,7 +23,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
       name: '',
       hp: MIN_MAX_HP,
       jobTypeId: 'creature',
-      equipmentPatterns: _.range(3).map(() => {
+      equipmentPatterns: _.range(MAX_EQUIPMENT_PATTERN_COUNT).map(() => {
         return {
           // e.g. [{ equipmentTypeId: 'foo', count: 3 }, ..]
           sub_action: [],
@@ -39,15 +40,11 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     /**
      * 集計済み装備中カード情報
      */
-    this._aggregatedEquipments = {
-      // [{ equipment: {Equipment}, count: {number} }, ..]
-      sub_action: [],
-      feat: [],
-      deck: []
-    };
+    this._aggregatedEquipments = this._createDefaultAggregatedEquipments();
     /** 直列に展開した装備中カードリスト */
     this._equipments = [];
 
+    this.attrGetter('currentEquipmentPatternIndex');
     this.attrGetter('hp');
     this.propGetter('aggregatedEquipments');
     this.propGetter('attacks', '_getAttacks');
@@ -64,6 +61,15 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     this.syncAttributesToStates();
   },
 
+  _createDefaultAggregatedEquipments() {
+    return {
+      // [{ equipment: {Equipment}, count: {number} }, ..]
+      sub_action: [],
+      feat: [],
+      deck: []
+    };
+  },
+
   //
   // NOTICE:
   //
@@ -75,7 +81,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
   //
   // なので、以下の制約が生じている：
   // - 現装備パターン以外のパターンは、アプリ内で参照できない
-  // - 装備パターン切り替えには、store/restoreによる保存/復旧処理が必要
+  // - 装備パターン切り替えには、sync〜による保存/復旧と同じ処理が必要
   //
 
   syncStatesToAttributes() {
@@ -90,7 +96,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
         };
       });
     });
-    this.get('equipmentPatterns')[this.get('currentEquipmentPatternIndex')] = attrsOfCurrentEquipments;
+    this.get('equipmentPatterns')[this.currentEquipmentPatternIndex] = attrsOfCurrentEquipments;
   },
 
   store() {
@@ -99,7 +105,8 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
 
   syncAttributesToStates() {
     // equipments
-    let attrsOfCurrentEquipments = this.get('equipmentPatterns')[this.get('currentEquipmentPatternIndex')];
+    this._aggregatedEquipments = this._createDefaultAggregatedEquipments();
+    let attrsOfCurrentEquipments = this.get('equipmentPatterns')[this.currentEquipmentPatternIndex];
     Object.keys(attrsOfCurrentEquipments).map((category) => {
       attrsOfCurrentEquipments[category].forEach(({ equipmentTypeId, count }) => {
         _.range(count).forEach(() => {
@@ -107,6 +114,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
         });
       });
     });
+    this._expandEquipments();
   },
 
   restore() {
@@ -240,6 +248,21 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
       this._expandEquipments();
     }
     this.trigger(this.constructor.UPDATED_STATE_EVENT);
+  },
+
+  /**
+   * 装備パターンを切り替える
+   * @param {number} nextEquipmentPatternIndex
+   */
+  changeEquipmentPattern(nextEquipmentPatternIndex) {
+    if (
+      _.range(MAX_EQUIPMENT_PATTERN_COUNT).indexOf(nextEquipmentPatternIndex) === -1
+    ) {
+      throw new Error(nextEquipmentPatternIndex + ' is invalid nextEquipmentPatternIndex');
+    }
+    this.syncStatesToAttributes();
+    this.set('currentEquipmentPatternIndex', nextEquipmentPatternIndex, { validate: true });
+    this.syncAttributesToStates();
   },
 
   _getMaxHpParameters() {

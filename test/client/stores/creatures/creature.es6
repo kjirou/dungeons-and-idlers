@@ -435,5 +435,53 @@ describe('client/stores/creatures/creature module', function() {
         ]
       });
     });
+
+    it('changeEquipmentPattern', function() {
+      let s = new CreatureStore();
+
+      assert.throws(() => {
+        s.changeEquipmentPattern(3);
+      }, /3/);
+      assert.throws(() => {
+        s.changeEquipmentPattern(-1);
+      }, /-1/);
+
+      assert.strictEqual(s.currentEquipmentPatternIndex, 0);
+
+      s.addOrIncreaseEquipment('torch');
+      assert.deepEqual(s.aggregatedEquipments, {
+        sub_action: [],
+        feat: [],
+        deck: [{ equipment: TorchEquipment, count: 1 }]
+      });
+      assert.deepEqual(s._equipments, [
+        TorchEquipment
+      ]);
+
+      s.changeEquipmentPattern(1);
+      assert.deepEqual(s.aggregatedEquipments, {
+        sub_action: [],
+        feat: [],
+        deck: []
+      });
+      assert.deepEqual(s._equipments, []);
+
+      s.addOrIncreaseEquipment('shooting');
+      assert.deepEqual(s.aggregatedEquipments, {
+        sub_action: [{ equipment: ShootingEquipment, count: 1 }],
+        feat: [],
+        deck: []
+      });
+
+      s.changeEquipmentPattern(0);
+      assert.deepEqual(s.aggregatedEquipments, {
+        sub_action: [],
+        feat: [],
+        deck: [{ equipment: TorchEquipment, count: 1 }]
+      });
+      assert.deepEqual(s._equipments, [
+        TorchEquipment
+      ]);
+    });
   });
 });

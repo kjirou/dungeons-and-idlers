@@ -47,7 +47,7 @@ export var equipmentList = [];
   { typeId: 'hard_blow', _name: '強打', _iconId: 'sword', _equipmentCost: 5,
     _summary: '[攻撃3]を[強打]へ置換' },
   { typeId: 'indoors_type', _name: 'インドア派', _iconId: 'nerd',
-    _maxHp: -2, _maxDeckCardCount: 2,
+    _maxHp: -1, _maxDeckCardCount: 1,
     _summary: 'HP:-1, デッキ:+1, スキル:後攻' },
   { typeId: 'katana', _name: '刀', _equipmentCost: 12, _physicalAttackPower: 1,
     _summary: '攻撃力:+1' }

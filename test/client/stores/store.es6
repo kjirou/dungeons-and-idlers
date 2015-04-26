@@ -9,6 +9,7 @@ describe('client/stores/store module', () => {
 
   it('module definition', () => {
     assert.strictEqual(typeof Store, 'function');
+    assert.strictEqual(Store.UPDATED_STATE_EVENT, 'UPDATED_STATE_EVENT');
   });
 
   it('create a instance', () => {
@@ -56,11 +57,17 @@ describe('client/stores/store module', () => {
 
     it('should be', () => {
       let FooStore = Store.extend({
-        defaults: () => { return { x:1, y:2 }; }
+        defaults() { return { x:1, y:2 }; },
+        getClassProp() {
+          return this.constructor.CLASS_PROP;
+        },
+      }, {
+        CLASS_PROP: 11
       });
 
       assert(FooStore.prototype instanceof Store);
       assert('getInstance' in FooStore);
+      assert.strictEqual(Store.UPDATED_STATE_EVENT, FooStore.UPDATED_STATE_EVENT);
 
       let foo = new FooStore();
       assert.deepEqual(foo.attributes, {
@@ -68,6 +75,11 @@ describe('client/stores/store module', () => {
         y: 2
       });
       assert('propGetter' in foo);
+      assert.strictEqual(foo.getClassProp(), 11);
+
+      let SubFooStore = FooStore.extend();
+      let subFoo = new SubFooStore();
+      assert.strictEqual(subFoo.getClassProp(), 11, 'this.constructorの参照が孫継承しても正しい');
     });
 
     it('should not break singleton', () => {
@@ -88,6 +100,7 @@ describe('client/stores/store module', () => {
       assert.strictEqual(BarStore._instance, bar);
     });
   });
+
 
   context('storage', () => {
 
@@ -123,6 +136,27 @@ describe('client/stores/store module', () => {
           });
         })
       ;
+    });
+  });
+
+
+  context('envents', function() {
+
+    it('UPDATED_STATE_EVENT', function(done) {
+      let FooStore = Store.extend();
+      let foo = new FooStore();
+      let emitted = [];
+      foo.on('change', () => {
+        emitted.push('change');
+      });
+      foo.on(FooStore.UPDATED_STATE_EVENT, () => {
+        emitted.push('state');
+      });
+      foo.set('x', 1);
+      setTimeout(() => {
+        assert.deepEqual(emitted, ['change', 'state'], 'changeの後にUPDATED_STATE_EVENTが発行されている');
+        done();
+      }, 1);
     });
   });
 });

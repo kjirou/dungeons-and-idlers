@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import {createCounter, dictionarize, listize, rotateIndex, within} from 'client/lib/core';
+import {createCounter, dictionarize, listize, rotateIndex, slideIndex, within} from 'client/lib/core';
 
 
 describe('client/lib/core module', function() {
@@ -44,6 +44,37 @@ describe('client/lib/core module', function() {
     assert.strictEqual(rotateIndex(10, 5, 7), 2);
     assert.strictEqual(rotateIndex(10, 0, -1), 9);
     assert.strictEqual(rotateIndex(0, 0, 1), -1);
+  });
+
+  it('slideIndex', function() {
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 0, 0), [11, 22, 33, 44]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 0, 1), [22, 11, 33, 44]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 0, 2), [22, 33, 11, 44]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 0, 3), [22, 33, 44, 11]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 0, 4), [11, 22, 33, 44]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 0, 5), [22, 11, 33, 44]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 0, -1), [22, 33, 44, 11]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 0, -2), [22, 33, 11, 44]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 0, -3), [22, 11, 33, 44]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 0, -4), [11, 22, 33, 44]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 0, -5), [22, 33, 44, 11]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 1, -1), [22, 11, 33, 44]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 1, -2), [11, 33, 44, 22]);
+    assert.deepEqual(slideIndex([11, 22, 33, 44], 2, -2), [33, 11, 22, 44]);
+
+    // isDestructive option
+    let src, dest;
+    src = [1];
+    dest = slideIndex(src, 0, 1);
+    assert.notStrictEqual(src, dest);
+    src = [1];
+    dest = slideIndex(src, 0, 1, true);
+    assert.strictEqual(src, dest);
+
+    // error
+    assert.throws(() => {
+      slideIndex([], 0, 0);
+    });
   });
 
   it('createCounter', function() {

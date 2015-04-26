@@ -51,6 +51,7 @@ var icons = [
   ['characters', [1, 1], 'healer'],
   ['characters', [1, 3], 'knight'],
   ['characters', [0, 1], 'mage'],
+  ['characters', [0, 8], 'nerd'],
   ['characters', [0, 2], 'ranger'],
   ['characters', [0, 5], 'thief'],
 
@@ -59,6 +60,7 @@ var icons = [
   ['enemies', [1, 3], 'minotaur'],
 
   // icons
+  ['icons', [1, 1], 'brain'],
   ['icons', [1, 2], 'flash'],
   ['icons', [0, 14], 'happy'],
   ['icons', [0, 0], 'heart'],

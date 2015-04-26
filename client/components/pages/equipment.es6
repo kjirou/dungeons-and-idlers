@@ -15,16 +15,28 @@ export default React.createClass({
   displayName: 'EquipmentPageComponent',
   mixins: [ComponentMixin, PageComponentMixin],
 
-  getInitialState() {
+  _getStateFromStores() {
     let charactersStore = CharactersStore.getInstance();
+    let editingCharacter = charactersStore.getEditingCharacter();
     return {
-      editingCharacterIndex: charactersStore.editingCharacterIndex
+      editingCharacter
     };
+  },
+
+  getInitialState() {
+    return this._getStateFromStores();
   },
 
   componentWillMount() {
     let charactersStore = CharactersStore.getInstance();
-    this.pipeStoreAttributeToState(charactersStore, 'editingCharacterIndex');
+
+    charactersStore.on(CharactersStore.UPDATED_EDITING_CHARACTER_EVENT, () => {
+      this.setState(this._getStateFromStores());
+    });
+
+    charactersStore.on(CharactersStore.UPDATED_EDITING_CHARACTER_STATE_EVENT, () => {
+      this.setState(this._getStateFromStores());
+    });
   },
 
   _onMouseDownCharacterName() {
@@ -41,19 +53,49 @@ export default React.createClass({
     ScreenActionCreators.changePage('equipment');
   },
 
-  render: function render() {
-    let charactersStore = CharactersStore.getInstance();
-    let selectedCharacterStore = charactersStore.getEditingCharacter();
+  createOnMouseDownChangeEquipmentPattern(nextEquipmentPatternIndex) {
+    return () => {
+      ScreenActionCreators.changeEditingCharacterEquipmentPattern(nextEquipmentPatternIndex);
+      ScreenActionCreators.storeCharacters();
+    };
+  },
 
-    let selectedCharacterElement = null;
-    if (selectedCharacterStore) {
-      let cardProps = _.assign({}, selectedCharacterStore.toCardComponentProps(), {
-        top: 8,
-        left: 32
-      });
-      selectedCharacterElement = <CardComponent {...cardProps}/>;
+  createOnMouseDownUpdateEquipment(mode, equipmentTypeId) {
+    let updateEvent = null;
+    switch (mode) {
+      case 'add':
+        updateEvent = () => {
+          ScreenActionCreators.addOrIncreaseEditingCharacterEquipment(equipmentTypeId);
+        };
+        break;
+      case 'increase':
+        updateEvent = () => {
+          ScreenActionCreators.addOrIncreaseEditingCharacterEquipment(equipmentTypeId);
+        };
+        break;
+      case 'decrease':
+        updateEvent = () => {
+          ScreenActionCreators.decreaseOrRemoveEditingCharacterEquipment(equipmentTypeId);
+        };
+        break;
+      case 'up':
+        updateEvent = () => {
+          ScreenActionCreators.slideEditingCharacterEquipment(equipmentTypeId, -1);
+        };
+        break;
+      case 'down':
+        updateEvent = () => {
+          ScreenActionCreators.slideEditingCharacterEquipment(equipmentTypeId, 1);
+        };
+        break;
     }
+    return () => {
+      updateEvent();
+      ScreenActionCreators.storeCharacters();
+    };
+  },
 
+  render: function render() {
     return compileJsxTemplate('pages/equipment', {
       className: createPageComponentClassName('equipment'),
       style: this.createDefaultStyles(),
@@ -61,13 +103,12 @@ export default React.createClass({
         NavigationBarComponent
       },
       CardComponent,
-      charactersStore,
-      selectedCharacterStore,
-      selectedCharacterName: (selectedCharacterStore) ? selectedCharacterStore.getName() : '',
-      selectedCharacterElement,
+      editingCharacter: this.state.editingCharacter,
       onMouseDownCharacterName: this._onMouseDownCharacterName,
       onMouseDownNextCharacter: this._onMouseDownNextCharacter,
-      onMouseDownPrevCharacter: this._onMouseDownPrevCharacter
+      onMouseDownPrevCharacter: this._onMouseDownPrevCharacter,
+      createOnMouseDownChangeEquipmentPattern: this.createOnMouseDownChangeEquipmentPattern,
+      createOnMouseDownUpdateEquipment: this.createOnMouseDownUpdateEquipment
     });
   }
 });

@@ -6,7 +6,9 @@ import SingletonMixin from 'client/lib/mixins/singleton';
 import Storage from 'client/lib/storage';
 
 
-export default Backbone.Model.extend({
+const UPDATED_STATE_EVENT = 'UPDATED_STATE_EVENT';
+
+let Store = Backbone.Model.extend({
 
   /**
    * プロパティのgetterを定義する
@@ -30,16 +32,9 @@ export default Backbone.Model.extend({
     });
   },
 
-  /**
-   * インスタンスの状態を返す
-   *
-   * TODO:
-   * [deprecation]
-   * "状態" はインスタンスのプロパティの値などを示すので不適切
-   * そもそもの意図としては「保存用のattributesを返す」なので別名にする
-   */
-  toStates() {
-    return this.attributes;
+  set(...args) {
+    Backbone.Model.prototype.set.apply(this, args);
+    this.trigger(this.constructor.UPDATED_STATE_EVENT);
   },
 
   storageName: null,
@@ -99,6 +94,11 @@ export default Backbone.Model.extend({
     ;
   }
 }, _.assign(
-  {},
+  {
+    UPDATED_STATE_EVENT
+  },
   SingletonMixin
 ));
+
+
+export default Store;

@@ -44,6 +44,41 @@ export function rotateIndex(length, baseIndex, relativeIndex) {
   return (baseIndex + relativeIndex + length) % length;
 }
 
+/**
+ * Slide a index of array
+ *
+ * e.g.
+ *   ([11, 22, 33, 44], 0, 1)  -> [22, 11, 33, 44]
+ *   ([11, 22, 33, 44], 0, 2)  -> [22, 33, 11, 22]
+ *   ([11, 22, 33, 44], 0, 3)  -> [22, 33, 44, 11]
+ *   ([11, 22, 33, 44], 0, 4)  -> [11, 22, 33, 44]
+ *   ([11, 22, 33, 44], 0, 0)  -> [11, 22, 33, 44]
+ *   ([11, 22, 33, 44], 0, -1) -> [22, 33, 44, 11]
+ *   ([11, 22, 33, 44], 0, -2) -> [22, 33, 11, 44]
+ *   ([11, 22, 33, 44], 0, -3) -> [22, 11, 33, 44]
+ *
+ * @return {Array}
+ */
+export function slideIndex(array, startIndex, relativeIndex, isDestructive = false) {
+  if (!isDestructive) {
+    array = array.slice();
+  }
+  let len = array.length;
+  if (len === 0) {
+    throw new Error('Invalid arguments');
+  }
+  relativeIndex = relativeIndex % len;
+  let endIndex = (startIndex + relativeIndex + len) % len;
+  if (endIndex >= startIndex) {
+    array.splice(endIndex + 1, 0, array[startIndex]);
+    array.splice(startIndex, 1);
+  } else {
+    array.splice(endIndex, 0, array[startIndex]);
+    array.splice(startIndex + 1, 1);
+  }
+  return array;
+}
+
 export function createCounter(start = 1) {
   start -= 1;
   return () => {

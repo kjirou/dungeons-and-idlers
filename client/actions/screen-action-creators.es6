@@ -9,7 +9,7 @@ export default {
    */
   changePage(pageId) {
     CoreDispatcher.getInstance().handleViewAction({
-      type: 'change_page',
+      type: 'changePage',
       pageId
     });
   },
@@ -20,7 +20,7 @@ export default {
    */
   changeEditingCharacter(characterIndex) {
     CoreDispatcher.getInstance().handleViewAction({
-      type: 'change_editing_character',
+      type: 'changeEditingCharacter',
       characterIndex
     });
   },
@@ -31,7 +31,7 @@ export default {
    */
   rotateEditingCharacter(indexDelta) {
     CoreDispatcher.getInstance().handleViewAction({
-      type: 'rotate_editing_character',
+      type: 'rotateEditingCharacter',
       indexDelta
     });
   },
@@ -42,7 +42,7 @@ export default {
    */
   changeCardPageSearchQuery(searchQuery) {
     CoreDispatcher.getInstance().handleViewAction({
-      type: 'change_card_page_search_query',
+      type: 'changeCardPageSearchQuery',
       searchQuery
     });
   },
@@ -53,8 +53,56 @@ export default {
    */
   changeCardPageSortQuery(sortQuery) {
     CoreDispatcher.getInstance().handleViewAction({
-      type: 'change_card_page_sort_query',
+      type: 'changeCardPageSortQuery',
       sortQuery
+    });
+  },
+
+  /**
+   * @param {string} equipmentTypeId
+   */
+  addOrIncreaseEditingCharacterEquipment(equipmentTypeId) {
+    CoreDispatcher.getInstance().handleViewAction({
+      type: 'addOrIncreaseEditingCharacterEquipment',
+      equipmentTypeId
+    });
+  },
+
+  /**
+   * @param {string} equipmentTypeId
+   */
+  decreaseOrRemoveEditingCharacterEquipment(equipmentTypeId) {
+    CoreDispatcher.getInstance().handleViewAction({
+      type: 'decreaseOrRemoveEditingCharacterEquipment',
+      equipmentTypeId
+    });
+  },
+
+  /**
+   * @param {string} equipmentTypeId
+   * @param {number} relativeIndex
+   */
+  slideEditingCharacterEquipment(equipmentTypeId, relativeIndex) {
+    CoreDispatcher.getInstance().handleViewAction({
+      type: 'slideEditingCharacterEquipment',
+      equipmentTypeId,
+      relativeIndex
+    });
+  },
+
+  /**
+   * @param {number} nextEquipmentPatternIndex
+   */
+  changeEditingCharacterEquipmentPattern(nextEquipmentPatternIndex) {
+    CoreDispatcher.getInstance().handleViewAction({
+      type: 'changeEditingCharacterEquipmentPattern',
+      nextEquipmentPatternIndex
+    });
+  },
+
+  storeCharacters() {
+    CoreDispatcher.getInstance().handleViewAction({
+      type: 'storeCharacters'
     });
   }
 };

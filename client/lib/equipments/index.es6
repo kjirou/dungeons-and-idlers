@@ -2,21 +2,21 @@ import _ from 'lodash';
 import _s from 'underscore.string';
 
 import {createCounter, dictionarize} from 'client/lib/core';
-import Skill from 'client/lib/skills/skill';
+import Equipment from 'client/lib/equipments/equipment';
 
 
 function _classifyTypeId(typeId) {
-  return _s.classify(typeId + 'Skill');
+  return _s.classify(typeId + 'Equipment');
 }
 
 let _counter = createCounter();
 
 
-export var skillList = [];
+export var equipmentList = [];
 
 
 //
-// sub action skills
+// sub action equipments
 //
 [
   { typeId: 'disturbance', _name: '撹乱', _iconId: 'unhappy', _equipmentCost: 4,
@@ -29,9 +29,9 @@ export var skillList = [];
     _summary: '[距離3-5, 敵1人, 任意]へ[射撃1]を実行' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
-  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'sub_action' }, source);
-  skillList.push(skill);
-  exports[exportName] = skill;
+  let equipment = _.assign({}, Equipment, { serialNumber: _counter(), category: 'sub_action' }, source);
+  equipmentList.push(equipment);
+  exports[exportName] = equipment;
 });
 
 
@@ -41,20 +41,26 @@ export var skillList = [];
 //   その他的な分類のものも含むが、表示上の問題でこの位置にする
 //
 [
+  { typeId: 'excessively_theoretical', _name: '頭でっかち', _iconId: 'brain',
+    _maxHandCardCount: -1, _maxDeckCardCount: 3,
+    _summary: '手札:-1, デッキ:+3' },
   { typeId: 'hard_blow', _name: '強打', _iconId: 'sword', _equipmentCost: 5,
     _summary: '[攻撃3]を[強打]へ置換' },
+  { typeId: 'indoors_type', _name: 'インドア派', _iconId: 'nerd',
+    _maxHp: -1, _maxDeckCardCount: 1,
+    _summary: 'HP:-1, デッキ:+1, スキル:後攻' },
   { typeId: 'katana', _name: '刀', _equipmentCost: 12, _physicalAttackPower: 1,
-    _summary: '攻撃力: +1' }
+    _summary: '攻撃力:+1' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
-  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'feat' }, source);
-  skillList.push(skill);
-  exports[exportName] = skill;
+  let equipment = _.assign({}, Equipment, { serialNumber: _counter(), category: 'feat' }, source);
+  equipmentList.push(equipment);
+  exports[exportName] = equipment;
 });
 
 
 //
-// deck skills
+// deck equipments
 //
 [
   { typeId: 'acceleration', _name: '加速', _iconId: 'running', _equipmentCost: 2,
@@ -73,10 +79,10 @@ export var skillList = [];
     _summary: '[距離1, 敵1人]へ[射撃1]を実行＆[毒1]を付与' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
-  let skill = _.assign({}, Skill, { serialNumber: _counter(), category: 'deck' }, source);
-  skillList.push(skill);
-  exports[exportName] = skill;
+  let equipment = _.assign({}, Equipment, { serialNumber: _counter(), category: 'deck' }, source);
+  equipmentList.push(equipment);
+  exports[exportName] = equipment;
 });
 
 
-export var skills = dictionarize(skillList, 'typeId');
+export var equipments = dictionarize(equipmentList, 'typeId');

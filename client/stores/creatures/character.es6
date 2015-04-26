@@ -21,7 +21,7 @@ export default CreatureStore.extend({
     return this.job.attacks;
   },
 
-  _getFeats() {
+  _getSkills() {
     return [];
   }
 });

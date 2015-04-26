@@ -2,7 +2,7 @@ import assert from 'assert';
 import _ from 'lodash';
 
 import Storage from 'client/lib/storage';
-import {skills, LanternSkill, SnipingSkill, TorchSkill} from 'client/lib/skills';
+import {equipments, LanternEquipment, SnipingEquipment, TorchEquipment} from 'client/lib/equipments';
 import CardsStore from 'client/stores/cards';
 
 
@@ -24,21 +24,21 @@ describe('client/stores/cards module', function() {
     }, /not_exists/, '存在しないカードを指定');
 
     s.addCard('torch');
-    assert.strictEqual(s.cards[0].skill, TorchSkill);
+    assert.strictEqual(s.cards[0].equipment, TorchEquipment);
     assert.strictEqual(typeof s.cards[0].addedAt, 'number');
 
     s.addCard('torch', { addedAt: 1 });
     assert.deepEqual(s.cards[1], {
-      skill: TorchSkill,
+      equipment: TorchEquipment,
       addedAt: 1
-    }, 'addedAt明示指定, 常に末尾にpush, 同じskill指定可能');
+    }, 'addedAt明示指定, 常に末尾にpush, 同じequipment指定可能');
   });
 
   it('_createCardData', function() {
     let s = new CardsStore();
     let cardData = s._createCardData('bar', 1);
     assert.deepEqual(cardData, {
-      skillTypeId: 'bar',
+      equipmentTypeId: 'bar',
       addedAt: 1
     });
   });
@@ -49,10 +49,10 @@ describe('client/stores/cards module', function() {
     beforeEach(function() {
       let s = new CardsStore();
       s.set('cards', [
-        { skillTypeId: 'torch', addedAt: 1 },
-        { skillTypeId: 'sniping', addedAt: 2 },
-        { skillTypeId: 'lantern', addedAt: 3 },
-        { skillTypeId: 'torch', addedAt: 4 }
+        { equipmentTypeId: 'torch', addedAt: 1 },
+        { equipmentTypeId: 'sniping', addedAt: 2 },
+        { equipmentTypeId: 'lantern', addedAt: 3 },
+        { equipmentTypeId: 'torch', addedAt: 4 }
       ]);
       s.syncAttributesToStates();
       this.s = s;
@@ -66,9 +66,9 @@ describe('client/stores/cards module', function() {
       s.aggregateCards();
       assert.strictEqual(s._aggregatedCards.length, 3);
       assert.deepEqual(s._aggregatedCards, [
-        { skill: TorchSkill, lastAddedAt: 4, count: 2 },
-        { skill: SnipingSkill, lastAddedAt: 2, count: 1 },
-        { skill: LanternSkill, lastAddedAt: 3, count: 1 }
+        { equipment: TorchEquipment, lastAddedAt: 4, count: 2 },
+        { equipment: SnipingEquipment, lastAddedAt: 2, count: 1 },
+        { equipment: LanternEquipment, lastAddedAt: 3, count: 1 }
       ]);
       assert.deepEqual(s.aggregatedCounts, {
         all: 3,
@@ -86,13 +86,13 @@ describe('client/stores/cards module', function() {
       // conditions
       let conds;
       conds = {
-        skill: {
+        equipment: {
           category: 'deck'
         }
       };
       assert.strictEqual(s.findAggregatedCards({ conditions: conds }).length, 2);
       conds = {
-        skill: {
+        equipment: {
           typeId: 'torch'
         }
       };
@@ -101,14 +101,14 @@ describe('client/stores/cards module', function() {
       // sort
       let sorted;
       sorted = s.findAggregatedCards();
-      assert.strictEqual(sorted[0].skill.typeId, 'sniping');
-      assert.strictEqual(sorted[1].skill.typeId, 'lantern');
-      assert.strictEqual(sorted[2].skill.typeId, 'torch');
+      assert.strictEqual(sorted[0].equipment.typeId, 'sniping');
+      assert.strictEqual(sorted[1].equipment.typeId, 'lantern');
+      assert.strictEqual(sorted[2].equipment.typeId, 'torch');
 
       sorted = s.findAggregatedCards({ sort: 'recent' });
-      assert.strictEqual(sorted[0].skill.typeId, 'torch');
-      assert.strictEqual(sorted[1].skill.typeId, 'lantern');
-      assert.strictEqual(sorted[2].skill.typeId, 'sniping');
+      assert.strictEqual(sorted[0].equipment.typeId, 'torch');
+      assert.strictEqual(sorted[1].equipment.typeId, 'lantern');
+      assert.strictEqual(sorted[2].equipment.typeId, 'sniping');
     });
   });
 
@@ -135,12 +135,12 @@ describe('client/stores/cards module', function() {
         })
         .then(() => {
           assert.deepEqual(s2.get('cards'), [
-            { skillTypeId: 'torch', addedAt: 1 },
-            { skillTypeId: 'torch', addedAt: 2 }
+            { equipmentTypeId: 'torch', addedAt: 1 },
+            { equipmentTypeId: 'torch', addedAt: 2 }
           ]);
           assert.deepEqual(s2.cards, [
-            { skill: TorchSkill, addedAt: 1 },
-            { skill: TorchSkill, addedAt: 2 }
+            { equipment: TorchEquipment, addedAt: 1 },
+            { equipment: TorchEquipment, addedAt: 2 }
           ]);
         })
       ;
@@ -170,11 +170,11 @@ describe('client/stores/cards module', function() {
         })
         .then(() => {
           assert.deepEqual(s2.cards, [
-            { skill: TorchSkill, addedAt: 2 }
+            { equipment: TorchEquipment, addedAt: 2 }
           ]);
           assert.deepEqual(s2.get('deletedCards'), [
-            { skillTypeId: 'not_exists_1', addedAt: 1 },
-            { skillTypeId: 'not_exists_2', addedAt: 3 }
+            { equipmentTypeId: 'not_exists_1', addedAt: 1 },
+            { equipmentTypeId: 'not_exists_2', addedAt: 3 }
           ]);
           return s2.store();
         })
@@ -184,8 +184,8 @@ describe('client/stores/cards module', function() {
         })
         .then(() => {
           assert.deepEqual(s3.get('deletedCards'), [
-            { skillTypeId: 'not_exists_1', addedAt: 1 },
-            { skillTypeId: 'not_exists_2', addedAt: 3 }
+            { equipmentTypeId: 'not_exists_1', addedAt: 1 },
+            { equipmentTypeId: 'not_exists_2', addedAt: 3 }
           ], 'storeを再度通した場合もデータが消えていない');
         })
       ;

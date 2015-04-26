@@ -17,7 +17,7 @@ import ParametersMixin from 'client/lib/mixins/parameters';
 //
 
 
-var Skill = _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixin, {
+var Equipment = _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixin, {
   typeId: undefined,
   serialNumber: undefined,
   getName() {
@@ -95,4 +95,4 @@ var Skill = _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, CardifyMixi
 });
 
 
-export default Skill;
+export default Equipment;

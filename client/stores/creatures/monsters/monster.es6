@@ -53,7 +53,7 @@ export default CreatureStore.extend({
     return attacks;
   },
 
-  _getFeats() {
+  _getSkills() {
     return [];
   }
 }, {

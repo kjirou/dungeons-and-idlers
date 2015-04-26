@@ -66,11 +66,11 @@ let CardsStore = Store.extend({
 
     let dispatchToken0 = coreDispatcher.register(function({action}) {
       switch (action.type) {
-        case 'change_card_page_search_query':
+        case 'changeCardPageSearchQuery':
           self._selectedCardPageSearchQuery = action.searchQuery;
           self.trigger(UPDATED_CARD_PAGE_QUERY_EVENT);
           break;
-        case 'change_card_page_sort_query':
+        case 'changeCardPageSortQuery':
           self._selectedCardPageSortQuery = action.sortQuery;
           self.trigger(UPDATED_CARD_PAGE_QUERY_EVENT);
           break;

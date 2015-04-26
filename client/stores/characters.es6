@@ -34,11 +34,13 @@ export default Store.extend({
 
     let dispatchToken0 = coreDispatcher.register(function({action}) {
       switch (action.type) {
-        case 'change_editing_character':
+        case 'changeEditingCharacter':
           self.setEditingCharacterIndex(action.characterIndex);
+          self.trigger(UPDATED_EDITING_CHARACTER_EVENT);
           break;
-        case 'rotate_editing_character':
+        case 'rotateEditingCharacter':
           self.rotateEditingCharacterIndex(action.indexDelta);
+          self.trigger(UPDATED_EDITING_CHARACTER_EVENT);
           break;
         case 'addOrIncreaseEditingCharacterEquipment':
           self.getEditingCharacter().addOrIncreaseEquipment(action.equipmentTypeId);
@@ -99,7 +101,6 @@ export default Store.extend({
       value = this.defaults().editingCharacterIndex;
     }
     this.set('editingCharacterIndex', value, { validate: true });
-    this.trigger(UPDATED_EDITING_CHARACTER_EVENT);
   },
 
   rotateEditingCharacterIndex(indexDelta) {

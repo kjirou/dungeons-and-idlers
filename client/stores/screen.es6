@@ -23,7 +23,7 @@ export default Store.extend({
       ]);
 
       switch (action.type) {
-        case 'change_page':
+        case 'changePage':
           self.set('pageId', action.pageId, { validate: true });
           break;
       }

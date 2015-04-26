@@ -41,10 +41,16 @@ export var equipmentList = [];
 //   その他的な分類のものも含むが、表示上の問題でこの位置にする
 //
 [
+  { typeId: 'excessively_theoretical', _name: '頭でっかち', _iconId: 'brain',
+    _maxHandCardCount: -1, _maxDeckCardCount: 3,
+    _summary: '手札:-1, デッキ:+3' },
   { typeId: 'hard_blow', _name: '強打', _iconId: 'sword', _equipmentCost: 5,
     _summary: '[攻撃3]を[強打]へ置換' },
+  { typeId: 'indoors_type', _name: 'インドア派', _iconId: 'nerd',
+    _maxHp: -2, _maxDeckCardCount: 2,
+    _summary: 'HP:-1, デッキ:+1, スキル:後攻' },
   { typeId: 'katana', _name: '刀', _equipmentCost: 12, _physicalAttackPower: 1,
-    _summary: '攻撃力: +1' }
+    _summary: '攻撃力:+1' }
 ].forEach((source) => {
   let exportName = _classifyTypeId(source.typeId);
   let equipment = _.assign({}, Equipment, { serialNumber: _counter(), category: 'feat' }, source);

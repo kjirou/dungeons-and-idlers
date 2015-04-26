@@ -60,6 +60,7 @@ export const ICON_IDS = [
   'healer',
   'knight',
   'mage',
+  'nerd',
   'ranger',
   'thief',
 
@@ -68,6 +69,7 @@ export const ICON_IDS = [
   'minotaur',
 
   // icons
+  'brain',
   'flash',
   'happy',
   'heart',
@@ -106,7 +108,7 @@ export function getIconClassName(iconId) {
 export function getIconClassNameOrError(iconId) {
   let className = getIconClassName(iconId);
   if (!className) {
-    throw new Error('Invalid id');
+    throw new Error('Invalid iconId');
   }
   return className;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-export default {
+let PageComponentMixin = {
 
   propTypes: {
     isActive: React.PropTypes.bool.isRequired
@@ -12,4 +12,7 @@ export default {
       display: this.props.isActive ? 'block' : 'none'
     };
   }
-}
+};
+
+
+export default PageComponentMixin;

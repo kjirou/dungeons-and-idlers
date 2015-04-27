@@ -1,4 +1,4 @@
-export default {
+let SingletomMixin = {
 
   _instance: null,
 
@@ -13,4 +13,7 @@ export default {
   clearInstance: function clearInstance() {
     this._instance = null;
   }
-}
+};
+
+
+export default SingletomMixin;

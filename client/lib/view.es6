@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import React from 'react';
 
 import {MODULE_TEMPLATES_ROOT} from 'client/constants';
 import {ICON_IDS} from 'lib/icon-ids';
@@ -70,4 +71,14 @@ export function getIconClassNameOrError(iconId) {
 
 export function isIconId(iconId) {
   return !!getIconClassName(iconId);
+}
+
+export function createSelectField(props, optionList) {
+  return <select {...props}>
+  {
+    optionList.map(({ value, label }, i) => {
+      return <option key={'option-' + i} value={value}>{label}</option>
+    })
+  }
+  </select>;
 }

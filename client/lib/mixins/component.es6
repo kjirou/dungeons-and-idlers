@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 
-export default {
+let ComponentMixin = {
 
   /**
    * Storeのattributeの変更をComponentのstateへ反映する監視をする
@@ -17,3 +17,6 @@ export default {
     });
   }
 }
+
+
+export default ComponentMixin;

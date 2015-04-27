@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import {MODULE_TEMPLATES_ROOT} from 'client/constants';
+import {ICON_IDS} from 'lib/icon-ids';
 
 
 // pre-reading templates for browserify
@@ -50,52 +51,6 @@ export function compileJsxFile(modulePath, locals = {}) {
 export function compileJsxTemplate(templatePath, locals = {}) {
   return compileJsxFile(MODULE_TEMPLATES_ROOT + '/' + templatePath, locals);
 }
-
-export const ICON_IDS = [
-
-  // characters
-  'alchemist',
-  'cleric',
-  'fighter',
-  'healer',
-  'knight',
-  'mage',
-  'nerd',
-  'ranger',
-  'thief',
-
-  // enemies
-  'goblin',
-  'minotaur',
-
-  // icons
-  'brain',
-  'flash',
-  'happy',
-  'heart',
-  'invalid',
-  'running',
-  'unhappy',
-
-  // items
-  'arrow',
-  'bow',
-  'gold',
-  'jewel',
-  'jewel_box',
-  'katana',
-  'key',
-  'lantern',
-  'torch',
-  'sword',
-
-  // objects
-  'chest',
-  'downstairs',
-  'signboard',
-  'treasure_box',
-  'upstairs'//,
-];
 
 export function getIconClassName(iconId) {
   if (ICON_IDS.indexOf(iconId) > -1) {

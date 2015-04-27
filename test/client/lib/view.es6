@@ -4,8 +4,7 @@ import pathModule from 'path';
 import React from 'react';
 
 import {compileJsxFile, createComponentClassName, createPageComponentClassName,
-  getIconClassName, getIconClassNameOrError, ICON_IDS,
-  isIconId} from 'client/lib/view';
+  getIconClassName, getIconClassNameOrError, isIconId} from 'client/lib/view';
 import conf from 'conf';
 
 
@@ -49,10 +48,6 @@ describe('client/lib/view module', function() {
     assert(/Foo Page/.test(html));
     assert(/999px/.test(html));
     assert(/It is foo page/.test(html));
-  });
-
-  it('ICON_IDS', function() {
-    assert.strictEqual(ICON_IDS.length, _.unique(ICON_IDS).length);
   });
 
   it('getIconClassName, getIconClassNameOrError, isIconId', function() {

@@ -9,12 +9,14 @@ export default function characterPageTemplate({
   style,
   navigationBar,
   CardComponent,
-  editingCharacter,
+  state,
   onMouseDownCharacterName,
   onMouseDownNextCharacter,
   onMouseDownPrevCharacter,
   createOnMouseDownChangeEquipmentPattern,
-  createOnMouseDownUpdateEquipment
+  createOnMouseDownAddNewEquipment,
+  createOnMouseDownUpdateEquipment,
+  createOnChangeEquipmentSelectField
 }) {
 
   function equipmentHeaderRow() {
@@ -76,6 +78,26 @@ export default function characterPageTemplate({
     );
   }
 
+  /**
+   * <div>
+   *   [プルダウン] [+追加]
+   * </div>
+   */
+  function createEquipmentAdder(category) {
+    return (
+      <div className='equipment_adder'>
+        <div>{
+          createSelectField({
+            onChange: createOnChangeEquipmentSelectField(category)
+          }, state.cardChoices[category])
+        }</div>
+        <div
+          className='add_equipment_button' onMouseDown={createOnMouseDownAddNewEquipment(category)}
+        >+追加</div>
+      </div>
+    );
+  }
+
 
   return (
     <div className={className} style={style}>
@@ -84,12 +106,12 @@ export default function characterPageTemplate({
         <div className='page_column left-page_column'>
           <div className='character_pagination'>
             <div className='part left-part' onMouseDown={onMouseDownPrevCharacter}>&lt;</div>
-            <div className='part center-part' onMouseDown={onMouseDownCharacterName}>{editingCharacter.getName()}</div>
+            <div className='part center-part' onMouseDown={onMouseDownCharacterName}>{state.editingCharacter.getName()}</div>
             <div className='part right-part' onMouseDown={onMouseDownNextCharacter}>&gt;</div>
           </div>
           <section className='card_container'>
             <CardComponent {...(
-              _.assign({}, editingCharacter.toCardComponentProps({ isPreview: true }))
+              _.assign({}, state.editingCharacter.toCardComponentProps({ isPreview: true }))
             )}/>
           </section>
           <section className='equipment_patterns'>
@@ -100,7 +122,7 @@ export default function characterPageTemplate({
                   key: 'pattern' + i,
                   onMouseDown: createOnMouseDownChangeEquipmentPattern(i)
                 };
-                if (editingCharacter.currentEquipmentPatternIndex === i) {
+                if (state.editingCharacter.currentEquipmentPatternIndex === i) {
                   props.className = 'active';
                 }
                 return <li {...props}>{i + 1}</li>;
@@ -110,21 +132,21 @@ export default function characterPageTemplate({
           <section className='equipment_cost'>
             <h3>装備コスト</h3>
             <div>
-              <span className='current'>{editingCharacter.computeEquipmentCost()}</span>
+              <span className='current'>{state.editingCharacter.computeEquipmentCost()}</span>
               <span className='separator'>/</span>
-              <span className='max'>{editingCharacter.getEquipmentPower()}</span>
+              <span className='max'>{state.editingCharacter.getEquipmentPower()}</span>
             </div>
           </section>
           <section className='hand_card_count'>
             <h3>手札数</h3>
-            <div>{editingCharacter.getMaxHandCardCount()}</div>
+            <div>{state.editingCharacter.getMaxHandCardCount()}</div>
           </section>
           <section className='deck_card_count'>
             <h3>デッキ枚数</h3>
             <div>
-              <span className='current'>{editingCharacter.countEquipmentByCategory('deck')}</span>
+              <span className='current'>{state.editingCharacter.countEquipmentByCategory('deck')}</span>
               <span className='separator'>/</span>
-              <span className='max'>{editingCharacter.getMaxDeckCardCount()}</span>
+              <span className='max'>{state.editingCharacter.getMaxDeckCardCount()}</span>
             </div>
           </section>
         </div>
@@ -138,31 +160,17 @@ export default function characterPageTemplate({
             <table>
               {equipmentHeaderRow()}
               {
-                editingCharacter.aggregatedEquipments.sub_action.map((equipmentData, idx) => {
+                state.editingCharacter.aggregatedEquipments.sub_action.map((equipmentData, idx) => {
                   return equipmentRow(idx, equipmentData.equipment, equipmentData.count, { isSubAction: true });
                 })
               }
             </table>
             {
               (() => {
-                if (editingCharacter.countEquipmentByCategory('sub_action') > 0) {
+                if (state.editingCharacter.countEquipmentByCategory('sub_action') > 0) {
                   return;
                 }
-                return (
-                  <div className='equipment_adder'>
-                    <div>{
-                      createSelectField({}, [
-                        { value: 'foo', label: 'FOO' },
-                        { value: 'foo', label: 'FOO' },
-                        { value: 'foo', label: 'FOO' }
-                      ])
-                    }</div>
-                    <div
-                      className='add_equipment_button'
-                      onMouseDown={createOnMouseDownUpdateEquipment('add', 'shooting')}
-                    >+追加</div>
-                  </div>
-                );
+                return createEquipmentAdder('sub_action');
               })()
             }
           </section>
@@ -174,24 +182,12 @@ export default function characterPageTemplate({
             <table>
               {equipmentHeaderRow()}
               {
-                editingCharacter.aggregatedEquipments.feat.map((equipmentData, idx) => {
+                state.editingCharacter.aggregatedEquipments.feat.map((equipmentData, idx) => {
                   return equipmentRow(idx, equipmentData.equipment, equipmentData.count);
                 })
               }
             </table>
-            <div className='equipment_adder'>
-              <div>{
-                createSelectField({}, [
-                  { value: 'foo', label: 'FOO' },
-                  { value: 'foo', label: 'FOO' },
-                  { value: 'foo', label: 'FOO' }
-                ])
-              }</div>
-              <div
-                className='add_equipment_button'
-                onMouseDown={createOnMouseDownUpdateEquipment('add', 'katana')}
-              >+追加</div>
-            </div>
+            {createEquipmentAdder('feat')}
           </section>
 
           <section>
@@ -201,28 +197,12 @@ export default function characterPageTemplate({
             <table>
               {equipmentHeaderRow()}
               {
-                editingCharacter.aggregatedEquipments.deck.map((equipmentData, idx) => {
+                state.editingCharacter.aggregatedEquipments.deck.map((equipmentData, idx) => {
                   return equipmentRow(idx, equipmentData.equipment, equipmentData.count);
                 })
               }
             </table>
-            <div className='equipment_adder'>
-              <div>{
-                createSelectField({}, [
-                  { value: 'foo', label: 'FOO' },
-                  { value: 'foo', label: 'FOO' },
-                  { value: 'foo', label: 'FOO' }
-                ])
-              }</div>
-              <div
-                className='add_equipment_button'
-                onMouseDown={
-                  (function() {
-                    return createOnMouseDownUpdateEquipment('add', _.shuffle(['dart', 'torch', 'lantern'])[0]);
-                  })()
-                }
-              >+追加</div>
-            </div>
+            {createEquipmentAdder('deck')}
           </section>
 
         </div>

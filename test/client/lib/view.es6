@@ -4,7 +4,7 @@ import pathModule from 'path';
 import React from 'react';
 
 import {compileJsxFile, createComponentClassName, createPageComponentClassName,
-  createSelectBox, getIconClassName, getIconClassNameOrError, isIconId} from 'client/lib/view';
+  createSelectField, getIconClassName, getIconClassNameOrError, isIconId} from 'client/lib/view';
 import conf from 'conf';
 
 
@@ -61,8 +61,8 @@ describe('client/lib/view module', function() {
     assert(!isIconId('not_exist'));
   });
 
-  it('createSelectBox', function() {
-    let selectBox = createSelectBox({ value: 'bar' }, [
+  it('createSelectField', function() {
+    let selectBox = createSelectField({ value: 'bar' }, [
       { value: 'foo', label: 'Foo'}, { value: 'bar', label: 'BAR' }
     ]);
     let html = React.renderToStaticMarkup(selectBox);

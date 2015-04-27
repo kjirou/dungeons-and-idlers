@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
 
+import {createSelectField} from 'client/lib/view';
+
 
 export default function characterPageTemplate({
   className,
@@ -17,7 +19,7 @@ export default function characterPageTemplate({
 
   function equipmentHeaderRow() {
     return (
-      <tr className='row_1'>
+      <tr>
         <th className='col_1'>&nbsp;</th>
         <th className='col_2'>カード名</th>
         <th className='col_3'>概要</th>
@@ -129,7 +131,7 @@ export default function characterPageTemplate({
 
         <div className='page_column right-page_column'>
 
-          <section className='section_1'>
+          <section>
             <div className='headline'>
               <h3>サブアクション</h3>
             </div>
@@ -143,13 +145,24 @@ export default function characterPageTemplate({
             </table>
             {
               (() => {
-                if (editingCharacter.aggregatedEquipments.sub_action.length > 0) {
+                if (editingCharacter.countEquipmentByCategory('sub_action') > 0) {
                   return;
                 }
-                return <div
-                  className='add_equipment_button'
-                  onMouseDown={createOnMouseDownUpdateEquipment('add', 'shooting')}
-                >+追加</div>;
+                return (
+                  <div className='equipment_adder'>
+                    <div>{
+                      createSelectField({}, [
+                        { value: 'foo', label: 'FOO' },
+                        { value: 'foo', label: 'FOO' },
+                        { value: 'foo', label: 'FOO' }
+                      ])
+                    }</div>
+                    <div
+                      className='add_equipment_button'
+                      onMouseDown={createOnMouseDownUpdateEquipment('add', 'shooting')}
+                    >+追加</div>
+                  </div>
+                );
               })()
             }
           </section>
@@ -166,10 +179,19 @@ export default function characterPageTemplate({
                 })
               }
             </table>
-            <div
-              className='add_equipment_button'
-              onMouseDown={createOnMouseDownUpdateEquipment('add', 'katana')}
-            >+追加</div>
+            <div className='equipment_adder'>
+              <div>{
+                createSelectField({}, [
+                  { value: 'foo', label: 'FOO' },
+                  { value: 'foo', label: 'FOO' },
+                  { value: 'foo', label: 'FOO' }
+                ])
+              }</div>
+              <div
+                className='add_equipment_button'
+                onMouseDown={createOnMouseDownUpdateEquipment('add', 'katana')}
+              >+追加</div>
+            </div>
           </section>
 
           <section>
@@ -184,14 +206,23 @@ export default function characterPageTemplate({
                 })
               }
             </table>
-            <div
-              className='add_equipment_button'
-              onMouseDown={
-                (function() {
-                  return createOnMouseDownUpdateEquipment('add', _.shuffle(['dart', 'torch', 'lantern'])[0]);
-                })()
-              }
-            >+追加</div>
+            <div className='equipment_adder'>
+              <div>{
+                createSelectField({}, [
+                  { value: 'foo', label: 'FOO' },
+                  { value: 'foo', label: 'FOO' },
+                  { value: 'foo', label: 'FOO' }
+                ])
+              }</div>
+              <div
+                className='add_equipment_button'
+                onMouseDown={
+                  (function() {
+                    return createOnMouseDownUpdateEquipment('add', _.shuffle(['dart', 'torch', 'lantern'])[0]);
+                  })()
+                }
+              >+追加</div>
+            </div>
           </section>
 
         </div>

@@ -73,7 +73,7 @@ export function isIconId(iconId) {
   return !!getIconClassName(iconId);
 }
 
-export function createSelectBox(props, optionList) {
+export function createSelectField(props, optionList) {
   return <select {...props}>
   {
     optionList.map(({ value, label }, i) => {

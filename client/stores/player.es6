@@ -46,6 +46,7 @@ let PlayerStore = Store.extend({
 
   gainFameExp(exp) {
     this._fameLevelObject.gainExp(exp);
+    this.trigger(this.constructor.UPDATED_STATE_EVENT);
   }
 }, {
   BASE_NECESSARY_FAME_EXP_PER_LEVEL

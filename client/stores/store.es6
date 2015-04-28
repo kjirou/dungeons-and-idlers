@@ -90,7 +90,10 @@ let Store = Backbone.Model.extend({
   restore() {
     return this
       .fetch()
-      .then(() => { this.syncAttributesToStates(); })
+      .then(() => {
+        this.syncAttributesToStates();
+        this.trigger(this.constructor.UPDATED_STATE_EVENT);
+      })
     ;
   }
 }, _.assign(

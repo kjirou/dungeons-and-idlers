@@ -2,29 +2,44 @@ import _ from 'lodash';
 import React from 'react';
 
 import ScreenActionCreators from 'client/actions/screen-action-creators';
-import NavigationBarComponent from 'client/components/partials/navigation-bar';
 import {compileJsxTemplate, createPageComponentClassName} from 'client/lib/view';
 import ComponentMixin from 'client/lib/mixins/component';
 import PageComponentMixin from 'client/lib/mixins/page-component';
+import PlayerStore from 'client/stores/player';
 
 
 export default React.createClass({
   displayName: 'HomePageComponent',
   mixins: [ComponentMixin, PageComponentMixin],
 
-  createOnMouseDownPageChangeButton(pageId) {
-    return function() {
-      ScreenActionCreators.changePage(pageId);
+  _getStateFromStores() {
+    let playerStore = PlayerStore.getInstance();
+    return {
+      fameLevel: playerStore.getFameLevel()
     };
   },
 
-  render: function render() {
+  getInitialState() {
+    return this._getStateFromStores();
+  },
+
+  componentWillMount() {
+    let playerStore = PlayerStore.getInstance();
+
+    playerStore.on(PlayerStore.UPDATED_STATE_EVENT, () => {
+      this.setState(this._getStateFromStores());
+    });
+  },
+
+  createOnMouseDownPageChangeButton(pageId) {
+    return () => ScreenActionCreators.changePage(pageId);
+  },
+
+  render() {
     return compileJsxTemplate('pages/home', {
       className: createPageComponentClassName('home'),
       style: this.createDefaultStyles(),
-      navigationBar: {
-        NavigationBarComponent
-      },
+      state: this.state,
       createOnMouseDownPageChangeButton: this.createOnMouseDownPageChangeButton
     });
   }

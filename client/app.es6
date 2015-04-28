@@ -7,6 +7,7 @@ import {SCREEN_WIDTH, SCREEN_HEIGHT} from 'client/constants';
 import CoreDispatcher from 'client/dispatcher/core';
 import CardsStore from 'client/stores/cards';
 import CharactersStore from 'client/stores/characters';
+import PlayerStore from 'client/stores/player';
 import ScreenStore from 'client/stores/screen';
 
 
@@ -19,6 +20,7 @@ export default class App {
     [
       CardsStore,
       CharactersStore,
+      PlayerStore,
       ScreenStore
     ].forEach((storeClass) => {
       storeClass.clearInstance();
@@ -30,13 +32,15 @@ export default class App {
    * @return {Object}
    */
   static initializeStores() {
+    let playerStore = PlayerStore.getInstance();
     let cardsStore = CardsStore.getInstance();
-    let charactersStore = CharactersStore.getInstance();
+    let charactersStore = CharactersStore.getInstance({}, { playerStore });
     let screenStore = ScreenStore.getInstance({}, { charactersStore });
 
     return {
       cardsStore,
       charactersStore,
+      playerStore,
       screenStore
     };
   }
@@ -69,6 +73,7 @@ export default class App {
    */
   restoreStorages() {
     return Promise.all([
+      this._stores.playerStore.restore(),
       this._stores.cardsStore.restore(),
       this._stores.charactersStore.restore()
     ]);

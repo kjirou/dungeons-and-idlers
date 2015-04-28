@@ -28,10 +28,12 @@ export default Store.extend({
     };
   },
 
-  initialize() {
+  initialize({}, { playerStore }) {
     let self = this;
-    let coreDispatcher = CoreDispatcher.getInstance();
 
+    this._playerStore = playerStore;
+
+    let coreDispatcher = CoreDispatcher.getInstance();
     let dispatchToken0 = coreDispatcher.register(function({action}) {
       switch (action.type) {
         case 'changeEditingCharacter':

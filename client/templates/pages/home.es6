@@ -1,23 +1,25 @@
 import React from 'react';
 
+import NavigationBarComponent from 'client/components/partials/navigation-bar';
+
 
 export default function homePageTemplate({
   className,
   style,
-  navigationBar,
+  state,
   createOnMouseDownPageChangeButton
 }) {
   return (
     <div className={className} style={style}>
-      <navigationBar.NavigationBarComponent />
+      <NavigationBarComponent />
       <div className='inner_page'>
 
-        <div className='left-side side'>
+        <div className='left-page_column page_column'>
           <h2>Village Information</h2>
           <table className='village_information'>
             <tr className='fame'>
               <th>Fame</th>
-              <td className='value'>999</td>
+              <td className='value'>{state.fameLevel}</td>
               <td className='unit'>lv</td>
               <td className='others'></td>
             </tr>
@@ -54,7 +56,7 @@ export default function homePageTemplate({
           </table>
         </div>
 
-        <div className='right-side side'>
+        <div className='right-page_column page_column'>
           <ul className='links'>
             <li>
               <div className='image bar-paint-bg_img' onMouseDown={createOnMouseDownPageChangeButton('character')}/>

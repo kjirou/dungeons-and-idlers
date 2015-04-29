@@ -6,9 +6,18 @@ import SingletonMixin from 'client/lib/mixins/singleton';
 import Storage from 'client/lib/storage';
 
 
-const UPDATED_STATE_EVENT = 'UPDATED_STATE_EVENT';
+const CHANGE_EVENT = 'CHANGE';
 
 let Store = Backbone.Model.extend({
+
+  initialize() {
+    this._deps = {};
+    this.dispatchTokens = [];
+  },
+
+  emitChange() {
+    this.trigger(CHANGE_EVENT);
+  },
 
   /**
    * プロパティのgetterを定義する
@@ -30,11 +39,6 @@ let Store = Backbone.Model.extend({
         return this.get(attrName || getterName);
       }
     });
-  },
-
-  set(...args) {
-    Backbone.Model.prototype.set.apply(this, args);
-    this.trigger(this.constructor.UPDATED_STATE_EVENT);
   },
 
   storageName: null,
@@ -90,12 +94,15 @@ let Store = Backbone.Model.extend({
   restore() {
     return this
       .fetch()
-      .then(() => { this.syncAttributesToStates(); })
+      .then(() => {
+        this.syncAttributesToStates();
+        this.emitChange();
+      })
     ;
   }
 }, _.assign(
   {
-    UPDATED_STATE_EVENT
+    CHANGE_EVENT
   },
   SingletonMixin
 ));

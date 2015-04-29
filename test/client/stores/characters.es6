@@ -3,23 +3,30 @@ import assert from 'assert';
 import Storage from 'client/lib/storage';
 import {TorchEquipment} from 'client/lib/equipments';
 import {FighterJob} from 'client/lib/jobs';
-import CharacterStore from 'client/stores/creatures/character';
 import CharactersStore from 'client/stores/characters';
+import PlayerStore from 'client/stores/player';
+import CharacterStore from 'client/stores/creatures/character';
 
 
 describe('client/stores/characters module', function() {
+
+  function createInstance() {
+    return new CharactersStore({}, {
+      playerStore: new PlayerStore()
+    });
+  }
 
   beforeEach(function() {
     return Storage.clear();
   });
 
   it('constructor', function() {
-    let s = new CharactersStore();
+    let s = createInstance();
     assert(s instanceof CharactersStore);
   });
 
   it('store and restore', function() {
-    let s = new CharactersStore();
+    let s = createInstance();
     return s.restore()
       // 初期データからレストア出来ている
       .then(() => {
@@ -41,7 +48,7 @@ describe('client/stores/characters module', function() {
       })
       // 新たに作ったインスタンスでrestoreしたら反映される
       .then(() => {
-        let s2 = new CharactersStore();
+        let s2 = createInstance();
         s2.restore()
           .then(() => {
             assert(s.characters.length > 0);
@@ -62,7 +69,7 @@ describe('client/stores/characters module', function() {
   });
 
   it('setEditingCharacterIndex, rotateEditingCharacterIndex', function() {
-    let s = new CharactersStore();
+    let s = createInstance();
     assert.strictEqual(s.editingCharacterIndex, 0);
     assert(s.characters.length > 0, 'インスタンス生成時に少なくとも一人居て、編集中キャラが未定義にならない');
     assert.strictEqual(s.characters.length, s.defaults().characters.length);

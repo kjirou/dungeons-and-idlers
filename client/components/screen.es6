@@ -30,19 +30,26 @@ export default React.createClass({
     height: React.PropTypes.number.isRequired
   },
 
-  getInitialState: function() {
+  _getStateFromStores() {
     let screenStore = ScreenStore.getInstance();
     return {
       pageId: screenStore.pageId
     };
   },
 
-  componentWillMount: function() {
-    let screenStore = ScreenStore.getInstance();
-    this.pipeStoreAttributeToState(screenStore, 'pageId');
+  getInitialState() {
+    return this._getStateFromStores();
   },
 
-  render: function render() {
+  componentWillMount() {
+    let screenStore = ScreenStore.getInstance();
+
+    screenStore.on(ScreenStore.CHANGE_EVENT, () => {
+      this.setState(this._getStateFromStores());
+    });
+  },
+
+  render() {
     let activePageComponent = PAGE_COMPONENTS[this.state.pageId];
     if (!activePageComponent) {
       throw new Error(`${this.state.pageId} is invalid page-id`);

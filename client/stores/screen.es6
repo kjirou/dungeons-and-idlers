@@ -2,32 +2,35 @@ import CoreDispatcher from 'client/dispatcher/core';
 import Store from 'client/stores/store';
 
 
-export default Store.extend({
+let ScreenStore = Store.extend({
 
-  defaults: function() {
+  defaults() {
     return {
-      pageId: 'welcome',
-      editingCharacterIndex: 0
+      pageId: 'welcome'
     };
   },
 
-  initialize: function(attrs, { charactersStore }) {
-    let self = this;
-    let coreDispatcher = CoreDispatcher.getInstance();
+  initialize(attrs, { charactersStore }) {
+    Store.prototype.initialize.apply(this);
 
     this.attrGetter('pageId');
 
-    let dispatchToken0 = coreDispatcher.register(function({action}) {
+    let coreDispatcher = CoreDispatcher.getInstance();
+    let dispatchToken0 = coreDispatcher.register(({action}) => {
       coreDispatcher.waitFor([
         ...charactersStore.dispatchTokens
       ]);
 
       switch (action.type) {
         case 'changePage':
-          self.set('pageId', action.pageId, { validate: true });
+          this.set('pageId', action.pageId, { validate: true });
+          this.emitChange();
           break;
       }
     });
     this.dispatchTokens = [dispatchToken0];
   }
 });
+
+
+export default ScreenStore;

@@ -11,6 +11,7 @@ const CHANGE_EVENT = 'CHANGE';
 let Store = Backbone.Model.extend({
 
   initialize() {
+    this._deps = {};
     this.dispatchTokens = [];
   },
 

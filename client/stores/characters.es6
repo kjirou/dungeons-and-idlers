@@ -28,7 +28,9 @@ let CharactersStoe = Store.extend({
   initialize(attrs, { playerStore }) {
     Store.prototype.initialize.apply(this);
 
-    this._playerStore = playerStore;
+    this._deps = {
+      playerStore
+    };
 
     let coreDispatcher = CoreDispatcher.getInstance();
     let dispatchToken0 = coreDispatcher.register(({action}) => {
@@ -85,20 +87,24 @@ let CharactersStoe = Store.extend({
     this.syncAttributesToStates();
   },
 
+  syncAttributesToStates() {
+    this._characters = this.get('characters').map((characterAttrs) => {
+      let character = new CharacterStore(_.assign({}, characterAttrs, {
+        // TODO: 名声レベル変更時に反映する
+        //       経験値獲得処理次第で監視イベントが変わりそうなので保留にしている
+        equipmentPower: this._deps.playerStore.computeEquipmentPower()
+      }));
+      character.resetStates();
+      return character;
+    });
+  },
+
   syncStatesToAttributes() {
     let stateOfCharacters = this._characters.map((character) => {
       character.syncStatesToAttributes();
       return _.cloneDeep(character.attributes);
     });
     this.set('characters', stateOfCharacters, { validate: true });
-  },
-
-  syncAttributesToStates() {
-    this._characters = this.get('characters').map((characterAttrs) => {
-      let character = new CharacterStore(characterAttrs);
-      character.resetStates();
-      return character;
-    });
   },
 
   setEditingCharacterIndex(value) {

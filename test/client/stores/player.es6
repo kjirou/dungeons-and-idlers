@@ -16,6 +16,15 @@ describe('client/stores/player module', function() {
     assert(s instanceof PlayerStore);
   });
 
+  it('computeEquipmentPower', function() {
+    let s = new PlayerStore();
+    let defaultEquipmentPower = s.computeEquipmentPower();
+    assert.strictEqual(defaultEquipmentPower, 0, '初期名声レベルでは補正値はない');
+    s._getFameLevel = () => 100;
+    assert.strictEqual(typeof s.computeEquipmentPower(), 'number');
+    assert(s.computeEquipmentPower() > defaultEquipmentPower, '名声レベル上昇により少なくとも上昇している');
+  });
+
   context('fame level', function() {
 
     it('should be', function() {

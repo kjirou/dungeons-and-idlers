@@ -31,6 +31,8 @@ let PlayerStore = Store.extend({
       maxLevel: 999
     });
 
+    this.propGetter('fameLevel', '_getFameLevel');
+
     this.syncAttributesToStates();
   },
 
@@ -42,13 +44,21 @@ let PlayerStore = Store.extend({
     this.set('fameExp', this._fameLevelObject.getExp(), { validate: true });
   },
 
-  getFameLevel() {
+  _getFameLevel() {
     return this._fameLevelObject.getLevel();
   },
 
   gainFameExp(exp) {
     this._fameLevelObject.gainExp(exp);
     this.emitChange();
+  },
+
+  /**
+   * 名声レベルによる各キャラクターの装備力への補正値を返す
+   * @return {number}
+   */
+  computeEquipmentPower() {
+    return parseInt(this.fameLevel / 10, 10);
   }
 }, {
   BASE_NECESSARY_FAME_EXP_PER_LEVEL

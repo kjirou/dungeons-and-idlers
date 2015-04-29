@@ -15,7 +15,7 @@ export default React.createClass({
   _getStateFromStores() {
     let playerStore = PlayerStore.getInstance();
     return {
-      fameLevel: playerStore.getFameLevel()
+      fameLevel: playerStore.fameLevel
     };
   },
 

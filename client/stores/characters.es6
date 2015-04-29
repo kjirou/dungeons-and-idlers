@@ -8,9 +8,6 @@ import CharacterStore from 'client/stores/creatures/character';
 import Store from 'client/stores/store';
 
 
-const UPDATED_EDITING_CHARACTER_EVENT = 'UPDATED_EDITING_CHARACTER_EVENT';
-const UPDATED_EDITING_CHARACTER_STATE_EVENT = 'UPDATED_EDITING_CHARACTER_STATE_EVENT';
-
 let CharactersStoe = Store.extend({
 
   storageName: 'store:characters',
@@ -30,44 +27,43 @@ let CharactersStoe = Store.extend({
 
   initialize(attrs, { playerStore }) {
     Store.prototype.initialize.apply(this);
-    let self = this;
 
     this._playerStore = playerStore;
 
     let coreDispatcher = CoreDispatcher.getInstance();
-    let dispatchToken0 = coreDispatcher.register(function({action}) {
+    let dispatchToken0 = coreDispatcher.register(({action}) => {
       coreDispatcher.waitFor([
         ...playerStore.dispatchTokens
       ]);
 
       switch (action.type) {
         case 'changeEditingCharacter':
-          self.setEditingCharacterIndex(action.characterIndex);
-          self.trigger(UPDATED_EDITING_CHARACTER_EVENT);
+          this.setEditingCharacterIndex(action.characterIndex);
+          this.emitChange();
           break;
         case 'rotateEditingCharacter':
-          self.rotateEditingCharacterIndex(action.indexDelta);
-          self.trigger(UPDATED_EDITING_CHARACTER_EVENT);
+          this.rotateEditingCharacterIndex(action.indexDelta);
+          this.emitChange();
           break;
         case 'addOrIncreaseEditingCharacterEquipment':
-          self.getEditingCharacter().addOrIncreaseEquipment(action.equipmentTypeId);
-          self.trigger(UPDATED_EDITING_CHARACTER_STATE_EVENT);
+          this.getEditingCharacter().addOrIncreaseEquipment(action.equipmentTypeId);
+          this.emitChange();
           break;
         case 'decreaseOrRemoveEditingCharacterEquipment':
-          self.getEditingCharacter().decreaseOrRemoveEquipment(action.equipmentTypeId);
-          self.trigger(UPDATED_EDITING_CHARACTER_STATE_EVENT);
+          this.getEditingCharacter().decreaseOrRemoveEquipment(action.equipmentTypeId);
+          this.emitChange();
           break;
         case 'slideEditingCharacterEquipment':
-          self.getEditingCharacter().slideEquipment(action.equipmentTypeId, action.relativeIndex);
-          self.trigger(UPDATED_EDITING_CHARACTER_STATE_EVENT);
+          this.getEditingCharacter().slideEquipment(action.equipmentTypeId, action.relativeIndex);
+          this.emitChange();
           break;
         case 'changeEditingCharacterEquipmentPattern':
-          self.getEditingCharacter().changeEquipmentPattern(action.nextEquipmentPatternIndex);
-          self.trigger(UPDATED_EDITING_CHARACTER_STATE_EVENT);
+          this.getEditingCharacter().changeEquipmentPattern(action.nextEquipmentPatternIndex);
+          this.emitChange();
           break;
       }
     });
-    let dispatchToken1 = coreDispatcher.register(function({action}) {
+    let dispatchToken1 = coreDispatcher.register(({action}) => {
       coreDispatcher.waitFor([
         ...playerStore.dispatchTokens,
         dispatchToken0
@@ -75,7 +71,7 @@ let CharactersStoe = Store.extend({
 
       switch (action.type) {
         case 'storeCharacters':
-          self.store();
+          this.store();
           break;
       }
     });
@@ -121,9 +117,6 @@ let CharactersStoe = Store.extend({
   getEditingCharacter() {
     return this.characters[this.editingCharacterIndex] || null;
   }
-}, {
-  UPDATED_EDITING_CHARACTER_EVENT,
-  UPDATED_EDITING_CHARACTER_STATE_EVENT
 });
 
 

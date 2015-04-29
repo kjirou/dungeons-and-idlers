@@ -53,11 +53,7 @@ export default React.createClass({
 
     // TODO: カード取得イベントの監視
 
-    charactersStore.on(CharactersStore.UPDATED_EDITING_CHARACTER_EVENT, () => {
-      this.setState(this._getStateFromStores());
-    });
-
-    charactersStore.on(CharactersStore.UPDATED_EDITING_CHARACTER_STATE_EVENT, () => {
+    charactersStore.on(CharactersStore.CHANGE_EVENT, () => {
       this.setState(this._getStateFromStores());
     });
   },

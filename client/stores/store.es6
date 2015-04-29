@@ -41,11 +41,6 @@ let Store = Backbone.Model.extend({
     });
   },
 
-  set(...args) {
-    Backbone.Model.prototype.set.apply(this, args);
-    this.emitChange();
-  },
-
   storageName: null,
 
   /**

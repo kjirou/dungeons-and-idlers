@@ -149,12 +149,9 @@ describe('client/stores/store module', () => {
       foo.on('change', () => {
         emitted.push('change');
       });
-      foo.on(FooStore.CHANGE_EVENT, () => {
-        emitted.push('state');
-      });
       foo.set('x', 1);
       setTimeout(() => {
-        assert.deepEqual(emitted, ['change', 'state'], 'changeの後にCHANGE_EVENTが発行されている');
+        assert.deepEqual(emitted, ['change']);
         done();
       }, 1);
     });

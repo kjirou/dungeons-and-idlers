@@ -50,7 +50,6 @@ let PlayerStore = Store.extend({
 
   gainFameExp(exp) {
     this._fameLevelObject.gainExp(exp);
-    this.emitChange();
   },
 
   /**

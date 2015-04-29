@@ -193,7 +193,6 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     }
 
     this._expandEquipments();
-    this.emitChange();
   },
 
   /**
@@ -223,7 +222,6 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     }
 
     this._expandEquipments();
-    this.emitChange();
   },
 
   /**
@@ -249,7 +247,6 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
       slideIndex(equipmentsInCategory, startIndex, relativeIndex, true);
       this._expandEquipments();
     }
-    this.emitChange();
   },
 
   /**

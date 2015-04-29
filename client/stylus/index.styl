@@ -342,7 +342,8 @@ japanese-font-family()
                   width: 32px
                   height: 32px
               .col_2
-                width: 96px
+                width: 112px
+                line-height: 16px
               td.col_3
                 text-align: left
                 line-height: 16px
@@ -436,9 +437,13 @@ japanese-font-family()
         //color: $BACKGROUND_COLOR
         //background-color: $TEXT_COLOR
       .title
+        line-height: 11px
         font-size: 11px
         text-align: center
-    .icon_container  // height 52
+        &.small_font_size-title
+          line-height: 10px
+          font-size: 10px
+    .thumbnail_container  // height 52
       position: relative
       height: 50px
       border-top: 1px solid $TEXT_COLOR
@@ -449,6 +454,29 @@ japanese-font-family()
         left: 30px
         width: 32px
         height: 32px
+      .sub_category  // 縦幅が内包するインライン要素より大きくなってしまう、なので vertical-align 入れてる
+        position: absolute
+        top: 2px
+        left: 2px
+        z-index: 1
+        span
+          padding: 1px;
+          line-height: 12px
+          font-size: 10px
+          vertical-align: top
+          border: 1px solid $TEXT_COLOR
+      .rarity
+        position: absolute
+        right: 1px
+        z-index: 1
+        > div
+          position: absolute
+          right: 0
+          font-size: 15px
+          base-font-family()
+          vertical-align: top
+          &:last-child
+            top: 6px
     .description  // height 52
       position: relative
       padding: 2px 4px

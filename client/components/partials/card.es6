@@ -13,12 +13,16 @@ let SimpleCardBodyComponent = React.createClass({
     category: React.PropTypes.string,
     hp: React.PropTypes.number,
     iconClassName: React.PropTypes.string.isRequired,
+    equipmentPartName: React.PropTypes.string,
+    rarity: React.PropTypes.number,
     description: React.PropTypes.string.isRequired
   },
   getDefaultProps() {
     return {
       category: null,
-      hp: null
+      hp: null,
+      equipmentPartName: '',
+      rarity: null
     };
   },
   render() {
@@ -35,6 +39,9 @@ let SimpleCardBodyComponent = React.createClass({
       }</td>;
     }
 
+    let titleClassName = 'title';
+    if (this.props.title.length >= 8) titleClassName += ' small_font_size-title';
+
     let iconClassName = [
       'icon',
       this.props.iconClassName
@@ -45,11 +52,28 @@ let SimpleCardBodyComponent = React.createClass({
         <table className='header'>
           <tr>
             {categoryElement}
-            <td className='title'>{this.props.title}</td>
+            <td className={titleClassName}>{this.props.title}</td>
           </tr>
         </table>
-        <div className='icon_container'>
+        <div className='thumbnail_container'>
           <div className={iconClassName}/>
+          {
+            (() => {
+              if (!this.props.equipmentPartName) return;
+              return <div className='sub_category'>
+                <span>{this.props.equipmentPartName}</span>
+              </div>;
+            })()
+          }
+          {
+            (() => {
+              if (!this.props.rarity) return;
+              return <div className='rarity'>
+                <div>{_.range(Math.min(this.props.rarity, 4)).map(() => '*').join('')}</div>
+                <div>{_.range(this.props.rarity - 4).map(() => '*').join('')}</div>
+              </div>;
+            })()
+          }
         </div>
         <div className='description'>{this.props.description}</div>
       </div>

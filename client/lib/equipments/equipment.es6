@@ -37,6 +37,31 @@ var Equipment = _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, Cardify
   category: undefined,
 
   /**
+   * 装備部位
+   *
+   * feat の一部にのみ設定され、重複する箇所は 1 つしか装備できない
+   * 主要能力値の上昇は、例えば武器=攻撃力のように装備の特定箇所に限定し、上昇量を管理するため
+   *
+   * "weapon" = 武器、物理/魔法攻撃力上昇
+   * "armor"  = 鎧、HP上昇
+   * "shield" = 盾、物理/魔法/属性防御力
+   */
+  equipmentPart: null,
+  getEquipmentPartName() {
+    return !this.equipmentPart ? '' : {
+      weapon: '武器',
+      armor: '鎧',
+      shield: '盾'
+    }[this.equipmentPart];
+  },
+
+  /**
+   * レアリティ
+   * @var {number} 1 から 8 の範囲, 高いほどレア
+   */
+  rarity: 1,
+
+  /**
    * 概要と詳細説明文
    *
    * TODO: どちらもデフォルトで自動生成したい
@@ -88,6 +113,8 @@ var Equipment = _.assign({}, NamingMixin, IconizeMixin, ParametersMixin, Cardify
         title: this.getName(),
         category: this.category,
         iconClassName: this.getIconClassName(),
+        rarity: this.rarity,
+        equipmentPartName: this.getEquipmentPartName(),
         description: this.getSummary()
       }
     };

@@ -43,11 +43,14 @@ export default function characterPageTemplate({
     let onUp = createOnMouseDownUpdateEquipment('up', equipment.typeId);
     let onDown = createOnMouseDownUpdateEquipment('down', equipment.typeId);
 
+    let partNamePrefix = equipment.getEquipmentPartName();
+    if (partNamePrefix) { partNamePrefix = '{' + partNamePrefix + '} '; }
+
     return (
       <tr key={'equipment_row-' + idx}>
         <td className='col_1'><div className={equipment.getIconClassName()}/></td>
         <td className='col_2'>{equipment.getName()}</td>
-        <td className='col_3'>{equipment.getSummary()}</td>
+        <td className='col_3'>{partNamePrefix + equipment.getSummary()}</td>
         <td className='col_4'>
           <span className='total'>4</span>
           <span className='used'>(3)</span>

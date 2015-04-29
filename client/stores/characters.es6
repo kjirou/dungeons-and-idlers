@@ -11,7 +11,7 @@ import Store from 'client/stores/store';
 const UPDATED_EDITING_CHARACTER_EVENT = 'UPDATED_EDITING_CHARACTER_EVENT';
 const UPDATED_EDITING_CHARACTER_STATE_EVENT = 'UPDATED_EDITING_CHARACTER_STATE_EVENT';
 
-export default Store.extend({
+let CharactersStoe = Store.extend({
 
   storageName: 'store:characters',
 
@@ -28,13 +28,18 @@ export default Store.extend({
     };
   },
 
-  initialize({}, { playerStore }) {
+  initialize(attrs, { playerStore }) {
+    Store.prototype.initialize.apply(this);
     let self = this;
 
     this._playerStore = playerStore;
 
     let coreDispatcher = CoreDispatcher.getInstance();
     let dispatchToken0 = coreDispatcher.register(function({action}) {
+      coreDispatcher.waitFor([
+        ...playerStore.dispatchTokens
+      ]);
+
       switch (action.type) {
         case 'changeEditingCharacter':
           self.setEditingCharacterIndex(action.characterIndex);
@@ -64,8 +69,10 @@ export default Store.extend({
     });
     let dispatchToken1 = coreDispatcher.register(function({action}) {
       coreDispatcher.waitFor([
+        ...playerStore.dispatchTokens,
         dispatchToken0
       ]);
+
       switch (action.type) {
         case 'storeCharacters':
           self.store();
@@ -118,3 +125,6 @@ export default Store.extend({
   UPDATED_EDITING_CHARACTER_EVENT,
   UPDATED_EDITING_CHARACTER_STATE_EVENT
 });
+
+
+export default CharactersStoe;

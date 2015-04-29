@@ -9,7 +9,7 @@ describe('client/stores/store module', () => {
 
   it('module definition', () => {
     assert.strictEqual(typeof Store, 'function');
-    assert.strictEqual(Store.UPDATED_STATE_EVENT, 'UPDATED_STATE_EVENT');
+    assert.strictEqual(Store.CHANGE_EVENT, 'CHANGE');
   });
 
   it('create a instance', () => {
@@ -67,7 +67,7 @@ describe('client/stores/store module', () => {
 
       assert(FooStore.prototype instanceof Store);
       assert('getInstance' in FooStore);
-      assert.strictEqual(Store.UPDATED_STATE_EVENT, FooStore.UPDATED_STATE_EVENT);
+      assert.strictEqual(Store.CHANGE_EVENT, FooStore.CHANGE_EVENT);
 
       let foo = new FooStore();
       assert.deepEqual(foo.attributes, {
@@ -142,19 +142,19 @@ describe('client/stores/store module', () => {
 
   context('envents', function() {
 
-    it('UPDATED_STATE_EVENT', function(done) {
+    it('CHANGE_EVENT', function(done) {
       let FooStore = Store.extend();
       let foo = new FooStore();
       let emitted = [];
       foo.on('change', () => {
         emitted.push('change');
       });
-      foo.on(FooStore.UPDATED_STATE_EVENT, () => {
+      foo.on(FooStore.CHANGE_EVENT, () => {
         emitted.push('state');
       });
       foo.set('x', 1);
       setTimeout(() => {
-        assert.deepEqual(emitted, ['change', 'state'], 'changeの後にUPDATED_STATE_EVENTが発行されている');
+        assert.deepEqual(emitted, ['change', 'state'], 'changeの後にCHANGE_EVENTが発行されている');
         done();
       }, 1);
     });

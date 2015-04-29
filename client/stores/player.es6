@@ -19,6 +19,8 @@ let PlayerStore = Store.extend({
   },
 
   initialize() {
+    Store.prototype.initialize.apply(this);
+
     this._fameLevelObject = new RPGLevel();
     this._fameLevelObject.defineExpTable((level) => {
       let fromLevel = level - 1;
@@ -46,7 +48,7 @@ let PlayerStore = Store.extend({
 
   gainFameExp(exp) {
     this._fameLevelObject.gainExp(exp);
-    this.trigger(this.constructor.UPDATED_STATE_EVENT);
+    this.emitChange();
   }
 }, {
   BASE_NECESSARY_FAME_EXP_PER_LEVEL

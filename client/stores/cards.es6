@@ -24,6 +24,7 @@ let CardsStore = Store.extend({
   },
 
   initialize() {
+    Store.prototype.initialize.apply(this);
     let self = this;
     let coreDispatcher = CoreDispatcher.getInstance();
 

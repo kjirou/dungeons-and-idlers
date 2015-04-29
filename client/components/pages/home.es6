@@ -26,7 +26,7 @@ export default React.createClass({
   componentWillMount() {
     let playerStore = PlayerStore.getInstance();
 
-    playerStore.on(PlayerStore.UPDATED_STATE_EVENT, () => {
+    playerStore.on(PlayerStore.CHANGE_EVENT, () => {
       this.setState(this._getStateFromStores());
     });
   },

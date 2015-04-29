@@ -37,6 +37,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
   },
 
   initialize() {
+    Store.prototype.initialize.apply(this);
 
     /**
      * 集計済み装備中カード情報
@@ -192,7 +193,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     }
 
     this._expandEquipments();
-    this.trigger(this.constructor.UPDATED_STATE_EVENT);
+    this.emitChange();
   },
 
   /**
@@ -222,7 +223,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
     }
 
     this._expandEquipments();
-    this.trigger(this.constructor.UPDATED_STATE_EVENT);
+    this.emitChange();
   },
 
   /**
@@ -248,7 +249,7 @@ export default Store.extend(_.assign({}, NamingMixin, IconizeMixin, ParametersMi
       slideIndex(equipmentsInCategory, startIndex, relativeIndex, true);
       this._expandEquipments();
     }
-    this.trigger(this.constructor.UPDATED_STATE_EVENT);
+    this.emitChange();
   },
 
   /**

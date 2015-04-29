@@ -20,8 +20,6 @@ export default React.createClass({
     let cardsStore = CardsStore.getInstance();
     let charactersStore = CharactersStore.getInstance();
 
-    let editingCharacter = charactersStore.getEditingCharacter();
-
     let cards = {};
     let cardChoices = {};
     ['sub_action', 'feat', 'deck'].forEach((category) => {
@@ -34,7 +32,7 @@ export default React.createClass({
     });
 
     return {
-      editingCharacter,
+      editingCharacter: charactersStore.editingCharacter,
       cards,
       cardChoices
     };

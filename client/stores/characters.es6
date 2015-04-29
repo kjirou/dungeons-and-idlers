@@ -48,19 +48,19 @@ let CharactersStoe = Store.extend({
           this.emitChange();
           break;
         case 'addOrIncreaseEditingCharacterEquipment':
-          this.getEditingCharacter().addOrIncreaseEquipment(action.equipmentTypeId);
+          this.editingCharacter.addOrIncreaseEquipment(action.equipmentTypeId);
           this.emitChange();
           break;
         case 'decreaseOrRemoveEditingCharacterEquipment':
-          this.getEditingCharacter().decreaseOrRemoveEquipment(action.equipmentTypeId);
+          this.editingCharacter.decreaseOrRemoveEquipment(action.equipmentTypeId);
           this.emitChange();
           break;
         case 'slideEditingCharacterEquipment':
-          this.getEditingCharacter().slideEquipment(action.equipmentTypeId, action.relativeIndex);
+          this.editingCharacter.slideEquipment(action.equipmentTypeId, action.relativeIndex);
           this.emitChange();
           break;
         case 'changeEditingCharacterEquipmentPattern':
-          this.getEditingCharacter().changeEquipmentPattern(action.nextEquipmentPatternIndex);
+          this.editingCharacter.changeEquipmentPattern(action.nextEquipmentPatternIndex);
           this.emitChange();
           break;
       }
@@ -83,6 +83,7 @@ let CharactersStoe = Store.extend({
 
     this.attrGetter('editingCharacterIndex');
     this.propGetter('characters');
+    this.propGetter('editingCharacter', '_getEditingCharacter');
 
     this.syncAttributesToStates();
   },
@@ -119,9 +120,8 @@ let CharactersStoe = Store.extend({
     this.setEditingCharacterIndex(nextIndex);
   },
 
-  // TODO: 常に誰かが存在してnullを返さないようにしたので、反映する
-  getEditingCharacter() {
-    return this.characters[this.editingCharacterIndex] || null;
+  _getEditingCharacter() {
+    return this.characters[this.editingCharacterIndex];
   }
 });
 

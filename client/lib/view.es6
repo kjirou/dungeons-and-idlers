@@ -9,6 +9,7 @@ import {ICON_IDS} from 'lib/icon-ids';
 if (false) {
   require('client/templates/pages/card');
   require('client/templates/pages/character');
+  require('client/templates/pages/dungeon');
   require('client/templates/pages/equipment');
   require('client/templates/pages/game');
   require('client/templates/pages/home');

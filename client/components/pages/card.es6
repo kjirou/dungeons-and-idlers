@@ -2,10 +2,8 @@ import _ from 'lodash';
 import React from 'react';
 
 import ScreenActionCreators from 'client/actions/screen-action-creators';
-import CardComponent from 'client/components/partials/card';
-import NavigationBarComponent from 'client/components/partials/navigation-bar';
-import {compileJsxTemplate, createPageComponentClassName} from 'client/lib/view';
 import ComponentMixin from 'client/lib/mixins/component';
+import {compileJsxTemplate, createPageComponentClassName} from 'client/lib/view';
 import PageComponentMixin from 'client/lib/mixins/page-component';
 import CardsStore from 'client/stores/cards';
 
@@ -27,11 +25,11 @@ export default React.createClass({
     };
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return this._getStateFromStores();
   },
 
-  componentWillMount: function() {
+  componentWillMount() {
     let cardsStore = CardsStore.getInstance();
 
     cardsStore.on(CardsStore.UPDATED_CARD_PAGE_QUERY_EVENT, () => {
@@ -51,7 +49,7 @@ export default React.createClass({
     ScreenActionCreators.changeCardPageSortQuery(evt.target.value);
   },
 
-  render: function render() {
+  render() {
     let cardsStore = CardsStore.getInstance();
 
     let searchSelectElement = <select
@@ -75,10 +73,6 @@ export default React.createClass({
     return compileJsxTemplate('pages/card', {
       className: createPageComponentClassName('card'),
       style: this.createDefaultStyles(),
-      navigationBar: {
-        NavigationBarComponent
-      },
-      CardComponent,
       cards: this.state.cards,
       searchSelectElement,
       sortSelectElement

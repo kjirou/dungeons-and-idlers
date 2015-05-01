@@ -41,6 +41,7 @@
     "http-server": "0.7.5",
     "image-divider": "0.0.1",
     "is-integer": "1.0.4",
+    "jsonschema": "1.0.1",
     "mocha": "2.1.0",
     "node-dev": "2.6.1",
     "node-notifier": "4.1.2",

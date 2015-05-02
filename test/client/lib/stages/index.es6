@@ -1,21 +1,21 @@
 import assert from 'assert';
 import _ from 'lodash';
 
-import {stageList, stages} from 'client/lib/stages';
+import {routeList, routes, stageList, stages} from 'client/lib/stages';
 
 
 describe('client/lib/stages module', function() {
 
-  //it('stageFolderList', function() {
-  //  assert(Array.isArray(stageFolderList));
-  //  assert(stageFolderList.length > 0);
-  //});
+  it('routeList', function() {
+    assert(Array.isArray(routeList));
+    assert(routeList.length > 0);
+  });
 
-  //it('stageFolders', function() {
-  //  assert.strictEqual(typeof stages, 'object');
-  //  assert(_.size(stageFolders) > 0);
-  //  assert('undefined' in stageFolders === false);
-  //});
+  it('routes', function() {
+    assert.strictEqual(typeof routes, 'object');
+    assert(_.size(routes) > 0);
+    assert('undefined' in routes === false, 'typeId設定漏れがない');
+  });
 
   it('stageList', function() {
     assert(Array.isArray(stageList));

@@ -46,9 +46,99 @@ let _stageCounter = createCounter();
 export var stageList = [];
 
 [
+  //
+  // 固定ステージ
+  //
   {
-    typeId: 'dummy', _name: 'ダミー',
-    description: 'ダミーのステージです'
+    typeId: 'goblins_cave', _name: 'ゴブリンの洞窟', _iconId: 'goblins_cave',
+    description: '近隣に迷惑を掛けているいたずらゴブリンたちを懲らしめよう。'
+  },
+  {
+    typeId: 'training_range', _name: '訓練場', _iconId: 'village',
+    description: '村近くにある訓練場、というかほとんど野原。'
+  },
+  {
+    typeId: 'your_village', _name: 'あなたの村', _iconId: 'village',
+    description: 'あなたと仲間達が暮らす豊かでのどかな村。望まれぬ冒険の旅はここから始まる。'
+  },
+
+  //
+  // ランダム生成ステージ
+  //
+  {
+    typeId: 'quest_1', _name: '討伐依頼１', _iconId: 'crossed_swords',
+    description: '街のギルドで募集のある簡単な討伐依頼を請け負います。'
+  },
+  {
+    typeId: 'quest_2', _name: '討伐依頼２', _iconId: 'crossed_swords',
+    description: '街のギルドで募集のある普通の討伐依頼を請け負います。'
+  },
+  {
+    typeId: 'quest_3', _name: '討伐依頼３', _iconId: 'crossed_swords',
+    description: '街のギルドで募集のある難しい討伐依頼を請け負います。'
+  },
+  {
+    typeId: 'quest_4', _name: '討伐依頼４', _iconId: 'crossed_swords',
+    description: '街のギルドで募集のあるとても難しい討伐依頼を請け負います。'
+  },
+
+  //
+  // ワールドマップ
+  //
+  {
+    typeId: 'world',
+    map: [
+      // 0
+      [
+        // 0-3
+        {
+          stage: { typeId: 'your_village' }
+        },
+        {},
+        {
+          stage: { typeId: 'quest_1' }
+        },
+        {},
+        // 4-7
+        {},
+        {
+          stage: { typeId: 'quest_2' }
+        },
+        {
+          stage: { typeId: 'quest_3' }
+        },
+        {},
+        // 8-11
+        {},
+        {
+          stage: { typeId: 'quest_4' }
+        },
+        {
+          stage: { typeId: 'quest_5' }
+        },
+        {}//,
+      ],
+      // 1
+      [
+        {}//,
+      ],
+      // 2
+      [
+        {
+          stage: { typeId: 'training_range' }
+        }//,
+      ],
+      // 3
+      [
+        {}//,
+      ],
+      // 4
+      [
+        {
+          stage: { typeId: 'goblins_cave' }
+        }//,
+      ],
+    ]
   }
 ].forEach((source) => {
   let exportName = _classifyStageTypeId(source.typeId);

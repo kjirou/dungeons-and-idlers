@@ -29,7 +29,6 @@ describe('client/lib/stages module', function() {
     Object.keys(stages).forEach((k) => {
       let stage = stages[k];
       assert.strictEqual(typeof stage, 'object', k + ' の内容がオブジェクト');
-      //assert.strictEqual(typeof stage.folder, 'object', k + ' のfolderがオブジェクト');
     });
   });
 });

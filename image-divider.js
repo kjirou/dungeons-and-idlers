@@ -13,6 +13,7 @@ var ICON_WIDTH = 32;
 var ICON_HEIGHT = 32;
 var ICON_SIZE = [ICON_WIDTH, ICON_HEIGHT];
 var ICON_POS_MAP = {
+  tiles: [ICON_HEIGHT * 3, ICON_WIDTH * 0],
   objects: [ICON_HEIGHT * 15, ICON_WIDTH * 0],
   characters: [ICON_HEIGHT * 22, ICON_WIDTH * 0],
   enemies: [ICON_HEIGHT * 28, ICON_WIDTH * 0],

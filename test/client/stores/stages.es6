@@ -8,16 +8,16 @@ import StagesStore from 'client/stores/stages';
 
 describe('client/stores/stages module', function() {
 
-  function createInstance() {
-    return new StagesStore();
-  }
+  //function createInstance() {
+  //  return new StagesStore();
+  //}
 
-  beforeEach(function() {
-    return Storage.clear();
-  });
+  //beforeEach(function() {
+  //  return Storage.clear();
+  //});
 
-  it('constructor', function() {
-    let s = createInstance();
-    assert(s instanceof StagesStore);
-  });
+  //it('constructor', function() {
+  //  let s = createInstance();
+  //  assert(s instanceof StagesStore);
+  //});
 });

@@ -92,29 +92,31 @@ export var stageList = [];
       [
         // 0-3
         {
-          stage: { typeId: 'your_village' }
+          isVisitable: true,
+          isVisible: true,
+          stageTypeId: 'your_village'
         },
         {},
         {
-          stage: { typeId: 'quest_1' }
+          stageTypeId: 'quest_1'
         },
         {},
         // 4-7
         {},
         {
-          stage: { typeId: 'quest_2' }
+          stageTypeId: 'quest_2'
         },
         {
-          stage: { typeId: 'quest_3' }
+          stageTypeId: 'quest_3'
         },
         {},
         // 8-11
         {},
         {
-          stage: { typeId: 'quest_4' }
+          stageTypeId: 'quest_4'
         },
         {
-          stage: { typeId: 'quest_5' }
+          stageTypeId: 'quest_5'
         },
         {}//,
       ],
@@ -125,7 +127,7 @@ export var stageList = [];
       // 2
       [
         {
-          stage: { typeId: 'training_range' }
+          stageTypeId: 'training_range'
         }//,
       ],
       // 3
@@ -135,7 +137,7 @@ export var stageList = [];
       // 4
       [
         {
-          stage: { typeId: 'goblins_cave' }
+          stageTypeId: 'goblins_cave'
         }//,
       ],
     ]

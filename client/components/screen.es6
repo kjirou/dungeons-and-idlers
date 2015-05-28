@@ -2,6 +2,7 @@ import React from 'react';
 
 import CardPageComponent from 'client/components/pages/card';
 import CharacterPageComponent from 'client/components/pages/character';
+import DungeonPageComponent from 'client/components/pages/dungeon';
 import EquipmentPageComponent from 'client/components/pages/equipment';
 import GamePageComponent from 'client/components/pages/game';
 import HomePageComponent from 'client/components/pages/home';
@@ -14,6 +15,7 @@ import ScreenStore from 'client/stores/screen';
 const PAGE_COMPONENTS = {
   card: CardPageComponent,
   character: CharacterPageComponent,
+  dungeon: DungeonPageComponent,
   equipment: EquipmentPageComponent,
   game: GamePageComponent,
   home: HomePageComponent,

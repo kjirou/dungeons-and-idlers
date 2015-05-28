@@ -25,6 +25,7 @@ var JS_REQUIREMENTS = [
   'bluebird',
   'escape-regexp',
   'flux',
+  'generate-maze-by-clustering',
   'lodash',
   'mock-localstorage',
   'react',

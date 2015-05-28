@@ -16,7 +16,7 @@ export default React.createClass({
     };
   },
 
-  render: function render() {
+  render() {
     let pageIds = [
       { id: 'home', label: 'Home' },
       { id: 'character', label: 'Character' },
